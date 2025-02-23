@@ -1,38 +1,182 @@
-.App {
-  text-align: center;
+/* Reset and Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f9f9f9; /* Optional: Add a light background color */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Header Styles */
+header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+  backdrop-filter: blur(10px); /* Blur effect */
+  z-index: 1000; /* Ensure header is above other content */
 }
 
-.App-header {
-  background-color: #282c34;
+header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+}
+
+header .nav-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+header .nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+header .nav-links a:hover {
+  text-decoration: underline;
+}
+
+/* HomeLanding Styles */
+.home-landing {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding-top: 80px; /* Add padding to avoid overlap with the fixed header */
+  background-image: url('/background.jpg'); /* Add your background image */
+  background-size: cover;
+  background-position: center;
+}
+
+.search-container {
+  width: 100%;
+  max-width: 600px;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-bar button {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
   color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+.search-bar button:hover {
+  background-color: #0056b3;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.search-results {
+  margin-top: 1rem; /* 1cm distance between search bar and results */
+  width: 100%;
+  max-width: 600px;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-results h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.search-results .result-item {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.search-results .result-item:last-child {
+  border-bottom: none;
+}
+
+/* SignInPage Styles */
+.signin-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 80px; /* Add padding to avoid overlap with the fixed header */
+  background-color: #f9f9f9;
+}
+
+.signin-form {
+  width: 100%;
+  max-width: 400px;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.signin-form h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.signin-form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.signin-form button {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.signin-form button:hover {
+  background-color: #0056b3;
+}
+
+.signin-form p {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.signin-form p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.signin-form p a:hover {
+  text-decoration: underline;
 }
