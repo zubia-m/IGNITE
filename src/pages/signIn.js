@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaEnvelope, FaLock } from 'react-icons/fa'; // Import icons
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from './firebase'; // Ensure the path to firebase.js is correct
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); // State to handle errors
+  const navigate = useNavigate(); // Hook for navigation
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Signing in with email: ${email}`);
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log("User signed in:", userCredential.user);
+      navigate('/'); // Redirect to the home page after successful sign-in
+    } catch (error) {
+      setError(error.message); // Show Firebase error message
+    }
   };
 
   return (
@@ -18,7 +29,7 @@ const SignIn = () => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        backgroundImage: 'url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80")',
+        backgroundImage: `url('/signInsignUpBackground.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         position: 'relative',
@@ -52,6 +63,7 @@ const SignIn = () => {
         }}
       >
         <h2 style={{ marginBottom: '20px', color: '#333', fontSize: '24px' }}>Sign In</h2>
+        {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
           {/* Email Input with Icon */}
           <div style={{ position: 'relative', marginBottom: '15px' }}>
@@ -70,9 +82,9 @@ const SignIn = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={{
-                padding: '12px 12px 12px 35px', // Padding for the icon
-                width: 'calc(100% - 35px)', // Adjust width to account for padding
-                boxSizing: 'border-box', // Include padding in the width calculation
+                padding: '12px 12px 12px 35px',
+                width: 'calc(100% - 35px)',
+                boxSizing: 'border-box',
                 borderRadius: '5px',
                 border: '1px solid #ccc',
                 fontSize: '14px',
@@ -100,9 +112,9 @@ const SignIn = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={{
-                padding: '12px 12px 12px 35px', // Padding for the icon
-                width: 'calc(100% - 35px)', // Adjust width to account for padding
-                boxSizing: 'border-box', // Include padding in the width calculation
+                padding: '12px 12px 12px 35px',
+                width: 'calc(100% - 35px)',
+                boxSizing: 'border-box',
                 borderRadius: '5px',
                 border: '1px solid #ccc',
                 fontSize: '14px',

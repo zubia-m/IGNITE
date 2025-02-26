@@ -1,19 +1,32 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa'; // Import icons
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from './firebase'; // Ensure the path to firebase.js is correct
 
 const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); // State to handle errors
+  const navigate = useNavigate(); // Hook for navigation
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate password
     if (password.length < 8 || !/\d/.test(password) || !/[!@#$%^&*]/.test(password)) {
-      alert('Password must be at least 8 characters long, include a number, and a special character.');
+      setError('Password must be at least 8 characters long, include a number, and a special character.');
       return;
     }
-    alert(`Signing up with name: ${name}, email: ${email}`);
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("User signed up:", userCredential.user);
+      navigate('/home'); // Redirect to the home page after successful registration
+    } catch (error) {
+      setError(error.message); // Show Firebase error message
+    }
   };
 
   return (
@@ -23,7 +36,7 @@ const SignUp = () => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        backgroundImage: 'url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80")', // Background image
+        backgroundImage: `url('/signInsignUpBackground.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         position: 'relative',
@@ -37,7 +50,7 @@ const SignUp = () => {
           left: 0,
           width: '100%',
           height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black overlay
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
           zIndex: 1,
         }}
       ></div>
@@ -45,7 +58,7 @@ const SignUp = () => {
       {/* Sign Up Form */}
       <div
         style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.9)', // Semi-transparent white background
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
           padding: '40px',
           borderRadius: '10px',
           boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
@@ -53,10 +66,11 @@ const SignUp = () => {
           textAlign: 'center',
           zIndex: 2,
           position: 'relative',
-          animation: 'fadeIn 0.5s ease-in-out', // Add animation
+          animation: 'fadeIn 0.5s ease-in-out',
         }}
       >
         <h2 style={{ marginBottom: '20px', color: '#333', fontSize: '24px' }}>Sign Up</h2>
+        {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
           {/* Name Input with Icon */}
           <div style={{ position: 'relative', marginBottom: '15px' }}>
@@ -75,9 +89,9 @@ const SignUp = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               style={{
-                padding: '12px 12px 12px 35px', // Padding for the icon
-                width: 'calc(100% - 35px)', // Adjust width to account for padding
-                boxSizing: 'border-box', // Include padding in the width calculation
+                padding: '12px 12px 12px 35px',
+                width: 'calc(100% - 35px)',
+                boxSizing: 'border-box',
                 borderRadius: '5px',
                 border: '1px solid #ccc',
                 fontSize: '14px',
@@ -105,9 +119,9 @@ const SignUp = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={{
-                padding: '12px 12px 12px 35px', // Padding for the icon
-                width: 'calc(100% - 35px)', // Adjust width to account for padding
-                boxSizing: 'border-box', // Include padding in the width calculation
+                padding: '12px 12px 12px 35px',
+                width: 'calc(100% - 35px)',
+                boxSizing: 'border-box',
                 borderRadius: '5px',
                 border: '1px solid #ccc',
                 fontSize: '14px',
@@ -135,9 +149,9 @@ const SignUp = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={{
-                padding: '12px 12px 12px 35px', // Padding for the icon
-                width: 'calc(100% - 35px)', // Adjust width to account for padding
-                boxSizing: 'border-box', // Include padding in the width calculation
+                padding: '12px 12px 12px 35px',
+                width: 'calc(100% - 35px)',
+                boxSizing: 'border-box',
                 borderRadius: '5px',
                 border: '1px solid #ccc',
                 fontSize: '14px',
