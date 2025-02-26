@@ -7,14 +7,59 @@ body {
 }
 
 /* Header Styles */
-header {
+.header {
+  position: fixed;  /* Keep header always visible */
+  top: 0;
+  left: 0;
+  width: 100%;  /* Make it stretch across the entire page */
+  background-color: black;  /* Make header black */
+  color: white;  /* Text should be visible */
+  z-index: 1000;  /* Ensure it's above other elements */
+  padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
-  background-color: #000000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.menu-button {
+  cursor: pointer;
+  font-size: 24px;
+  color: white;
+}
+
+.menu {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  background-color: black;
+  width: 200px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.menu ul li {
+  padding: 10px;
+}
+
+.menu ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.signout-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
 
 .logo-container {
   display: flex;
@@ -140,88 +185,6 @@ header {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* Larger Search Bar */
-/* .search-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.search-input {
-  padding: 15px;
-  width: 500px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 18px;
-  outline: none;
-  transition: border-color 0.3s ease;
-}
-
-.search-button {
-  padding: 15px 30px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 18px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.search-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.search-button:hover:not(:disabled) {
-  background-color: #0056b3;
-} */
-
-/* House Listings */
-/* .house-listings {
-  margin-top: 30px;
-  width: 80%;
-  max-width: 800px;
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.house-listing {
-  margin-bottom: 20px;
-  padding: 15px;
-  border-bottom: 1px solid #ddd;
-}
-
-.house-listing:last-child {
-  border-bottom: none;
-}
-
-.house-listing h3 {
-  margin: 0 0 10px;
-  color: #007bff;
-}
-
-.house-listing p {
-  margin: 5px 0;
-  color: #333;
-} */
-
-/* Styled Link for Realtors/Contractors */
-/* .realtor-link {
-  margin-right: 20px;
-  text-decoration: underline;
-  color: #007bff;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-.realtor-link:hover {
-  color: #0056b3;
-} */
 
 /* Transparent Black Overlay */
 .landing-page::before {
@@ -233,12 +196,21 @@ header {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
   z-index: 1;
+  z-index: 1; /* Lower than the header */
+  pointer-events: none; /* Ensures buttons are clickable */
 }
 
 /* Ensure content is above the overlay */
 .landing-page {
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #ffffff;
+  text-align: center;
 }
 
 

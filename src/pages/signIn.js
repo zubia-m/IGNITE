@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEnvelope, FaLock } from 'react-icons/fa'; // Import icons
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from './firebase'; // Ensure the path to firebase.js is correct
+import { auth } from '../firebase'; // Ensure the path to firebase.js is correct
 
 const SignIn = () => {
   const [email, setEmail] = useState('');

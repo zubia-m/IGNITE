@@ -5,7 +5,7 @@ import SignIn from './pages/signIn';
 import SignUp from './pages/signUp';
 import About from './components/about'; // Import the About component
 import Renovation from "./pages/renovation";
-import SearchBar from './pages/searchBar'; // Import the About component
+import SearchBar from './components/searchBar'; // Import the About component
 import Header from './components/header';
 
 
@@ -14,7 +14,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} /> 
         <Route path="/header" element={<Header />} /> 
         <Route path="/searchBar" element={<SearchBar />} /> 
         <Route path="/signin" element={<SignIn />} />
