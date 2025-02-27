@@ -1,0 +1,54 @@
+/* Make sure the header does not expand */
+.menu-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Aligns hamburger with header content */
+  .menu-button {
+    position: absolute; /* Keeps it inside the header */
+    top: 50%;
+    left: 20px; /* Adjust this based on logo positioning */
+    transform: translateY(-50%); /* Centers it vertically */
+    z-index: 50;
+    background: black;
+    color: white;
+    border-radius: 3px;
+    transition: background 0.1s ease;
+  }
+  
+  .menu-button:hover {
+    background: gray;
+  }
+  
+  /* Dropdown Menu */
+  .dropdown {
+    position: absolute;
+    top: 20px; /* Positions below the button */
+    left: 0;
+    width: 150px; /* Reduced width */
+    background: black;
+    color: white;
+    padding: 4px;
+    border-radius: 6px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+  }
+  
+  /* Menu Items */
+  .menu-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    font-size: 14px; /* Smaller text */
+    border: none;
+    background: none;
+    color: white;
+    cursor: pointer;
+    transition: color 0.1s ease;
+  }
+  
+  .menu-item:hover {
+    color: gray;
+  }

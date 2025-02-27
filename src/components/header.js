@@ -10,8 +10,7 @@ const Header = ({ user, onSignOut }) => {
         <HamburgerMenu />
         <img src="logoIgnite.jpg" alt="Logo" className="logo" style={{ width: '50px', height: '50px' }} />
         <span className="brand-name" style={{ fontSize: '24px', fontWeight: 'bold' }}>BAYT</span>
-      </div>
-
+      </div> 
       {/* Right Side: Sign-In or Signed-In User */}
       <div className="nav">
         {user ? (
