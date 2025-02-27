@@ -69,7 +69,7 @@ const Footer = () => {
 const styles = {
   footer: {
     backgroundColor: '#333',
-    color: '#fff',
+    color: '#D4AA04',
     padding: '0px 10px',
     textAlign: 'center',
   },
@@ -116,7 +116,7 @@ const styles = {
     transition: 'color 0.3s ease',
   },
   linkHover: {
-    color: '#007bff',
+    color: '#D4AA04',
   },
   contact: {
     flex: 1,
@@ -144,7 +144,7 @@ const styles = {
     transition: 'color 0.3s ease',
   },
   socialLinkHover: {
-    color: '#007bff',
+    color: '#D4AA04',
   },
   copyright: {
     marginTop: '5px',

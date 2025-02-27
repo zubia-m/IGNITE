@@ -22,6 +22,7 @@ const App = () => {
         <Route path="/about" element={<About />} /> {/* Add route for About Page */}
         <Route path="/renovation" element={<Renovation />} />
 
+
       </Routes>
     </Router>
   );

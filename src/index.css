@@ -2,7 +2,7 @@
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
-  background-color: #f4f4f9;
+  background-color: #000000;
   color: #333;
 }
 
@@ -14,7 +14,7 @@ body {
   width: 100%;  /* Make it stretch across the entire page */
   background-color: black;  /* Make header black */
   color: white;  /* Text should be visible */
-  z-index: 1000;  /* Ensure it's above other elements */
+  z-index: 1;  /* Ensure it's above other elements */
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
@@ -122,13 +122,13 @@ body {
   display: none;
 }
 .search-input:focus {
-  border-color: #007bff;
+  border-color: #D4AA04;
 }
 
 .search-button {
   padding: 15px 24px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: #D4AA04;
+  color: #D4AA04;
   border: none;
   border-radius: 4px;
   font-size: 16px;
@@ -137,12 +137,12 @@ body {
 }
 
 .search-button:disabled {
-  background-color: #ccc;
+  background-color: #CD7F32	;
   cursor: not-allowed;
 }
 
 .search-button:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: #CD7F32	;
 }
 
 /* Responsive Design */
@@ -301,7 +301,7 @@ body {
 
 .house-listing h3 {
   margin: 0 0 10px;
-  color: #007bff;
+  color: #D4AA04;
 }
 
 .house-listing p {
@@ -324,7 +324,7 @@ body {
 }
 
 .search-button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #CD7F32	; /* Darker blue on hover */
   transform: scale(1.05); /* Slightly enlarge the button */
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
@@ -403,7 +403,7 @@ nav span {
 }
 
 nav a {
-  color: #007bff;
+  color: #CD7F32	;
   margin-right: 20px;
   text-decoration: none;
 }
@@ -462,7 +462,7 @@ footer {
   z-index: 3;
 }
 .link {
-  color: #fff;
+  color: #D4AA04	;
   text-decoration: none;
   font-size: 10px;
   line-height: 1.5;
@@ -470,5 +470,142 @@ footer {
 }
 
 .link:hover {
-  color: #007bff; /* Hover effect */
+  color: #D4AA04	; /* Hover effect */
 }
+
+/* ------------------------------------------------------------------------------------------------------------- */
+/* Renovation.css */
+.renovation-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  /* background-image: url('/backgroundRenovation.jpg');  */
+  background-size: cover;
+  background-position: center;    
+  font-family: 'Arial', sans-serif;
+}
+
+/* Fixed Header */
+.header-container {
+width: 100%;
+position: fixed;
+top: 0;
+left: 0;
+/* background: rgba(0, 0, 0, 0.8); Optional: Slight transparency */
+z-index: 1000;
+padding: 10px 0;
+}
+
+.content {
+margin-top: 80px; /* Adjust this based on header height */
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+flex-grow: 1;
+}
+
+.renovation-title {
+  font-size: 2.5rem;
+  color: #D4AA04;
+  margin-bottom: 2rem;
+  animation: fadeIn 1s ease-in-out;
+}
+
+
+.renovate-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background: #2d2624;
+  color: #D4AA04;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.renovate-button:hover {
+  background: #CD7F32;
+}
+
+.dropdown-container {
+  position: relative;
+  width: 300px;
+}
+
+.dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dropdown-header:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 0.5rem;
+  animation: slideDown 0.3s ease-in-out;
+}
+
+.dropdown-item {
+  padding: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background: #f1f1f1;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+

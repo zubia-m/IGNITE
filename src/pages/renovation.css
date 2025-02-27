@@ -1,19 +1,57 @@
-/* Renovation.css */
+Renovation.css
 .renovation-page {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    background-image: url('/backgroundRenovation.jpg'); /* Ensure the image is in the public folder */
+    background-size: cover;
+    background-position: center;    
     font-family: 'Arial', sans-serif;
   }
   
+  /* Fixed Header */
+.header-container {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* background: rgba(0, 0, 0, 0.8); Optional: Slight transparency */
+  z-index: 1000;
+  padding: 10px 0;
+}
+
+.content {
+  margin-top: 80px; /* Adjust this based on header height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
   .renovation-title {
     font-size: 2.5rem;
     color: #333;
     margin-bottom: 2rem;
     animation: fadeIn 1s ease-in-out;
+  }
+
+  
+  .renovate-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: #2259ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .renovate-button:hover {
+    background: #2d2624;
   }
   
   .dropdown-container {
@@ -91,3 +129,8 @@
       transform: translateY(0);
     }
   }
+
+
+  
+  
+  

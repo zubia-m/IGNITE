@@ -8,16 +8,17 @@ const HamburgerMenu = ({ isSignedIn }) => {
   const navigate = useNavigate();
 
   const features = [
+    { title: "Home", path: "/home" },
     { title: "Renovation", path: "/renovation" },
-    { title: "Live Property Data", icon: "📊" },
-    { title: "Contractor Marketplace", icon: "🔨" },
-    { title: "Financing & Loans", icon: "💰" },
-    { title: "ROI Predictions", icon: "📈" },
+    { title: "Financing & Loans" },
+    // { title: "Live Property Data" },
+    // { title: "Contractor Marketplace" },
+    { title: "ROI Predictions"},
   ];
 
   const handleFeatureClick = (path) => {
     if (!isSignedIn) {
-      navigate("/signin", { state: { from: path } }); // Redirect to Sign In
+      navigate("/renovation", { state: { from: path } }); // Redirect to Sign In
     } else {
       navigate(path); // Navigate to the feature
     }
