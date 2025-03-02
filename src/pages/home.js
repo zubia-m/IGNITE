@@ -9,6 +9,8 @@ import SearchBar from '../components/searchBar'; // Import the SearchBar compone
 const Home = () => {
   const [user, setUser] = useState(null); // State to store the signed-in user
   const navigate = useNavigate();
+  const [showText, setShowText] = useState(false);
+
 
   // Check if the user is authenticated
   useEffect(() => {
@@ -38,13 +40,28 @@ const Home = () => {
       {/* Header */}
       <Header user={user} onSignOut={handleSignOut} />
 
+      {/* Content Container */}
+      <div className="content-container">
+        {/* Text (Conditionally Rendered) */}
+        {showText && (
+          <div className="landing-text">
+            Helping homeowners & investors make informed decisions<br />
+            & <br />
+          AI-driven property valuation, renovation planning, and contractor marketplace
+          </div>
+
+        )}
+
       {/* Search Bar */}
       <SearchBar />
 
       {/* Footer */}
       <Footer />
-    </div>      
+    </div> 
+    </div>
+     
   );
+  
 };
 
 export default Home;

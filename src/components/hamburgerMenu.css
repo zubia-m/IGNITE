@@ -2,7 +2,7 @@
 .menu-container {
     position: relative;
     display: flex;
-    align-items: center;
+    align-items: left;
   }
   
   /* Aligns hamburger with header content */
@@ -30,11 +30,18 @@
     width: 150px; /* Reduced width */
     background: black;
     color: white;
-    padding: 4px;
+    padding: 10px;
     border-radius: 6px;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
     z-index: 100;
   }
+
+  /* Remove bullet points from list */
+.dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
   
   /* Menu Items */
   .menu-item {
@@ -47,8 +54,28 @@
     color: white;
     cursor: pointer;
     transition: color 0.1s ease;
+    padding: 8px 12px;
+    display: block;
+    text-decoration: none;
   }
   
   .menu-item:hover {
     color: gray;
   }
+
+  /* Close Button */
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.1s ease;
+}
+
+.close-button:hover {
+  color: #CD7F32;
+}

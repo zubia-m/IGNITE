@@ -1,11 +1,11 @@
-Renovation.css
+/* Renovation.css */
 .renovation-page {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-image: url('/backgroundRenovation.jpg'); /* Ensure the image is in the public folder */
+    background-image: url("signInSignUpBackground.jpg");
     background-size: cover;
     background-position: center;    
     font-family: 'Arial', sans-serif;

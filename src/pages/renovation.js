@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Header from '../components/header'; // Ensure correct import path
+import SearchBar from '../components/searchBar'; // Ensure correct import path
 // import './renovation.css';
 import Particles from "react-tsparticles";
-
 
 const Renovation = () => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -58,7 +58,7 @@ const Renovation = () => {
           </div>
         )}
       </div>
-      <br />
+      <SearchBar />
       <button className="renovate-button">Renovate</button> {/* Added Button */}
 
     <Particles

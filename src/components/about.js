@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Header from './header';
 
 const About = () => {
   return (
@@ -12,10 +13,12 @@ const About = () => {
         textAlign: 'center',
       }}
     >
+    <Header />
+      
       {/* Hero Section */}
       <div
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80")',
+          backgroundImage: 'url("signInSignUpBackground.jpg")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           padding: '100px 20px',
@@ -24,8 +27,8 @@ const About = () => {
           textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
         }}
       >
-        <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>About Ignite</h1>
-        <p style={{ fontSize: '20px', maxWidth: '800px', margin: '0 auto' }}>
+        <h1 style={{ fontSize: '48px', marginBottom: '20px', color: '#fff'}}>About Ignite</h1>
+        <p style={{ fontSize: '20px', maxWidth: '800px', margin: '0 auto', color: '#fff' }}>
           Empowering homeowners and investors with AI-driven property valuation, renovation planning, and a trusted contractor marketplace.
         </p>
       </div>

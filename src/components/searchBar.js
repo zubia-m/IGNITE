@@ -1,172 +1,73 @@
-// SearchBar.js
-import React, { useState, useRef, useEffect } from 'react';
-import { useLoadScript } from '@react-google-maps/api';
+import { useState } from "react";
+import { FaSearch, FaMapMarkerAlt } from "react-icons/fa";
+import ReactGoogleAutocomplete from "react-google-autocomplete";
 
-const libraries = ['places'];
+export default function SearchBar() {
+  const [address, setAddress] = useState("");
+  const [results, setResults] = useState(null);
 
-const SearchBar = () => {
-  const [address, setAddress] = useState('');
-  const [houses, setHouses] = useState([]); // State to store search results
-  const [isLoading, setIsLoading] = useState(false);
-
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyDDDt6A5RSzjcnrTUWG8C5ffY4vb25wlIY', // Replace with your Google API key
-    libraries,
-  });
-
-  const autocompleteService = useRef(null);
-
-  // Initialize the AutocompleteService
-  const initAutocompleteService = () => {
-    if (window.google && window.google.maps && window.google.maps.places) {
-      autocompleteService.current = new window.google.maps.places.AutocompleteService();
-    }
-  };
-
-  // Handle search button click
-  const handleSearch = () => {
-    if (!address || isLoading) return; // Prevent multiple searches
-    setIsLoading(true);
-
-    if (autocompleteService.current) {
-      autocompleteService.current.getPlacePredictions(
-        { input: address },
-        (predictions, status) => {
-          if (status === window.google.maps.places.PlacesServiceStatus.OK && predictions.length > 0) {
-            // Use the first prediction as the selected place
-            const selectedPlace = {
-              formatted_address: predictions[0].description,
-            };
-
-            // Simulate search results
-            const sampleHouses = [
-              {
-                id: 1,
-                address: selectedPlace.formatted_address,
-                rooms: 3,
-                baths: 2,
-                garages: 1,
-                basement: 'Yes',
-                renovation: 'Needs Renovation',
-              },
-              {
-                id: 2,
-                address: '456 Elm St, Shelbyville',
-                rooms: 4,
-                baths: 3,
-                garages: 2,
-                basement: 'No',
-                renovation: 'No Renovation Needed',
-              },
-              {
-                id: 3,
-                address: '789 Oak St, Capital City',
-                rooms: 5,
-                baths: 4,
-                garages: 3,
-                basement: 'Yes',
-                renovation: 'Needs Renovation',
-              },
-            ];
-
-            // Set the search results
-            setHouses(sampleHouses);
-          } else {
-            console.error('No predictions found for the input:', address);
-          }
-          setIsLoading(false);
-        }
+  const handleLocateMe = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setAddress(`Lat: ${latitude}, Lon: ${longitude}`);
+        },
+        () => alert("Unable to retrieve your location")
       );
+    } else {
+      alert("Geolocation is not supported by this browser.");
     }
   };
 
-  // Handle Enter key press for search
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
+  const handleSearch = async () => {
+    if (!address) return alert("Please enter an address");
 
-   // Initialize the AutocompleteService when the script is loaded
-   useEffect(() => {
-      if (isLoaded && !autocompleteService.current) {
-        initAutocompleteService();
+    try {
+      const response = await fetch(`http://localhost:5000/api/search?query=${encodeURIComponent(address)}`);
+      const data = await response.json();
+
+      if (data.candidates && data.candidates.length > 0) {
+        setResults(data.candidates[0]);
+      } else {
+        alert("No results found");
+        setResults(null);
       }
-    }, [isLoaded]);
-
-  if (loadError) return <div>Error loading maps</div>;
-  if (!isLoaded) return <div>Loading Maps...</div>;
-
-  // Initialize the AutocompleteService when the script is loaded
-  if (!autocompleteService.current) {
-    initAutocompleteService();
-  }
+    } catch (error) {
+      console.error("Error fetching place details:", error);
+      alert("Failed to fetch place details");
+    }
+  };
 
   return (
-    <div className="search-container" style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-        <input
-          type="text"
-          placeholder="Enter home address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          onKeyUp={handleKeyPress}
-          style={{
-            flex: 1,
-            padding: '12px',
-            borderRadius: '5px',
-            border: '1px solid #ccc',
-            fontSize: '16px',
-            outline: 'none',
-            transition: 'border-color 0.3s ease',
-          }}
-          required
-        />
-        <button
-          onClick={handleSearch}
-          disabled={!address || isLoading}
-          style={{
-            padding: '12px 20px',
-            backgroundColor: isLoading ? '#ccc' : '#2d2624',
-            color: '#D4AA04',
-            border: 'none',
-            borderRadius: '5px',
-            fontSize: '16px',
-            cursor: 'pointer',
-            transition: 'background-color 0.3s ease',
-          }}
-        >
-          {isLoading ? 'Searching...' : 'Search'}
-        </button>
-      </div>
+    <div className="flex items-center gap-2 p-4 bg-white shadow-lg rounded-xl w-full max-w-lg mx-auto">
+      <ReactGoogleAutocomplete
+        apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+        onPlaceSelected={(place) => setAddress(place.formatted_address)}
+      />
+      <button
+        onClick={handleLocateMe}
+        className="flex items-center gap-1 px-4 py-2 bg-[#D4AA04] text-white rounded-lg shadow-md hover:bg-yellow-700 transition-all"
+      >
+        <FaMapMarkerAlt /> Locate Me
+      </button>
+      <button
+        onClick={handleSearch}
+        className="flex items-center gap-1 px-4 py-2 bg-black text-white rounded-lg shadow-md hover:bg-gray-800 transition-all"
+      >
+        <FaSearch /> Search
+      </button>
 
-      {houses.length > 0 && (
-        <div className="house-listings" style={{ marginTop: '20px' }}>
-          {houses.map((house) => (
-            <div
-              key={house.id}
-              style={{
-                padding: '15px',
-                border: '1px solid #ddd',
-                borderRadius: '5px',
-                marginBottom: '10px',
-                backgroundColor: '#f9f9f9',
-              }}
-            >
-              <h3 style={{ margin: '0 0 10px', fontSize: '18px', color: '#333' }}>{house.address}</h3>
-              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                <p style={{ margin: '0', fontSize: '14px', color: '#555' }}>Rooms: {house.rooms}</p>
-                <p style={{ margin: '0', fontSize: '14px', color: '#555' }}>Baths: {house.baths}</p>
-                <p style={{ margin: '0', fontSize: '14px', color: '#555' }}>Garages: {house.garages}</p>
-                <p style={{ margin: '0', fontSize: '14px', color: '#555' }}>Basement: {house.basement}</p>
-                <p style={{ margin: '0', fontSize: '14px', color: '#555' }}>Renovation: {house.renovation}</p>
-              </div>
-            </div>
-          ))}
+      {/* Displaying search results */}
+      {results && (
+        <div className="mt-4 p-4 bg-gray-100 rounded-lg shadow-md w-full">
+          <h3 className="font-bold text-xl">Search Results:</h3>
+          <p><strong>Place Name:</strong> {results.name}</p>
+          <p><strong>Address:</strong> {results.formatted_address}</p>
+          <p><strong>Latitude:</strong> {results.geometry.location.lat}</p>
+          <p><strong>Longitude:</strong> {results.geometry.location.lng}</p>
         </div>
       )}
     </div>
   );
-};
-
-export default SearchBar;
+}

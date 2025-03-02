@@ -66,8 +66,12 @@ header .nav-links a:hover {
   max-width: 600px;
   background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
   padding: 2rem;
+  height: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  gap: 1rem; /* Space between items */
+  display: flex;
+  align-items: center; /* Vertically center items */
 }
 
 .search-bar {

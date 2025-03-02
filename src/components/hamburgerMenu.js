@@ -1,14 +1,21 @@
 import { useState } from "react";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import "./hamburgerMenu.css";
-const HamburgerMenu = () => {
+import { getAuth } from "firebase/auth"; 
+
+
+const auth = getAuth();
+
+const HamburgerMenu = ({isSignedIn}) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
 
   const features = [
-    { title: "Home", path: "/home" },
+    { title: "Home", path: "/" },
     { title: "Renovation", path: "/renovation" },
     { title: "Financing & Loans" },
     // { title: "Live Property Data" },
@@ -32,7 +39,7 @@ const HamburgerMenu = () => {
         className="menu-button"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Menu size={30} />
+        <Menu size={25} />
       </button>
 
       {/* Dropdown Menu */}
@@ -45,6 +52,7 @@ const HamburgerMenu = () => {
             transition={{ duration: 0.3 }}
             className="dropdown"
           >
+
             <nav>
               <ul>
                 {features.map((feature, index) => (
