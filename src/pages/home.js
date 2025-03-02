@@ -2,32 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebase'; // Correct import path
-import Header from '../components/header'; // Import the Header component
 import Footer from '../components/footer'; // Import the Footer component
 import SearchBar from '../components/searchBar'; // Import the SearchBar component
 
 const Home = () => {
-  const [user, setUser] = useState(null); // State to store the signed-in user
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  // Check if the user is authenticated
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user); // Set the signed-in user
-      } else {
-        setUser(null); // Clear the user state if not signed in
-      }
+      setUser(user || null);
     });
 
-    return () => unsubscribe(); // Cleanup the observer
+    return () => unsubscribe();
   }, []);
 
-  // Handle sign-out
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      navigate('/'); // Redirect to the home page after signing out
+      navigate('/');
     } catch (error) {
       console.error("Error signing out:", error.message);
     }
@@ -35,9 +28,6 @@ const Home = () => {
 
   return (
     <div className="landing-page">
-      {/* Header */}
-      <Header user={user} onSignOut={handleSignOut} />
-
       {/* Search Bar */}
       <SearchBar />
 

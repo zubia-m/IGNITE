@@ -3,22 +3,21 @@ import { Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import "./hamburgerMenu.css";
-const HamburgerMenu = () => {
+
+const HamburgerMenu = ({ isSignedIn }) => { // Accept isSignedIn as a prop
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
   const features = [
     { title: "Home", path: "/home" },
     { title: "Renovation", path: "/renovation" },
-    { title: "Financing & Loans" },
-    // { title: "Live Property Data" },
-    // { title: "Contractor Marketplace" },
-    { title: "ROI Predictions"},
+    { title: "Financing & Loans", path: "/financing" },
+    { title: "ROI Predictions", path: "/roi" },
   ];
 
   const handleFeatureClick = (path) => {
     if (!isSignedIn) {
-      navigate("/renovation", { state: { from: path } }); // Redirect to Sign In
+      navigate("/signin", { state: { from: path } }); // Redirect to Sign In
     } else {
       navigate(path); // Navigate to the feature
     }
@@ -28,10 +27,7 @@ const HamburgerMenu = () => {
   return (
     <div className="menu-container">
       {/* Hamburger Menu Button */}
-      <button
-        className="menu-button"
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      <button className="menu-button" onClick={() => setIsOpen(!isOpen)}>
         <Menu size={30} />
       </button>
 
@@ -51,10 +47,7 @@ const HamburgerMenu = () => {
                   <li key={index}>
                     <button
                       className="menu-item"
-                      onClick={() => {
-                        navigate(feature.path);
-                        setIsOpen(false); // Close menu after clicking
-                      }}
+                      onClick={() => handleFeatureClick(feature.path)}
                     >
                       {feature.title}
                     </button>
