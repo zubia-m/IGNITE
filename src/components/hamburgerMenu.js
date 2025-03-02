@@ -3,12 +3,8 @@ import { Menu, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import "./hamburgerMenu.css";
-import { getAuth } from "firebase/auth"; 
 
-
-const auth = getAuth();
-
-const HamburgerMenu = ({isSignedIn}) => {
+const HamburgerMenu = ({ isSignedIn }) => { // Accept isSignedIn as a prop
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,15 +13,13 @@ const HamburgerMenu = ({isSignedIn}) => {
   const features = [
     { title: "Home", path: "/" },
     { title: "Renovation", path: "/renovation" },
-    { title: "Financing & Loans" },
-    // { title: "Live Property Data" },
-    // { title: "Contractor Marketplace" },
-    { title: "ROI Predictions"},
+    { title: "Financing & Loans", path: "/financing" },
+    { title: "ROI Predictions", path: "/roi" },
   ];
 
   const handleFeatureClick = (path) => {
     if (!isSignedIn) {
-      navigate("/renovation", { state: { from: path } }); // Redirect to Sign In
+      navigate("/signin", { state: { from: path } }); // Redirect to Sign In
     } else {
       navigate(path); // Navigate to the feature
     }
@@ -35,11 +29,8 @@ const HamburgerMenu = ({isSignedIn}) => {
   return (
     <div className="menu-container">
       {/* Hamburger Menu Button */}
-      <button
-        className="menu-button"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <Menu size={25} />
+      <button className="menu-button" onClick={() => setIsOpen(!isOpen)}>
+        <Menu size={30} />
       </button>
 
       {/* Dropdown Menu */}
@@ -59,10 +50,7 @@ const HamburgerMenu = ({isSignedIn}) => {
                   <li key={index}>
                     <button
                       className="menu-item"
-                      onClick={() => {
-                        navigate(feature.path);
-                        setIsOpen(false); // Close menu after clicking
-                      }}
+                      onClick={() => handleFeatureClick(feature.path)}
                     >
                       {feature.title}
                     </button>

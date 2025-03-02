@@ -1,29 +1,50 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/home';
-import SignIn from './pages/signIn';
-import SignUp from './pages/signUp';
-import About from './components/about'; // Import the About component
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { onAuthStateChanged, signOut } from "firebase/auth"; // ✅ Import onAuthStateChanged
+import { auth } from "./firebase"; // Import Firebase auth
+import Home from "./pages/home";
+import SignIn from "./pages/signIn";
+import SignUp from "./pages/signUp";
+import About from "./components/about";
 import Renovation from "./pages/renovation";
-import SearchBar from './components/searchBar'; // Import the About component
-import Header from './components/header';
-
-
+import SearchBar from "./components/searchBar";
+import Layout from "./components/layout"; // ✅ Import Layout
 
 const App = () => {
+  const [user, setUser] = useState(null);
+
+  // Listen for auth state changes
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log("Auth state changed:", currentUser);
+      setUser(currentUser || null);
+    });
+
+    return () => unsubscribe(); // Cleanup observer
+  }, []);
+
+  // Handle sign-out
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      setUser(null); // Ensure user state updates after sign-out
+    } catch (error) {
+      console.error("Error signing out:", error.message);
+    }
+  };
+
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} /> 
-        <Route path="/header" element={<Header />} /> 
-        <Route path="/searchBar" element={<SearchBar />} /> 
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/about" element={<About />} /> {/* Add route for About Page */}
-        <Route path="/renovation" element={<Renovation />} />
-
-
-      </Routes>
+      <Layout user={user} setUser={setUser} onSignOut={handleSignOut}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/searchBar" element={<SearchBar />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/renovation" element={<Renovation />} />
+        </Routes>
+      </Layout>
     </Router>
   );
 };
