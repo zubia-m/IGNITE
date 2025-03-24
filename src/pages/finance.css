@@ -1,0 +1,61 @@
+/* Make the background black and text white */
+.finance-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #000000; /* Ensures black background */
+    color: #FFFFFF !important; /* Ensures white text */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Centering and styling the mortgage calculator */
+.mortgage-calculator {
+    width: 60%;
+    max-width: 600px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 8px 15px rgba(255, 255, 255, 0.3);
+    text-align: center;
+}
+
+/* Input fields and select dropdown */
+input, select {
+    width: 100%;
+    padding: 15px;
+    margin: 15px 0;
+    font-size: 18px;
+    color: #FFFFFF !important;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid #FFFFFF;
+    border-radius: 8px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* Calculate button styling */
+button {
+    width: 100%;
+    padding: 15px;
+    font-size: 20px;
+    background-color: #FFD700; /* Gold color */
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #FFC107;
+    box-shadow: 0px 5px 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Headings */
+h1, h2 {
+    margin-bottom: 20px;
+    color: #FFFFFF !important;
+}

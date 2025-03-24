@@ -5,6 +5,7 @@ import ReactGoogleAutocomplete from "react-google-autocomplete";
 export default function SearchBar() {
   const [address, setAddress] = useState("");
   const [results, setResults] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Keep modal state
 
   const handleLocateMe = () => {
     if (navigator.geolocation) {
@@ -24,11 +25,18 @@ export default function SearchBar() {
     if (!address) return alert("Please enter an address");
 
     try {
-      const response = await fetch(`http://localhost:5000/api/search?query=${encodeURIComponent(address)}`);
+      // Fetch from Google Places API
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${encodeURIComponent(
+          address
+        )}&inputtype=textquery&fields=formatted_address,name,geometry&key=${process.env.REACT_APP_GOOGLE_API_KEY}`
+      );
+
       const data = await response.json();
 
       if (data.candidates && data.candidates.length > 0) {
         setResults(data.candidates[0]);
+        setIsModalOpen(true); // Open modal when results are found
       } else {
         alert("No results found");
         setResults(null);
@@ -37,6 +45,10 @@ export default function SearchBar() {
       console.error("Error fetching place details:", error);
       alert("Failed to fetch place details");
     }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -58,14 +70,22 @@ export default function SearchBar() {
         <FaSearch /> Search
       </button>
 
-      {/* Displaying search results */}
-      {results && (
-        <div className="mt-4 p-4 bg-gray-100 rounded-lg shadow-md w-full">
-          <h3 className="font-bold text-xl">Search Results:</h3>
-          <p><strong>Place Name:</strong> {results.name}</p>
-          <p><strong>Address:</strong> {results.formatted_address}</p>
-          <p><strong>Latitude:</strong> {results.geometry.location.lat}</p>
-          <p><strong>Longitude:</strong> {results.geometry.location.lng}</p>
+      {/* Modal for displaying search results */}
+      {isModalOpen && results && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h3 className="font-bold text-xl mb-4">Search Results:</h3>
+            <p><strong>Place Name:</strong> {results.name}</p>
+            <p><strong>Address:</strong> {results.formatted_address}</p>
+            <p><strong>Latitude:</strong> {results.geometry.location.lat}</p>
+            <p><strong>Longitude:</strong> {results.geometry.location.lng}</p>
+            <button
+              onClick={closeModal}
+              className="mt-4 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-all"
+            >
+              Close
+            </button>
+          </div>
         </div>
       )}
     </div>

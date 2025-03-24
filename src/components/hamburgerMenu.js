@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import "./hamburgerMenu.css";
 
-const HamburgerMenu = ({ isSignedIn }) => { // Accept isSignedIn as a prop
+const HamburgerMenu = ({ isSignedIn }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,17 +13,17 @@ const HamburgerMenu = ({ isSignedIn }) => { // Accept isSignedIn as a prop
   const features = [
     { title: "Home", path: "/" },
     { title: "Renovation", path: "/renovation" },
-    { title: "Financing & Loans", path: "/financing" },
-    { title: "ROI Predictions", path: "/roi" },
+    { title: "Financing & Loans", path: "/finance" }, // Fixed path
+    { title: "ROI Predictions", path: "/roi-analysis" },
   ];
 
   const handleFeatureClick = (path) => {
     if (!isSignedIn) {
-      navigate("/signin", { state: { from: path } }); // Redirect to Sign In
+      navigate("/signin", { state: { from: path } });
     } else {
-      navigate(path); // Navigate to the feature
+      navigate(path);
     }
-    setIsOpen(false); // Close the menu
+    setIsOpen(false); // Close menu after clicking
   };
 
   return (
