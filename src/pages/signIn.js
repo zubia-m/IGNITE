@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaEnvelope, FaLock } from 'react-icons/fa'; // Import icons
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../firebase'; // Ensure the path to firebase.js is correct
+import { auth } from '../firebase';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(''); // State to handle errors
-  const navigate = useNavigate(); // Hook for navigation
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,10 +16,15 @@ const SignIn = () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log("User signed in:", userCredential.user);
-      navigate('/'); // Redirect to the home page after successful sign-in
+      navigate('/');
     } catch (error) {
-      setError(error.message); // Show Firebase error message
+      setError(error.message);
     }
+  };
+
+  // Password validation function
+  const isValidPassword = (password) => {
+    return /^(?=.*[!@#$%^&*])(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$/.test(password);
   };
 
   return (
@@ -35,7 +40,7 @@ const SignIn = () => {
         position: 'relative',
       }}
     >
-      {/* Overlay for better readability */}
+      {/* Overlay */}
       <div
         style={{
           position: 'absolute',
@@ -63,19 +68,12 @@ const SignIn = () => {
         }}
       >
         <h2 style={{ marginBottom: '20px', color: '#333', fontSize: '24px' }}>Sign In</h2>
-        {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
-          {/* Email Input with Icon */}
+          {/* Email Input */}
           <div style={{ position: 'relative', marginBottom: '15px' }}>
-            <FaEnvelope
-              style={{
-                position: 'absolute',
-                left: '28px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                color: '#777',
-              }}
-            />
+            <FaEnvelope style={{ position: 'absolute', left: '28px', top: '50%', transform: 'translateY(-50%)', color: '#777' }} />
             <input
               type="email"
               placeholder="Email Address"
@@ -95,17 +93,9 @@ const SignIn = () => {
             />
           </div>
 
-          {/* Password Input with Icon */}
-          <div style={{ position: 'relative', marginBottom: '20px' }}>
-            <FaLock
-              style={{
-                position: 'absolute',
-                left: '28px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                color: '#777',
-              }}
-            />
+          {/* Password Input with Validation */}
+          <div style={{ position: 'relative', marginBottom: '10px' }}>
+            <FaLock style={{ position: 'absolute', left: '28px', top: '50%', transform: 'translateY(-50%)', color: '#777' }} />
             <input
               type="password"
               placeholder="Password"
@@ -125,6 +115,11 @@ const SignIn = () => {
             />
           </div>
 
+          {/* Password Validation Message */}
+          <p style={{ fontSize: '12px', color: isValidPassword(password) ? 'green' : 'red', marginBottom: '15px' }}>
+            Password must be at least 8 characters, include a number, and a special character.
+          </p>
+
           <button
             type="submit"
             style={{
@@ -141,34 +136,21 @@ const SignIn = () => {
             Sign In
           </button>
         </form>
+
         <p style={{ marginTop: '15px', color: '#555', fontSize: '14px' }}>
           Don't have an account?{' '}
-          <Link
-            to="/signup"
-            style={{
-              color: '#007bff',
-              textDecoration: 'none',
-              fontWeight: '500',
-              transition: 'color 0.3s ease',
-            }}
-          >
+          <Link to="/signup" style={{ color: '#007bff', textDecoration: 'none', fontWeight: '500', transition: 'color 0.3s ease' }}>
             Sign Up
           </Link>
         </p>
       </div>
 
-      {/* Add some animations */}
+      {/* Animation */}
       <style>
         {`
           @keyframes fadeIn {
-            from {
-              opacity: 0;
-              transform: translateY(-20px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
           }
         `}
       </style>

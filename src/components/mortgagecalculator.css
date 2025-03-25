@@ -1,0 +1,55 @@
+.finance-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #121212; /* Dark background */
+    color: #ffffff; /* Bright white text */
+    text-align: center;
+}
+
+.mortgage-calculator {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 12px;
+    width: 50%;
+    max-width: 600px;
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+.mortgage-calculator h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+input, select {
+    width: 100%;
+    padding: 15px;
+    margin: 12px 0;
+    border: 2px solid #ffffff;
+    background: transparent;
+    color: #ffffff;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+input::placeholder {
+    color: #dddddd;
+}
+
+button {
+    width: 100%;
+    background-color: #FFD700; /* Gold */
+    color: black;
+    padding: 15px;
+    border: none;
+    font-size: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #FFC107;
+}
