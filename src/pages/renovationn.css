@@ -1,0 +1,348 @@
+.renovation-page {
+  text-align: center;
+  padding-top: 80px; /* Add padding to prevent overlap with the header */
+}
+
+/* Address Section */
+.address-section {
+  margin-bottom: -30px;
+  margin-top: 240px;
+}
+
+.address-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #D4AA04
+}
+
+.google-autocomplete-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.submit-button {
+  background: #2d2624;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.submit-button:hover {
+  background: #D4AA04;
+}
+
+/* Tile Grid */
+.tile-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 16px;
+  padding: 20px;
+  overflow-x: auto;
+  margin-bottom: 20px; /* Increased margin for better spacing */
+}
+
+.tile {
+  flex: 0 0 auto;
+  position: relative;
+  cursor: pointer;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s;
+  width: 150px;
+}
+
+.tile:hover {
+  transform: scale(1.05);
+  border-color: #D4AA04;
+}
+
+.tile.selected {
+  border-color: #D4AA04;
+  background-color: #e3f2fd;
+}
+
+.tile-image {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+
+.tile-label {
+  display: block;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 14px;
+  text-align: center;
+}
+
+.renovation-title {
+  margin-bottom: 0px;
+  margin-top: 60px;
+}
+
+/* Renovate Button */
+.renovate-button {
+  background: #2d2624;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: -20px;
+}
+
+.renovate-button:hover {
+  background: #D4AA04;
+}
+
+/* Upload Section */
+.upload-section {
+  margin-top: 70px;
+}
+
+.upload-section h2 {
+  font-size: 1.5rem;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  color: #D4AA04
+}
+
+.upload-section p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.image-preview {
+  margin-top: 10px;
+  max-width: 60%;
+}
+
+.preview-image {
+  max-width: 20%;
+  height: auto;
+  border-radius: 8px;
+}
+
+
+.generate-button:hover {
+  background: #D4AA04;
+}
+
+/* Popup */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup {
+  background: black;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 100%;
+  text-align: left;
+}
+
+.popup h2 {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.popup pre {
+  font-family: inherit;
+  white-space: pre-wrap;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.close-button {
+  /* background: #2d2624; */
+  background: white;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: block;
+  margin: 0 auto;
+}
+
+.close-button:hover {
+  background: #D4AA04;
+}
+
+.generated-image-preview {
+  margin-top: 10px;
+}
+
+.generated-image-preview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Style for the image preview container */
+.image-preview, .captured-image-preview {
+  position: relative;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+/* Style for the remove image button */
+.remove-image-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+}
+.generate-button {
+  background: #2d2624;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: -30px;
+  margin-bottom: 60px;
+}
+
+/* Style for the capture button */
+.capture-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #2d2624;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.capture-button:hover {
+  color: #D4AA04;
+}
+
+/* Style for the camera container */
+.camera-container {
+  position: relative;
+  margin-top: 10px;
+}
+
+/* Style for the capture icon button */
+.capture-icon-button {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  /* background: #D4AA04; */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 50px;
+  text-align: center;
+}
+
+/* Back Button */
+.back-button-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  color: #D4AA04;
+  padding: 5px 10px;
+  margin-top: 70px;
+}
+
+.back-button:hover {
+  color: #2d2624;
+}
+/* Popup Message Styling */
+.popup2 {
+  position: fixed;
+  background-color: white;
+  top: 20px;
+  right: 10px;
+  /* background-color: #4CAF50; */
+  color: #D4AA04;
+  padding: 12px 14px;
+  border-radius: 5px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+  animation: fadeInOut 3s ease;
+  width: 150px; /* Set your desired width */
+  text-align: center; /* Keep the content centered */
+}
+
+/* Fade In-Out Animation */
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+.saved-address {
+  background-color: #000000;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.saved-address p {
+  margin: 0 0 10px 0;
+  color:#f0f0f0
+}
+
+.change-address-button {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.change-address-button:hover {
+  background-color: #e0e0e0;
+}

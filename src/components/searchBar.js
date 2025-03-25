@@ -1,73 +1,115 @@
-import { useState } from "react";
-import { FaSearch, FaMapMarkerAlt } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
 import ReactGoogleAutocomplete from "react-google-autocomplete";
+import "./searchBar.css";
 
 export default function SearchBar() {
   const [address, setAddress] = useState("");
-  const [results, setResults] = useState(null);
+  const [error, setError] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
 
-  const handleLocateMe = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setAddress(`Lat: ${latitude}, Lon: ${longitude}`);
-        },
-        () => alert("Unable to retrieve your location")
-      );
-    } else {
-      alert("Geolocation is not supported by this browser.");
+  const handleAddressSubmit = (e) => {
+    sessionStorage.setItem('savedAddress', address);
+    e.preventDefault();
+    if (!address) {
+      setError("Please enter a valid address.");
+      return;
     }
+    setError("");
+    setShowPopup(true);     // Show the pop-up
+    setAddress('');         // Clear the input field
+
+    setTimeout(() => setShowPopup(false), 3000); // Hide pop-up after 3 seconds
   };
 
-  const handleSearch = async () => {
-    if (!address) return alert("Please enter an address");
+  // Function to abbreviate street suffixes
+  const abbreviateStreetSuffix = (streetName) => {
+    const suffixMap = {
+      Street: "St",
+      Avenue: "Ave",
+      Road: "Rd",
+      Boulevard: "Blvd",
+      Drive: "Dr",
+      Court: "Ct",
+      Lane: "Ln",
+      Place: "Pl",
+      Square: "Sq",
+      Trail: "Trl",
+      Parkway: "Pkwy",
+      Highway: "Hwy",
+    };
 
-    try {
-      const response = await fetch(`http://localhost:5000/api/search?query=${encodeURIComponent(address)}`);
-      const data = await response.json();
-
-      if (data.candidates && data.candidates.length > 0) {
-        setResults(data.candidates[0]);
-      } else {
-        alert("No results found");
-        setResults(null);
+    for (const [fullSuffix, abbreviation] of Object.entries(suffixMap)) {
+      if (streetName.endsWith(fullSuffix)) {
+        return streetName.replace(fullSuffix, abbreviation);
       }
-    } catch (error) {
-      console.error("Error fetching place details:", error);
-      alert("Failed to fetch place details");
     }
+
+    return streetName;
   };
+
+  // Load address from localStorage if it exists
+  useEffect(() => {
+    const savedAddress = localStorage.getItem("userAddress");
+    if (savedAddress) {
+      setAddress(savedAddress);
+    }
+  }, []);
+
+  // Save address to localStorage
+  const handleSaveAddress = () => {
+    if (address.trim() !== "") {
+      localStorage.setItem("userAddress", address);
+      alert("Address saved!");
+      setAddress(""); // Clear input after saving
+    }
+  }
 
   return (
-    <div className="flex items-center gap-2 p-4 bg-white shadow-lg rounded-xl w-full max-w-lg mx-auto">
-      <ReactGoogleAutocomplete
-        apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
-        onPlaceSelected={(place) => setAddress(place.formatted_address)}
-      />
-      <button
-        onClick={handleLocateMe}
-        className="flex items-center gap-1 px-4 py-2 bg-[#D4AA04] text-white rounded-lg shadow-md hover:bg-yellow-700 transition-all"
-      >
-        <FaMapMarkerAlt /> Locate Me
-      </button>
-      <button
-        onClick={handleSearch}
-        className="flex items-center gap-1 px-4 py-2 bg-black text-white rounded-lg shadow-md hover:bg-gray-800 transition-all"
-      >
-        <FaSearch /> Search
-      </button>
+    <div className="search-bar">
+      <form onSubmit={handleAddressSubmit}>
+        <ReactGoogleAutocomplete
+          apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+          onPlaceSelected={(place) => {
+            const addressComponents = place.address_components;
 
-      {/* Displaying search results */}
-      {results && (
-        <div className="mt-4 p-4 bg-gray-100 rounded-lg shadow-md w-full">
-          <h3 className="font-bold text-xl">Search Results:</h3>
-          <p><strong>Place Name:</strong> {results.name}</p>
-          <p><strong>Address:</strong> {results.formatted_address}</p>
-          <p><strong>Latitude:</strong> {results.geometry.location.lat}</p>
-          <p><strong>Longitude:</strong> {results.geometry.location.lng}</p>
-        </div>
-      )}
+            let streetNumber = "";
+            let streetName = "";
+            let city = "";
+            let state = "";
+            let zip = "";
+
+            addressComponents.forEach((component) => {
+              if (component.types.includes("street_number")) {
+                streetNumber = component.long_name;
+              }
+              if (component.types.includes("route")) {
+                streetName = abbreviateStreetSuffix(component.long_name);
+              }
+              if (component.types.includes("locality")) {
+                city = component.long_name;
+              }
+              if (component.types.includes("administrative_area_level_1")) {
+                state = component.short_name;
+              }
+              if (component.types.includes("postal_code")) {
+                zip = component.long_name;
+              }
+            });
+
+            const formattedAddress = `${streetNumber} ${streetName}, ${city}, ${state} ${zip}`;
+            setAddress(formattedAddress);
+            console.log("Constructed Address:", formattedAddress);
+          }}
+          options={{ types: ["address"], componentRestrictions: { country: "us" } }}
+          placeholder="(e.g. 8 Leland Ave, Reading, PA, 19609)"
+          className="google-autocomplete-input"
+        />
+        {error && <p className="error-message">{error}</p>}
+        <button type="submit" className="submit-button">
+          Save Address
+        </button>
+        {showPopup && <div className="popup2">Address saved!✅ </div>}
+      </form>
     </div>
   );
 }

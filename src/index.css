@@ -82,68 +82,6 @@ body {
   align-items: center;
 }
 
-.sign-in-button {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 4px;
-  font-weight: 500;
-  transition: background-color 0.3s ease;
-}
-
-.sign-in-button:hover {
-  background-color: #0056b3;
-}
-
-/* Search Bar Styles */
-.search-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50vh;
-  width: 90%;
-  padding: 50px;
-  z-index: 3; /* Ensure search bar is above overlay */
-  margin-top: -110px; /* Move Search Bar Higher, adjust as needed*/
-}
-
-.search-input {
-  padding: 15px;
-  width: 400px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  outline: none;
-  transition: border-color 0.3s ease;
-}
-.hidden { /* Hide Text After Search */
-  display: none;
-}
-.search-input:focus {
-  border-color: #D4AA04;
-}
-
-.search-button {
-  padding: 15px 24px;
-  background-color: #D4AA04;
-  color: #D4AA04;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.search-button:disabled {
-  background-color: #CD7F32	;
-  cursor: not-allowed;
-}
-
-.search-button:hover:not(:disabled) {
-  background-color: #CD7F32	;
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -200,7 +138,7 @@ body {
   pointer-events: none; /* Ensures buttons are clickable */
 }
 
-/* Ensure content is above the overlay */
+/* Ensure content is above the overlay
 .landing-page {
   position: relative;
   z-index: 2;
@@ -211,7 +149,7 @@ body {
   height: 100vh;
   color: #ffffff;
   text-align: center;
-}
+} */
 
 
 
@@ -344,41 +282,6 @@ body {
   animation: slideIn 0.5s ease-in-out;
 }
 
-
-/* Featured Properties Section */
-/* .featured-properties {
-  margin-top: 10px;
-  text-align: center;
-}
-
-.featured-properties h2 {
-  color: #fff;
-  margin-bottom: 20px;
-}
-
-.featured-properties div {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.featured-properties div div {
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 20px;
-  border-radius: 10px;
-  width: 250px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.featured-properties h3 {
-  color: #007bff;
-  margin-bottom: 10px;
-}
-
-.featured-properties p {
-  color: #333;
-} */
-
 /* Navigation Bar */
 nav {
   position: sticky;
@@ -429,7 +332,7 @@ body {
   padding-bottom: 60px; /* Add padding to prevent footer overlap */
 }
 
-/* Overlay */
+/* Overlay
 .overlay {
   position: absolute;
   top: 0;
@@ -437,8 +340,8 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
-  z-index: 1;
-}
+  /* z-index: 1;
+} */ 
 
 /* Content Container */
 .content-container {
@@ -450,7 +353,7 @@ body {
 }
 
 /* Footer */
-footer {
+/* footer {
   position: relative;
   bottom: 0;
   left: 0;
@@ -471,7 +374,7 @@ footer {
 
 .link:hover {
   color: #D4AA04	; /* Hover effect */
-}
+/* } */
 
 /* ------------------------------------------------------------------------------------------------------------- */
 /* Renovation.css */
@@ -604,31 +507,6 @@ flex-grow: 1;
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-/* .about-container {
-  background-image: url("/signInSignUpBackground.jpg"); /* Update the path */
-  /* background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat; 
-  /* height: 100vh;  */
-  /* display: flex; */
-  /* justify-content: center;
-  align-items: center;
-  color: white; 
-  text-align: center;
-  padding: 100px 20px;
-  text-shadow: '2px 2px 4px rgba(0, 0, 0, 0.5)';
-  /* border-radius: '10px'; */
-/* } */ 
-
-
-
-.about-content {
-  background: rgba(0, 0, 0, 0.5); /* Add a semi-transparent overlay */
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 600px;
 }
 
 
