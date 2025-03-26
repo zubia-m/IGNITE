@@ -1,81 +1,73 @@
-/* Make sure the header does not expand */
-.menu-container {
-    position: relative;
-    display: flex;
-    align-items: left;
-  }
-  
-  /* Aligns hamburger with header content */
-  .menu-button {
-    position: absolute; /* Keeps it inside the header */
-    top: 50%;
-    left: 20px; /* Adjust this based on logo positioning */
-    transform: translateY(-50%); /* Centers it vertically */
-    z-index: 50;
-    background: black;
-    color: white;
-    border-radius: 3px;
-    transition: background 0.1s ease;
-  }
-  
-  .menu-button:hover {
-    background: gray;
-  }
-  
-  /* Dropdown Menu */
-  .dropdown {
-    position: absolute;
-    top: 20px; /* Positions below the button */
-    left: 0;
-    width: 150px; /* Reduced width */
-    background: black;
-    color: white;
-    padding: 10px;
-    border-radius: 6px;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
-    z-index: 100;
-  }
+/* Main wrapper for menu and brand */
+.menu-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  height: 100%;
+}
 
-  /* Remove bullet points from list */
-.dropdown ul {
+/* Hamburger button styles */
+.hamburger-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #D4AA04; /* Change to your preferred color */
+  transition: all 0.2s ease;
+  z-index: 1001;
+}
+
+.hamburger-button:hover {
+  color: #D4AA04; /* Hover color */
+  transform: scale(1.05);
+}
+
+/* Brand name styles */
+.brand-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333; /* Match your design */
+}
+
+/* Dropdown menu styles */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 220px;
+  background: #2d2d2d;
+  border-radius: 8px;
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0); */
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.dropdown-menu ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-  
-  /* Menu Items */
-  .menu-item {
-    display: block;
-    width: 100%;
-    text-align: left;
-    font-size: 14px; /* Smaller text */
-    border: none;
-    background: none;
-    color: white;
-    cursor: pointer;
-    transition: color 0.1s ease;
-    padding: 8px 12px;
-    display: block;
-    text-decoration: none;
-  }
-  
-  .menu-item:hover {
-    color: gray;
-  }
 
-  /* Close Button */
-.close-button {
-  position: absolute;
-  top: 5px;
-  right: 5px;
+/* Menu item styles */
+.menu-item {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  text-align: left;
   background: none;
   border: none;
   color: white;
-  font-size: 16px;
   cursor: pointer;
-  transition: color 0.1s ease;
+  transition: all 0.2s ease;
+  font-size: 16px;  /* Explicit pixel value */
+
 }
 
-.close-button:hover {
-  color: #CD7F32;
+.menu-item:hover {
+  background: #D4AA04;
+  color: #000;
 }

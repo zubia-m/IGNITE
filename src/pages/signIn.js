@@ -67,7 +67,7 @@ const SignIn = () => {
           animation: 'fadeIn 0.5s ease-in-out',
         }}
       >
-        <h2 style={{ marginBottom: '20px', color: '#333', fontSize: '24px' }}>Sign In</h2>
+        <h2 style={{ marginBottom: '20px', color: '#D4AA04', fontSize: '24px' }}>Sign In</h2>
         {error && <p style={{ color: 'red' }}>{error}</p>}
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
@@ -109,6 +109,7 @@ const SignIn = () => {
                 border: '1px solid #ccc',
                 fontSize: '14px',
                 outline: 'none',
+                color: 'black',
                 transition: 'border-color 0.3s ease',
               }}
               required

@@ -7,13 +7,11 @@ import "./hamburgerMenu.css";
 const HamburgerMenu = ({ isSignedIn }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
 
   const features = [
     { title: "Home", path: "/" },
     { title: "Renovation", path: "/renovation" },
-    { title: "Financing & Loans", path: "/finance" }, // Fixed path
+    { title: "Financing & Loans", path: "/finance" },
     { title: "ROI Predictions", path: "/roi-analysis" },
   ];
 
@@ -23,15 +21,22 @@ const HamburgerMenu = ({ isSignedIn }) => {
     } else {
       navigate(path);
     }
-    setIsOpen(false); // Close menu after clicking
+    setIsOpen(false);
   };
 
   return (
-    <div className="menu-container">
+    <div className="menu-wrapper">
       {/* Hamburger Menu Button */}
-      <button className="menu-button" onClick={() => setIsOpen(!isOpen)}>
-        <Menu size={30} />
+      <button 
+        className="hamburger-button" 
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="Menu"
+      >
+        {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
+
+      {/* Brand Name - You can replace this with your actual logo/brand component */}
+      {/* <div className="brand-name">Your Brand</div> */}
 
       {/* Dropdown Menu */}
       <AnimatePresence>
@@ -41,9 +46,8 @@ const HamburgerMenu = ({ isSignedIn }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.3 }}
-            className="dropdown"
+            className="dropdown-menu"
           >
-
             <nav>
               <ul>
                 {features.map((feature, index) => (

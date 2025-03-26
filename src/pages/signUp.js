@@ -37,7 +37,7 @@ const SignUp = () => {
     <div className="auth-container">
       <div className="auth-overlay"></div>
       <div className="auth-form">
-        <h2>Sign Up</h2>
+        <h2 style={{color: 'black'}}>Sign Up</h2>
         {error && <p className="error-text">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="input-group">
@@ -95,7 +95,7 @@ const SignUp = () => {
           }
           .input-icon {
             position: absolute;
-            left: 12px;
+            left: 28px;
             top: 50%;
             transform: translateY(-50%);
             color: #777;

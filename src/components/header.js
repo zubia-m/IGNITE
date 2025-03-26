@@ -5,6 +5,7 @@ import HamburgerMenu from "./hamburgerMenu"; // Import the HamburgerMenu compone
 
 const Header = ({ user, onSignOut }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const isSignedIn = !!user; // Check if user is signed in
 
   return (
@@ -21,7 +22,29 @@ const Header = ({ user, onSignOut }) => {
     >
       {/* Left Side: Hamburger Menu, Logo, and Brand Name */}
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        {/* Hamburger Menu with Hover Control */}
+        <div
+          style={{ position: "relative" }}
+          onMouseEnter={() => setIsHamburgerOpen(true)}
+          onMouseLeave={() => setIsHamburgerOpen(false)}
+        ></div>
         <HamburgerMenu isSignedIn={isSignedIn} />
+        {isHamburgerOpen && (
+            <div
+              style={{
+                position: "absolute",
+                top: "40px",
+                left: "0",
+                background: "#2d2624",
+                color: "#D4AA04",
+                borderRadius: "8px",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                padding: "10px",
+                zIndex: 1000,
+              }}
+            >
+              </div>
+          )}
         <img
           src="logoIgnite.jpg"
           alt="Logo"
