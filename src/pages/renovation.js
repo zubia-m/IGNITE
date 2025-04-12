@@ -1,25 +1,33 @@
 import React, { useState, useRef, useEffect } from 'react';
-import "./renovationn.css";
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import "./renovation.css";
+import { useNavigate } from 'react-router-dom';
 import ReactGoogleAutocomplete from "react-google-autocomplete";
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
+import { toast } from 'react-toastify'; // For user notifications
+import 'react-toastify/dist/ReactToastify.css'; // Toastify styling
 
 const Renovation = () => {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState('');
   const [address, setAddress] = useState('');
   const [formattedAddress, setFormattedAddress] = useState('');
   const [error, setError] = useState('');
   const [popupMessage, setPopupMessage] = useState('');
   const [showPopup, setShowPopup] = useState(false);
-  const [image, setImage] = useState(null); // For uploaded image
+  const [image, setImage] = useState(null);
   const [capturedImage, setCapturedImage] = useState(null);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  const [imagePreview, setImagePreview] = useState(''); // For image preview
-  const [generatedImage, setGeneratedImage] = useState(''); // For generated image from backend
-  const tileGridRef = useRef(null);
-  const [isCameraOpen, setIsCameraOpen] = useState(false); // To track if camera is open
+  const [imagePreview, setImagePreview] = useState('');
+  const [generatedImage, setGeneratedImage] = useState('');
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
   const [isAddressFromHome, setIsAddressFromHome] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [backendData, setBackendData] = useState(null);
+  const [notification, setNotification] = useState(null);
+  const [originalImageUrl, setOriginalImageUrl] = useState('');
+  const fileInputRef = useRef(null);
 
   const options = [
     { value: 'Kitchen Remodel', label: 'Kitchen Remodel' },
@@ -27,7 +35,21 @@ const Renovation = () => {
     { value: 'Full Home Remodel', label: 'Full Home Remodel' },
   ];
 
-  // Helper function to get image URL based on renovation type
+  const Notification = ({ message, type }) => {
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setNotification(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }, []);
+
+    return (
+      <div className={`notification ${type}`}>
+        {message}
+      </div>
+    );
+  };
+
   const getImageForOption = (value) => {
     switch (value) {
       case 'Kitchen Remodel':
@@ -41,34 +63,43 @@ const Renovation = () => {
     }
   };
 
-  // Check for saved address from home page when component mounts
   useEffect(() => {
     const savedAddress = sessionStorage.getItem('savedAddress');
     if (savedAddress) {
       setFormattedAddress(savedAddress);
       setIsAddressFromHome(true);
+      console.log('Loaded saved address from session:', savedAddress);
     }
+
+    return () => {
+      if (videoRef.current && videoRef.current.srcObject) {
+        videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+        videoRef.current.srcObject = null;
+      }
+    };
   }, []);
 
-  // Function to handle address form submission
   const handleAddressSubmit = (e) => {
     e.preventDefault();
     if (!address) {
-      setError('Please enter a valid address.');
+      const errorMsg = 'Please enter a valid address.';
+      setError(errorMsg);
+      setNotification({ message: errorMsg, type: 'error' });
+      console.error('Address submission failed:', errorMsg);
       return;
     }
     setFormattedAddress(address);
-    alert("Address saved!");
+    setNotification({ message: 'Address saved successfully!', type: 'success' });
+    console.log('Address saved:', address);
     setError('');
-    setAddress(""); // Clear input after saving
+    setAddress("");
+    
+    if (!isAddressFromHome) {
+      sessionStorage.setItem('savedAddress', address);
+      console.log('Address stored in session storage');
+    }
+  };
 
-  // Save to sessionStorage if not from home page
-  if (!isAddressFromHome) {
-    sessionStorage.setItem('savedAddress', address);
-  }
-};
-
-  // Function to abbreviate street suffixes
   const abbreviateStreetSuffix = (streetName) => {
     const suffixMap = {
       'Street': 'St',
@@ -94,43 +125,223 @@ const Renovation = () => {
     return streetName;
   };
 
-  // Function to handle renovation type selection
   const handleOptionSelect = (optionValue) => {
     setSelectedOption(optionValue);
+    console.log('Renovation type selected:', optionValue);
   };
 
-  // Function to handle the renovation request
-  const handleRenovate = async () => {
-    if (!formattedAddress || !selectedOption) {
-      setError('Please enter an address and select a renovation type.');
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+      console.log('No file selected');
       return;
     }
 
+    // Enhanced console log for debugging
+    console.log('File selected:', {
+      name: file.name,
+      type: file.type,
+      size: file.size,
+      lastModified: new Date(file.lastModified).toLocaleString()
+    });
+
+    if (!file.type.startsWith('image/jpeg')) {
+      const errorMsg = 'Please upload a JPG image.';
+      setError(errorMsg);
+      setNotification({ message: errorMsg, type: 'error' });
+      console.error('Image upload failed:', errorMsg, 'File type:', file.type);
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      const errorMsg = 'Image must be smaller than 5MB';
+      setError(errorMsg);
+      setNotification({ message: errorMsg, type: 'error' });
+      console.error('Image too large:', (file.size / (1024*1024)).toFixed(2), 'MB');
+      return;
+    }
+
+    setImage(file);
+    const imageUrl = URL.createObjectURL(file);
+    setImagePreview(imageUrl);
+    setOriginalImageUrl(imageUrl); // Store the original image URL
+    
+    // Success log with all details
+    console.log('Image successfully uploaded:', {
+      name: file.name,
+      size: `${(file.size / 1024).toFixed(2)} KB`,
+      previewUrl: imageUrl,
+      dimensions: 'Will be available after load'
+    });
+    
+    // Optional: Log when the image is actually loaded
+    const img = new Image();
+    img.onload = () => {
+      console.log('Image loaded:', {
+        width: img.width,
+        height: img.height,
+        aspectRatio: (img.width/img.height).toFixed(2)
+      });
+    };
+    img.src = imageUrl;
+
+    setNotification({ message: 'Image uploaded successfully!', type: 'success' });
+    setError('');
+  };
+
+  const openCamera = async () => {
     try {
-      const payload = {
-        formattedAddress,
-        renovation_type: selectedOption,
-      };
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+      setIsCameraOpen(true);
+      console.log('Camera opened successfully');
+    } catch (error) {
+      const errorMsg = 'Could not access camera. Please check permissions.';
+      console.error('Camera error:', error);
+      setError(errorMsg);
+      setNotification({ message: errorMsg, type: 'error' });
+    }
+  };
 
-      console.log('Payload being sent:', payload); // Debugging log
+  const captureImage = () => {
+    if (videoRef.current && canvasRef.current) {
+      const context = canvasRef.current.getContext('2d');
+      context.drawImage(videoRef.current, 0, 0, 300, 200);
+      const imageData = canvasRef.current.toDataURL('image/png');
+      setCapturedImage(imageData);
+      setOriginalImageUrl(imageData); // Store the original image URL
 
-      const response = await fetch('http://172.210.82.75/predict', {
+      
+      // Close camera immediately after capture
+      if (videoRef.current.srcObject) {
+        videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+        videoRef.current.srcObject = null;
+      }
+      setIsCameraOpen(false);
+
+      fetch(imageData)
+        .then(res => res.blob())
+        .then(blob => {
+          const file = new File([blob], 'captured-image.png', { type: 'image/png' });
+          setImage(file);
+          setNotification({ message: 'Image captured successfully!', type: 'success' });
+        })
+        .catch(error => {
+          console.error('Error processing captured image:', error);
+          setNotification({ message: 'Error processing image', type: 'error' });
+        });
+    }
+  };
+
+  const stopCamera = () => {
+    if (videoRef.current && videoRef.current.srcObject) {
+      videoRef.current.srcObject.getTracks().forEach(track => {
+        track.stop();
+        track.enabled = false;
+      });
+      videoRef.current.srcObject = null;
+      console.log('Camera completely stopped and released');
+    }
+    setIsCameraOpen(false);
+  };
+
+  const removeImage = () => {
+    stopCamera();
+    setImage(null);
+    setImagePreview('');
+    setCapturedImage(null);
+    setOriginalImageUrl('');
+    
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+
+    console.log('Image removed and camera fully closed');
+    setNotification({ message: 'Image removed', type: 'error' });
+  };
+
+  const saveDataToFile = () => {
+    const pdf = new jsPDF();
+    
+    // Add text data
+    pdf.setFontSize(12);
+    pdf.text(popupMessage, 10, 20);
+    
+    // Add images if available
+    let yPosition = 40;
+    
+    if (originalImageUrl) {
+      pdf.text('Before Renovation', 10, yPosition);
+      yPosition += 10;
+      pdf.addImage(originalImageUrl, 'JPEG', 10, yPosition, 90, 60);
+    }
+    
+    if (generatedImage) {
+      pdf.text('After Renovation', 110, yPosition);
+      yPosition += 10;
+      pdf.addImage(generatedImage, 'JPEG', 110, yPosition, 90, 60);
+    }
+    
+    pdf.save("renovation-report.pdf");
+    toast.success("Report saved successfully!");
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!formattedAddress || !selectedOption || !image) {
+      const errorMsg = 'Please complete all fields: address, renovation type, and image.';
+      setError(errorMsg);
+      setNotification({ message: errorMsg, type: 'error' });
+      console.error('Submission failed:', errorMsg);
+      return;
+    }
+
+    console.log('Starting renovation process with:', {
+      formattedAddress: formattedAddress,
+      renovation_type: selectedOption,
+      image_data: image.name
+    });
+
+    setIsLoading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append('file', image);
+      formData.append('formattedAddress', formattedAddress);
+      formData.append('renovation_type', selectedOption);
+
+      const response = await fetch('https://f48c-20-185-56-188.ngrok-free.app/process_renovation', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
+        body: formData,
       });
 
       if (!response.ok) {
-        const errorData = await response.json(); // Parse the error response
-        throw new Error(`Backend error: ${errorData.error || 'Unknown error'}`);
+        throw new Error('Failed to process renovation.');
       }
 
-      const data = await response.json();
-      console.log('Backend response:', data);
+      
+    // Handle both JSON data and image blob
+    const contentType = response.headers.get('content-type');
+    let data, imageBlob;
 
-      // Format the backend response into a user-friendly string
+    if (contentType.includes('application/json')) {
+      // If response is JSON with image data
+      data = await response.json();
+      
+      // Check if image is base64 encoded
+      if (data.generated_image) {
+        setGeneratedImage(`data:image/jpeg;base64,${data.generated_image}`);
+      }
+    } else if (contentType.includes('image/jpeg')) {
+      // If response is direct image
+      imageBlob = await response.blob();
+      setGeneratedImage(URL.createObjectURL(imageBlob));
+      data = {}; // You might need to get metadata another way
+    }
+
       const formattedResponse = `
         Address: ${data.formattedAddress}
         Renovation Type: ${data.renovation_type}
@@ -141,255 +352,281 @@ const Renovation = () => {
         ROI Positive Year: ${data.roiPositiveYear}
       `;
 
-      // Display the backend response in the popup
       setPopupMessage(formattedResponse);
       setShowPopup(true);
+      setNotification({ message: 'Renovation analysis complete!', type: 'success' });
+    
     } catch (error) {
-      console.error('Error:', error);
-      setPopupMessage(error.message); // Display the error message
+      console.error('Processing error during renovation:', error);
+      setPopupMessage(error.message);
+      setNotification({ message: error.message, type: 'error' });
       setShowPopup(true);
+    } finally {
+      setIsLoading(false);
     }
-  };
-
-  // Function to handle image upload
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      // Validate file type (must be JPG)
-      if (!file.type.startsWith('image/jpeg')) {
-        setError('Please upload a JPG image.');
-        return;
-      }
-      setImage(file);
-      setImagePreview(URL.createObjectURL(file)); // Create a preview URL for the image
-      setError(''); // Clear any previous errors
-    }
-  };
-
-  // Function to handle image generation
-  const handleGenerate = async () => {
-    if (!image) {
-      setError('Please upload an image.');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('file', image);
-
-    try {
-      const response = await fetch('http://172.210.82.75:80/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to generate image.');
-      }
-
-// Handle the response as a blob (PNG image)
-    const blob = await response.blob();
-    const imageUrl = URL.createObjectURL(blob); // Create a URL for the blob
-
-    // Display the generated image in the popup
-    setGeneratedImage(imageUrl);
-    setPopupMessage('Image generated successfully!');
-      setShowPopup(true);
-    } catch (error) {
-      console.error('Error:', error);
-      setPopupMessage('Failed to generate image.');
-      setShowPopup(true);
-    }
-  };
-
-  // / Open camera
-  const openCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-      }
-      setIsCameraOpen(true); // Set camera state to open
-    } catch (error) {
-      console.error('Error accessing camera:', error);
-    }
-  };
-
-  // Capture image from camera
-  const captureImage = () => {
-    if (videoRef.current && canvasRef.current) {
-      const context = canvasRef.current.getContext('2d');
-      context.drawImage(videoRef.current, 0, 0, 300, 200);
-      setCapturedImage(canvasRef.current.toDataURL('image/png'));
-      stopCamera();
-      setIsCameraOpen(false); // Set camera state to closed
-    }
-  };
-
-  // Stop camera
-  const stopCamera = () => {
-    if (videoRef.current && videoRef.current.srcObject) {
-      const tracks = videoRef.current.srcObject.getTracks();
-      tracks.forEach((track) => track.stop());
-    }
-  };
-
-   // Remove uploaded image
-   const removeImage = () => {
-    setImage(null);
-    setImagePreview('');
-  };
-
-  // Remove captured image
-  const removeCapturedImage = () => {
-    setCapturedImage(null);
   };
 
   return (
     <div className="renovation-page">
-      {/* Back Button */}
       <div className="back-button-container">
         <button className="back-button" onClick={() => navigate(-1)}>
           ← Back
         </button>
       </div>
 
-      {/* Address Input Section */}
-      <div className="address-section">
-        <h2>Enter Your Address</h2>
-        {formattedAddress && isAddressFromHome ? (
-          <div className="saved-address">
-            <p>Given address: <strong>{formattedAddress}</strong></p>
-            <button 
-              className="change-address-button" 
-              onClick={() => {
-                setFormattedAddress('');
-                setIsAddressFromHome(false);
-                sessionStorage.removeItem('savedAddress');
-              }}
-            >
-              Change Address
-            </button>
-          </div>
-        ) : (
+      {notification && (
+        <Notification message={notification.message} type={notification.type} />
+      )}
 
-        <form onSubmit={handleAddressSubmit}>
-          <ReactGoogleAutocomplete
-            apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
-            onPlaceSelected={(place) => {
-              const addressComponents = place.address_components;
-              let streetNumber = '';
-              let streetName = '';
-              let city = '';
-              let state = '';
-              let zip = '';
-
-              addressComponents.forEach(component => {
-                if (component.types.includes('street_number')) {
-                  streetNumber = component.long_name;
-                }
-                if (component.types.includes('route')) {
-                  streetName = abbreviateStreetSuffix(component.long_name);
-                }
-                if (component.types.includes('locality')) {
-                  city = component.long_name;
-                }
-                if (component.types.includes('administrative_area_level_1')) {
-                  state = component.short_name;
-                }
-                if (component.types.includes('postal_code')) {
-                  zip = component.long_name;
-                }
-              });
-
-              const address = `${streetNumber} ${streetName}, ${city}, ${state} ${zip}`;
-              setAddress(address);
-              console.log('Constructed Address:', address);
-            }}
-            options={{ types: ['address'], componentRestrictions: { country: 'us' } }}
-            placeholder="(e.g. 8 Leland Ave, Reading, PA, 19609)"
-            className="google-autocomplete-input"
-          />
-          {error && <p className="error-message">{error}</p>}
-          <button type="submit" className="submit-button">Save Address</button>
-        </form>
-        )}
-      </div>
-
-      {/* Renovation Type Section */}
-      <div className="content">
-        <h2 className="renovation-title">What do you want to renovate?</h2>
-        <div className="tile-grid" ref={tileGridRef}>
-          {options.map((option) => (
-            <div key={option.value} className={`tile ${selectedOption === option.value ? 'selected' : ''}`} onClick={() => handleOptionSelect(option.value)}>
-              <img src={getImageForOption(option.value)} alt={option.label} className="tile-image" />
-              <span className="tile-label">{option.label}</span>
+      <form onSubmit={handleSubmit}>
+        {/* Address Input Section */}
+        <div className="address-section">
+          <h2>Enter Your Address</h2>
+          {formattedAddress && isAddressFromHome ? (
+            <div className="saved-address">
+              <p>Given address: <strong>{formattedAddress}</strong></p>
+              <button 
+                type="button"
+                className="change-address-button" 
+                onClick={() => {
+                  setFormattedAddress('');
+                  setIsAddressFromHome(false);
+                  sessionStorage.removeItem('savedAddress');
+                  console.log('Address changed, removed from session storage');
+                }}
+              >
+                Change Address
+              </button>
             </div>
-          ))}
+          ) : (
+            <div>
+              <ReactGoogleAutocomplete
+                apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+                onPlaceSelected={(place) => {
+                  const addressComponents = place.address_components;
+                  let streetNumber = '';
+                  let streetName = '';
+                  let city = '';
+                  let state = '';
+                  let zip = '';
+
+                  addressComponents.forEach(component => {
+                    if (component.types.includes('street_number')) {
+                      streetNumber = component.long_name;
+                    }
+                    if (component.types.includes('route')) {
+                      streetName = abbreviateStreetSuffix(component.long_name);
+                    }
+                    if (component.types.includes('locality')) {
+                      city = component.long_name;
+                    }
+                    if (component.types.includes('administrative_area_level_1')) {
+                      state = component.short_name;
+                    }
+                    if (component.types.includes('postal_code')) {
+                      zip = component.long_name;
+                    }
+                  });
+
+                  const address = `${streetNumber} ${streetName}, ${city}, ${state} ${zip}`;
+                  setAddress(address);
+                  console.log('Address selected from Google:', address);
+                }}
+                options={{ types: ['address'], componentRestrictions: { country: 'us' } }}
+                placeholder="(e.g. 8 Leland Ave, Reading, PA, 19609)"
+                className="google-autocomplete-input"
+              />
+              <button 
+                type="button" 
+                className="submit-button" 
+                onClick={handleAddressSubmit}
+              >
+                Save Address
+              </button>
+            </div>
+          )}
         </div>
 
-        <button className="renovate-button" onClick={handleRenovate}>Renovate</button>
-      </div>
+        {/* Renovation Type Section */}
+        <div className="content">
+          <h2 className="renovation-title">What do you want to renovate?</h2>
+          <div className="tile-grid">
+            {options.map((option) => (
+              <div 
+                key={option.value} 
+                className={`tile ${selectedOption === option.value ? 'selected' : ''}`} 
+                onClick={() => handleOptionSelect(option.value)}
+              >
+                <img src={getImageForOption(option.value)} alt={option.label} className="tile-image" />
+                <span className="tile-label">{option.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
 
-      {/* Image Upload Section */}
-      <div className="upload-section">
-        <h2>Upload or Capture a Picture</h2>
-        <p>Upload a picture, and our AI will generate a suggested renovation image for you.</p>
-        <input
-          type="file"
-          accept="image/jpeg"
-          capture="environment" // Enable camera capture
-          onChange={handleImageUpload}
-        />
-        {imagePreview && (
-          <div className="image-preview">
-            <img src={imagePreview} alt="Preview" className="preview-image" />
-            <button className="remove-image-button" onClick={removeImage}>×</button>
+        {/* Image Upload Section */}
+        <div className="upload-section">
+          <h2>Upload or Capture a Picture</h2>
+          <p>Upload a picture of the area you want to renovate</p>
+          
+          <div className="image-input-options">
+            <div className="upload-option">
+              <input
+                type="file"
+                id="file-upload"
+                accept="image/jpeg"
+                onChange={handleImageUpload}
+                style={{ display: 'none' }}
+                ref={fileInputRef}
+              />
+              <label htmlFor="file-upload" className="upload-button">
+                Choose File
+              </label>
+            </div>
+            
+            <div className="capture-option">
+              <button 
+                type="button" 
+                onClick={openCamera} 
+                className="capture-button"
+              >
+                Capture Image
+              </button>
+            </div>
           </div>
-        )}
-        {/* Camera Capture */}
-        <button onClick={openCamera} className="capture-button">Capture</button>
-        {isCameraOpen && (
-          <div className="camera-container">
-            <video ref={videoRef} autoPlay style={{ width: '300px' }} />
-            <button onClick={captureImage} className="capture-icon-button">📷</button>
-          </div>
-        )}
-        {capturedImage && (
-          <div className="captured-image-preview">
-            <img src={capturedImage} alt="Captured" className="preview-image" />
-            <button className="remove-image-button" onClick={removeCapturedImage}>×</button>
-          </div>
-        )}       
-        {imagePreview && (
-          <div className="image-preview">
-            <img src={imagePreview} alt="Preview" className="preview-image" />
-          </div>
-        )}
-        <br />
-        <br />
 
-        <button onClick={handleGenerate} className="generate-button">Generate</button>
-      </div>
+          {isCameraOpen && (
+            <div className={`camera-container ${isCameraOpen ? 'is-camera-active' : ''}`}>
+              <video ref={videoRef} autoPlay style={{ width: '300px' }} />
+              <canvas ref={canvasRef} style={{ display: 'none' }} width="300" height="200" />
+              <div className="camera-controls">
+                <button 
+                  type="button" 
+                  onClick={captureImage} 
+                  className="capture-icon-button"
+                  aria-label="Capture image"
+                >
+                </button>
+              </div>
+            </div>
+          )}
 
-      {/* Popup to display backend response */}
+          {(imagePreview || capturedImage) && (
+            <div className="image-preview">
+              <img 
+                src={capturedImage || imagePreview} 
+                alt="Preview" 
+                className="preview-image" 
+              />
+              <button 
+                type="button" 
+                className="remove-image-button" 
+                onClick={removeImage}
+                aria-label="Remove image"
+              />
+            </div>
+          )}
+        </div>
+
+        {error && <p className="error-message">{error}</p>}
+
+        <div className="submit-section">
+          <button 
+            type="submit" 
+            className={`renovate-button ${isLoading ? 'loading' : ''}`}
+            disabled={!formattedAddress || !selectedOption || !image || isLoading}
+          >
+            {isLoading ? (
+              <div className="loading-content">
+                <div className="spinner"></div>
+                <span>Processing...</span>
+              </div>
+            ) : (
+              'Renovate'
+            )}
+          </button>
+        </div>
+      </form>
+
+      {/* Results Popup */}
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup">
-            <h2>Backend Response</h2>
-            <pre>{popupMessage}</pre> {/* Use <pre> to preserve formatting */}
-            {generatedImage && (
-              <div className="generated-image-preview">
-                <img src={generatedImage} alt="Generated Renovation" className="preview-image" />
-              </div>
+            <button 
+              className="close-popup-button" 
+              onClick={() => setShowPopup(false)}
+            >×
+            </button>
+            <h2>Renovation Results</h2>
+
+            <div className="data-display">
+              <pre>{popupMessage}</pre>
+            </div>
+
+            {/* Image Comparison Section */}
+      <div className="image-comparison-container">
+        {/* Original Image (Before) */}
+        <div className="image-comparison-item">
+          <h3>Before Renovation</h3>
+          {originalImageUrl && (
+            <img 
+              src={originalImageUrl} 
+              alt="Original Space" 
+              className="comparison-image"
+              onError={(e) => {
+                console.error('Original image failed to load');
+                e.target.style.display = 'none';
+              }}
+            />
+          )}
+        </div>
+        
+        {/* Generated Image (After) */}
+        <div className="image-comparison-item">
+          <h3>After Renovation</h3>
+          {generatedImage ? (
+            <img 
+              src={generatedImage} 
+              alt="Suggested Renovation" 
+              className="comparison-image"
+              onError={(e) => {
+                console.error('Generated image failed to load');
+                e.target.style.display = 'none';
+                setNotification({
+                  message: 'Failed to load generated image',
+                  type: 'error'
+                });
+              }}
+            />
+          ) : (
+            <div className="image-loading-placeholder">
+              <p>Generating renovation preview...</p>
+              <div className="spinner"></div>
+            </div>
             )}
-            <button className="close-button" onClick={() => setShowPopup(false)}>Close</button>
+            </div>
+            </div>
+
+
+            <div className="popup-buttons">
+              <button 
+                className="save-data-button"
+                onClick={saveDataToFile}
+              >
+                Save Results
+              </button>
+              {/* <button 
+                className="close-button" 
+                onClick={() => setShowPopup(false)}
+              >
+                Close
+              </button> */}
+            </div>
           </div>
         </div>
       )}
     </div>
   );
 };
-
-
 
 export default Renovation;

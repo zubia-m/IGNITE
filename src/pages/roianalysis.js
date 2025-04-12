@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Legend } from "recharts";
+import { useNavigate } from 'react-router-dom';
+import './roianalysis.css'; 
+
 
 const RoiAnalysis = () => {
+  const navigate = useNavigate();
   const [pincode, setPincode] = useState("");
   const [data, setData] = useState(null);
 
@@ -27,7 +31,13 @@ const RoiAnalysis = () => {
   };
 
   return (
+    
     <div style={{ textAlign: "center", padding: "20px" }}>
+      <div className="back-button-container">
+        <button className="back-button" onClick={() => navigate(-1)}>
+          ← Back
+        </button>
+      </div>
       <h1>ROI Analysis</h1>
       <p>Enter a pincode to see available properties and projected returns.</p>
       
