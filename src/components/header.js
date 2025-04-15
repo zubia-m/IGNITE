@@ -46,12 +46,12 @@ const Header = ({ user, onSignOut }) => {
               </div>
           )}
         <img
-          src="logoIgnite.jpg"
+          src="IQ.jpg"
           alt="Logo"
           className="logo"
-          style={{ width: "50px", height: "50px" }}
+          style={{ width: "140px", height: "50px" }}
         />
-        <span
+        {/* <span
           className="brand-name"
           style={{
             fontSize: "24px",
@@ -59,6 +59,8 @@ const Header = ({ user, onSignOut }) => {
             color: "#D4AA04",
           }}
         >
+          UpHome
+        </span> */}
           UpHome
         </span>
       </div>

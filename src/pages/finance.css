@@ -11,6 +11,26 @@
     box-sizing: border-box;
 }
 
+back-button-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+  
+  .back-button {
+    background: none;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    color: #D4AA04;
+    padding: 5px 10px;
+    margin-top: 90px;
+  }
+  
+  .back-button:hover {
+    color: #2d2624;
+  }
+
 /* Centering and styling the mortgage calculator */
 .mortgage-calculator {
     width: 60%;

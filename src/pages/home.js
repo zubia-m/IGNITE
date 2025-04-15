@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import './home.css';
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate, Link } from 'react-router-dom';
-import { auth } from '../firebase';
-import Footer from '../components/footer';
+import { auth } from '../firebase'; // Correct import path
+import Footer from '../components/footer'; // Import the Footer component
+import SearchBar from '../components/searchBar'; // Import the SearchBar component
 
 const Home = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleButtonClick = () => {
+    navigate('/signup');
+  };
+  
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {

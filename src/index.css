@@ -1,4 +1,3 @@
-/* General Styles */
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
@@ -6,7 +5,9 @@ body {
   color: #333;
 }
 
-/* Header Styles */
+button, input, a {
+  animation: none !important;
+}
 .header {
   position: fixed;  /* Keep header always visible */
   top: 0;
@@ -26,40 +27,6 @@ body {
   font-size: 24px;
   color: white;
 }
-
-.menu {
-  position: absolute;
-  top: 50px;
-  left: 0;
-  background-color: black;
-  width: 200px;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.menu ul {
-  list-style: none;
-  padding: 0;
-}
-
-.menu ul li {
-  padding: 10px;
-}
-
-.menu ul li a {
-  color: white;
-  text-decoration: none;
-}
-
-.signout-button {
-  background-color: red;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
 
 .logo-container {
   display: flex;
@@ -82,113 +49,11 @@ body {
   align-items: center;
 }
 
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .search-input {
-    width: 100%;
-    margin-right: 0;
-    margin-bottom: 10px;
-  }
-
-  .search-button {
-    width: 100%;
-  }
-
-  .auth-container {
-    padding: 15px;
-    max-width: 90%;
-  }
-}
-
-/* Background Image for Landing Page */
-.landing-page {
-  background-image: url('background.jpg');
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  text-align: center;
-}
-
-/* Text Above Search Bar */
 .landing-text {
   font-size: 25px;
   font-weight: bold;
   margin-bottom: 10px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-
-/* Transparent Black Overlay */
-.landing-page::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-  z-index: 1;
-  z-index: 1; /* Lower than the header */
-  pointer-events: none; /* Ensures buttons are clickable */
-}
-
-/* Ensure content is above the overlay
-.landing-page {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  color: #ffffff;
-  text-align: center;
-} */
-
-
-
-
-/* Transparent Black Overlay */
-/* .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-  /* z-index: 1;
-} */ */
-
-/* Ensure content is above the overlay */
-/* .landing-page {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  color: #ffffff;
-  text-align: center;
-} */
-
-/* Background Container with Overlay */
-.background-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('background.jpg'); /* Add your background image */
-  background-size: cover;
-  background-position: center;
-  z-index: 1; /* Ensure it's behind the content */
 }
 
 .background-container::before {
@@ -200,50 +65,6 @@ body {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
   z-index: 2; /* Ensure overlay is above the background */
-}
-
-/* Content Container */
-/* .content-container {
-  position: relative;
-  z-index: 3;  */
-  /* display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  color: #ffffff;
-  text-align: center;
-} */
-
-/* House Listings */
-.house-listings {
-  margin-top: 20px;
-  width: 80%;
-  max-width: 800px;
-  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  color: #333; /* Dark text for better contrast */
-}
-
-.house-listing {
-  margin-bottom: 20px;
-  padding: 15px;
-  border-bottom: 1px solid #ddd;
-}
-
-.house-listing:last-child {
-  border-bottom: none;
-}
-
-.house-listing h3 {
-  margin: 0 0 10px;
-  color: #D4AA04;
-}
-
-.house-listing p {
-  margin: 5px 0;
 }
 
 @keyframes fadeIn {
@@ -261,11 +82,6 @@ body {
   animation: fadeIn 1s ease-in-out;
 }
 
-.search-button:hover {
-  background-color: #CD7F32	; /* Darker blue on hover */
-  transform: scale(1.05); /* Slightly enlarge the button */
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
 
 @keyframes slideIn {
   from {
@@ -278,11 +94,6 @@ body {
   }
 }
 
-.house-listings {
-  animation: slideIn 0.5s ease-in-out;
-}
-
-/* Navigation Bar */
 nav {
   position: sticky;
   top: 0;
@@ -311,39 +122,10 @@ nav a {
   text-decoration: none;
 }
 
-/* Modern Font */
 body {
   font-family: 'Poppins', sans-serif;
 }
 
-/* Landing Page Container */
-.landing-page {
-  position: relative;
-  min-height: 100vh; /* Ensure it covers at least the full viewport height */
-  background-image: url('background.jpg'); /* Add your background image */
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  text-align: center;
-  padding-bottom: 60px; /* Add padding to prevent footer overlap */
-}
-
-/* Overlay
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
-  /* z-index: 1;
-} */ 
-
-/* Content Container */
 .content-container {
   position: relative;
   z-index: 2;
@@ -351,163 +133,3 @@ body {
   max-width: 1200px;
   padding: 20px;
 }
-
-/* Footer */
-/* footer {
-  position: relative;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: '#333';
-  color: #fff;
-  padding: '40px 20px';
-  text-align: center;
-  z-index: 3;
-}
-.link {
-  color: #D4AA04	;
-  text-decoration: none;
-  font-size: 10px;
-  line-height: 1.5;
-  transition: color 0.3s ease;
-}
-
-.link:hover {
-  color: #D4AA04	; /* Hover effect */
-/* } */
-
-/* ------------------------------------------------------------------------------------------------------------- */
-/* Renovation.css */
-.renovation-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  /* background-image: url('/backgroundRenovation.jpg');  */
-  background-size: cover;
-  background-position: center;    
-  font-family: 'Arial', sans-serif;
-}
-
-/* Fixed Header */
-.header-container {
-width: 100%;
-position: fixed;
-top: 0;
-left: 0;
-/* background: rgba(0, 0, 0, 0.8); Optional: Slight transparency */
-z-index: 1000;
-padding: 10px 0;
-}
-
-.content {
-margin-top: 80px; /* Adjust this based on header height */
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-flex-grow: 1;
-}
-
-.renovation-title {
-  font-size: 2.5rem;
-  color: #D4AA04;
-  margin-bottom: 2rem;
-  animation: fadeIn 1s ease-in-out;
-}
-
-
-.renovate-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 1rem;
-  background: #2d2624;
-  color: #D4AA04;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.renovate-button:hover {
-  background: #CD7F32;
-}
-
-.dropdown-container {
-  position: relative;
-  width: 300px;
-}
-
-.dropdown-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.dropdown-header:hover {
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
-
-.arrow {
-  transition: transform 0.3s ease;
-}
-
-.arrow.open {
-  transform: rotate(180deg);
-}
-
-.dropdown-list {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-top: 0.5rem;
-  animation: slideDown 0.3s ease-in-out;
-}
-
-.dropdown-item {
-  padding: 1rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.dropdown-item:hover {
-  background: #f1f1f1;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-

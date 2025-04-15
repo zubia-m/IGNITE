@@ -1,101 +1,669 @@
-Renovation.css
+/* Base Styles - Your Existing Styles */
 .renovation-page {
-    text-align: center;
-  }
-  
-  .tile-grid {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-image: url('/backgroundRenovation.jpg'); /* Ensure the image is in the public folder */
-    background-size: cover;
-    background-position: center;    
-    font-family: 'Arial', sans-serif;
-  }
-  
-  /* Fixed Header */
-.header-container {
+  text-align: center;
+  padding-top: 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.address-section {
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.address-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #D4AA04;
+}
+
+.google-autocomplete-input {
   width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.submit-button {
+  background: #2d2624;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.submit-button:hover {
+  background: #D4AA04;
+}
+
+.tile-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 16px;
+  padding: 30px;
+  overflow-x: auto;
+  margin-bottom: 30px;
+  justify-content: center;
+}
+
+.tile {
+  flex: 0 0 auto;
+  position: relative;
+  cursor: pointer;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s;
+  width: 150px;
+}
+
+.tile:hover {
+  transform: scale(1.05);
+  border-color: #D4AA04;
+}
+
+.tile.selected {
+  border-color: #D4AA04;
+  background-color: #e3f2fd;
+}
+
+.tile-image {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+
+.tile-label {
+  display: block;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 14px;
+  text-align: center;
+}
+
+.renovation-title {
+  margin-bottom: 0px;
+  margin-top: 60px;
+}
+
+.renovate-button {
+  background: linear-gradient(135deg, #D4AA04 0%, #F5D342 100%);
+  color: #2d2624;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 30px auto;
+  display: block;
+  width: fit-content;
+  box-shadow: 0 4px 15px rgba(212, 170, 4, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+}
+
+.renovate-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(212, 170, 4, 0.6);
+  background: linear-gradient(135deg, #F5D342 0%, #D4AA04 100%);}
+
+  .renovate-button:active {
+    transform: translateY(1px);
+  }
+  
+  .renovate-button:disabled {
+    background: #cccccc;
+    transform: none;
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+  
+  /* Loading state */
+  .renovate-button.loading {
+    color: transparent;
+    position: relative;
+  }
+  
+  .renovate-button.loading::after {
+    content: "";
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 50%;
+    left: 50%;
+    margin: -12px 0 0 -12px;
+    border: 3px solid #2d2624;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: button-spinner 0.8s linear infinite;
+  }
+  
+  @keyframes button-spinner {
+    to { transform: rotate(360deg); }
+  }
+.upload-section {
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.upload-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #D4AA04;
+}
+
+.upload-section p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.image-preview {
+  margin-top: 10px;
+  max-width: 60%;
+}
+
+.generated-image-preview {
+  margin-top: 20px;
+  text-align: center;
+}
+.preview-image {
+  max-width: 20%;
+  height: auto;
+  border-radius: 8px;
+}
+/* .data-display pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 4px;
+} */
+
+.popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  /* background: rgba(0, 0, 0, 0.8); Optional: Slight transparency */
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 1000;
-  padding: 10px 0;
 }
 
-.content {
-  margin-top: 80px; /* Adjust this based on header height */
+.popup {
+  background: black;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 100%;
+  text-align: left;
+  position: relative;
+}
+
+.popup h2 {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.popup pre {
+  font-family: inherit;
+  white-space: pre-wrap;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.close-popup-button {
+  color: whitesmoke;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 1.5rem; /* Make the "x" larger if needed */
+  position: absolute; /* This ensures it's placed relative to its closest positioned ancestor */
+  top: 10px; /* Adjust the position vertically */
+  right: 10px; /* Adjust the position horizontally */
+  background: none; /* Remove background */
+  box-shadow: none; /* Remove any shadow effects */
+  width: auto; /* Ensure the button adjusts to its content */
+  height: auto; /* Remove any height restrictions */
+  display: inline; /* Prevent block-level rendering */
+}
+
+
+.close-popup-button:hover {
+  background: red;
+}
+
+.save-data-button {
+  padding: 5px 10px; /* Adjust padding for a smaller box */
+  font-size: 14px; /* Smaller font size */
+  border-radius: 5px; /* Optional: add rounded corners */
+  background-color: #2d2624; /* Button background color */
+  color: white; /* Text color */
+  border: none; /* No border */
+  cursor: pointer; /* Change cursor to a pointer on hover */
+}
+
+.save-data-button:hover {
+  background-color: #D4AA04; /* Darken background color on hover */
+}
+
+.generated-image-preview {
+  margin-top: 10px;
+}
+
+.generated-image-preview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.image-preview, .captured-image-preview {
+  position: relative;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.remove-image-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #e74c3c;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 28px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-grow: 1;
+  padding: 0;
 }
 
-  .renovation-title {
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 2rem;
-    animation: fadeIn 1s ease-in-out;
-  }
-  
-  .tile-label {
-    display: block;
-    padding: 8px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    font-size: 14px;
-    text-align: center;
-  }
+.remove-image-button:hover {
+  background: #e74c3c;
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
 
-  /* Modal Overlay */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
+.remove-image-button:active {
+  transform: scale(0.95);
+}
+
+/* Optional: Add a subtle pulse animation to draw attention */
+@keyframes subtlePulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.remove-image-button::after {
+  content: "×";
+  display: block;
+}
+
+.capture-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #2d2624;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  max-width: 600px;
+}
+
+.capture-button:hover {
+  color: #D4AA04;
+}
+
+.camera-container {
+  position: relative;
+  margin-top: 10px;
+}
+
+.capture-icon-button {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  color: #2d2624; /* Your dark color */
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 56px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  z-index: 10;
+}
+
+.capture-icon-button:hover {
+  background: #D4AA04; /* Your gold color */
+  color: white;
+  transform: translateX(-50%) scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.capture-icon-button:active {
+  transform: translateX(-50%) scale(0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Camera icon styling */
+.capture-icon-button::after {
+  content: "📷";
+  display: block;
+  font-size: 28px;
+  transition: transform 0.2s ease;
+}
+
+.capture-icon-button:hover::after {
+  transform: scale(1.1);
+}
+
+/* Optional: Pulse animation when camera is active */
+@keyframes cameraPulse {
+  0% { box-shadow: 0 0 0 0 rgba(212, 170, 4, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(212, 170, 4, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(212, 170, 4, 0); }
+}
+
+.is-camera-active .capture-icon-button {
+  animation: cameraPulse 1.5s infinite;
+}
+
+.back-button-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  color: #D4AA04;
+  padding: 5px 10px;
+  margin-top: 90px;
+}
+
+.back-button:hover {
+  color: #2d2624;
+}
+
+.popup2 {
+  position: fixed;
+  background-color: white;
+  top: 20px;
+  right: 10px;
+  color: #D4AA04;
+  padding: 12px 14px;
+  border-radius: 5px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+  animation: fadeInOut 3s ease;
+  width: 150px;
+  text-align: center;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+.saved-address {
+  background-color: #000000;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.saved-address p {
+  margin: 0 0 10px 0;
+  color: #f0f0f0;
+}
+
+.change-address-button {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.change-address-button:hover {
+  background-color: #e0e0e0;
+}
+
+/* New Styles for Loading State */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.loading-modal {
+  background: #2d2624;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.loading-modal h2 {
+  color: #D4AA04;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.progress-container {
+  width: 100%;
+  height: 20px;
+  background-color: #000000;
+  border-radius: 10px;
+  margin: 1rem 0;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #D4AA04;
+  transition: width 0.3s ease;
+}
+
+.time-estimate {
+  margin: 1rem 0;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.processing-message {
+  margin-top: 1rem;
+  color: #f0f0f0;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid #D4AA04;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.image-loading {
+  text-align: center;
+  padding: 1rem;
+  color: #ffffff;
+}
+
+.renovate-button.loading {
+  background-color: #2d2624;
+  color: #D4AA04;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .tile-grid {
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    z-index: 1000;
   }
   
-  /* Modal Content */
-  .modal {
-    background-color: #D4AA04;
+  .tile {
+    width: 120px;
+  }
+  
+  .upload-section, .address-section {
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 300px;
-    text-align: center;
   }
   
-  .modal h2 {
-    margin-bottom: 16px;
+  .loading-modal {
+    padding: 1.5rem;
   }
-  
-  .modal input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+}
+
+/* Notification styles */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+}
+
+.notification.success {
+  background-color: #2ecc71;
+  border-left: 5px solid #27ae60;
+}
+
+.notification.error {
+  background-color: #e74c3c;
+  border-left: 5px solid #c0392b;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
   }
-  
-  .modal button {
-    padding: 8px 16px;
-    background-color: #2d2624;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
-  
-  .modal button:hover {
-    background-color: #2d2624;
+}
+
+/* Image Comparison Styles */
+.image-comparison-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  gap: 20px;
+}
+
+.image-comparison-item {
+  flex: 1;
+  text-align: center;
+}
+
+.image-comparison-item h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.comparison-image {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  object-fit: contain;
+}
+
+.image-loading-placeholder {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .image-comparison-container {
+    flex-direction: column;
   }
+}
