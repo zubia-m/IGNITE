@@ -59,7 +59,7 @@ const Header = ({ user, onSignOut }) => {
             color: "#D4AA04",
           }}
         >
-          BAYT
+          UpHome
         </span>
       </div>
 

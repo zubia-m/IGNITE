@@ -1,67 +1,12 @@
-// import React, { useState, useEffect } from 'react';
-// import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-// import { useNavigate } from 'react-router-dom';
-// import { auth } from '../firebase'; // Correct import path
-// import Footer from '../components/footer'; // Import the Footer component
-// import SearchBar from '../components/searchBar'; // Import the SearchBar component
-// // import About from '../components/about';
-// import { Link } from 'react-router-dom';
-
-
-// const Home = () => {
-//   const [user, setUser] = useState(null);
-//   const navigate = useNavigate();
-//   const [showText, setShowText] = useState(false);
-
-
-//   useEffect(() => {
-//     const unsubscribe = onAuthStateChanged(auth, (user) => {
-//       setUser(user || null);
-//     });
-
-//     return () => unsubscribe();
-//   }, []);
-
-//   const handleSignOut = async () => {
-//     try {
-//       await signOut(auth);
-//       navigate('/');
-//     } catch (error) {
-//       console.error("Error signing out:", error.message);
-//     }
-//   };
-
-
-//   return (
-//     <div className="landing-page" style={{ position: 'relative', overflow: 'hidden' }}>
-//       {/* Search Bar */}
-//       <div style={{ position: 'relative', zIndex: 10 }}>
-//       <SearchBar /></div>
-
-//       {/* Footer */}
-//       <Footer />
-//     </div> 
-  
-//   );
-  
-// };
-
-// export default Home;
-// -------------------------------------------------------------------------------------------------------------------
-
 import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebase'; // Correct import path
-import Footer from '../components/footer'; // Import the Footer component
-import SearchBar from '../components/searchBar'; // Import the SearchBar component
-import { Link } from 'react-router-dom';
-
+import { useNavigate, Link } from 'react-router-dom';
+import { auth } from '../firebase';
+import Footer from '../components/footer';
 
 const Home = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -80,161 +25,172 @@ const Home = () => {
     }
   };
 
-  const handleAddressSelect = (address) => {
-    console.log('Selected Address:', address);
-    // You can add additional logic here to handle the selected address
-  };
-
   return (
     <div
       style={{
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: '#000', // Background set to black
-        color: '#D4AA04', // Default text color set to #D4AA04
-        // backgroundImage: 'url("signInSignUpBackground.jpg")', // Background image added here
-        // backgroundSize: 'cover', // Ensure the image covers the entire area
-        // backgroundPosition: 'center', // Center the image
+        backgroundColor: '#F6EEE0', // Marshmallow
+        color: '#362706', // Espresso
       }}
     >
-      {/* Overlay to ensure text is readable */}
-      <div
-        style={{
-          backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black overlay
-          flex: '1',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-
-      {/* Search Bar Section */}
-      <div
-        style={{
-          textAlign: 'center',
-          padding: '40px 20px',
-          // backgroundColor: '#000', // Background set to black
-        }}
-      >
-        <h1 style={{ fontSize: '36px', marginBottom: '20px', color: '#D4AA04' }}>
-          Start Your Search Here
-        </h1>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <SearchBar />
-        </div>
-      </div>
-
-      {/* About Section */}
-      <div
-        style={{
-          fontFamily: 'Poppins, sans-serif',
-          backgroundColor: '#000', // Background set to black
-          color: '#D4AA04', // Text color set to #D4AA04
-          padding: '40px 20px',
-          textAlign: 'center',
-          flex: '1',
-        }}
-      >
+      <div style={{ flex: '1' }}>
         {/* Hero Section */}
         <div
           style={{
-            backgroundImage: 'url("signInSignUpBackground.jpg")',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            padding: '100px 20px',
-            borderRadius: '10px',
-            color: '#D4AA04', // Text color set to #D4AA04
-            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+            padding: '100px 20px 60px',
+            textAlign: 'center',
           }}
         >
-        
-          <h1 style={{ fontSize: '48px', marginBottom: '20px', color: '#D4AA04' }}>
-             IGNITE - BAYT
+          <h1 style={{ fontSize: '48px', marginBottom: '20px', color: '#362706' }}>
+            Welcome to UpHome
           </h1>
-          <p style={{ fontSize: '20px', maxWidth: '800px', margin: '0 auto', color: '#D4AA04' }}>
-            Empowering homeowners and investors with AI-driven property valuation, renovation planning, and a trusted contractor marketplace.
+          <p style={{ fontSize: '20px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6', color: '#362706' }}>
+            Empowering homeowners and investors with AI-driven ROI prediction, personalized renovation plans,
+            and financing tools.
           </p>
+        </div>
+
+        {/* Feature Buttons */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '20px',
+            flexWrap: 'wrap',
+            marginBottom: '60px',
+          }}
+        >
+          <Link
+            to="/renovation"
+            style={{
+              padding: '15px 30px',
+              backgroundColor: '#362706',
+              color: '#F6EEE0',
+              borderRadius: '5px',
+              textDecoration: 'none',
+              fontSize: '18px',
+              fontWeight: '500',
+              transition: '0.3s',
+            }}
+          >
+            🛠️ Renovation
+          </Link>
+          <Link
+            to="/roi"
+            style={{
+              padding: '15px 30px',
+              backgroundColor: '#362706',
+              color: '#F6EEE0',
+              borderRadius: '5px',
+              textDecoration: 'none',
+              fontSize: '18px',
+              fontWeight: '500',
+              transition: '0.3s',
+            }}
+          >
+            📊 ROI Prediction
+          </Link>
+          <Link
+            to="/finance"
+            style={{
+              padding: '15px 30px',
+              backgroundColor: '#362706',
+              color: '#F6EEE0',
+              borderRadius: '5px',
+              textDecoration: 'none',
+              fontSize: '18px',
+              fontWeight: '500',
+              transition: '0.3s',
+            }}
+          >
+            💰 Financing & Loans
+          </Link>
         </div>
 
         {/* Mission Statement */}
-        <div style={{ margin: '60px 0' }}>
-          <h2 style={{ fontSize: '36px', marginBottom: '20px', color: '#D4AA04' }}>Our Mission</h2>
-          <p style={{ fontSize: '18px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6', color: '#D4AA04' }}>
-            At Bayt, our mission is to revolutionize the way people make decisions about their properties. We combine cutting-edge AI technology with a user-friendly platform to provide accurate property valuations, personalized renovation plans, and access to a network of trusted contractors. Whether you're a homeowner or an investor, Ignite is your one-stop solution for all property-related needs.
+        <div
+          style={{
+            padding: '0 20px 60px',
+            textAlign: 'center',
+            maxWidth: '900px',
+            margin: '0 auto',
+          }}
+        >
+          <h2 style={{ fontSize: '36px', marginBottom: '20px', color: '#362706' }}>Our Mission</h2>
+          <p style={{ fontSize: '18px', lineHeight: '1.6', color: '#362706' }}>
+            At UpHome, our mission is to revolutionize how people make decisions about their homes.
+            With AI-powered ROI insights, intelligent renovation suggestions, and accessible financing tools,
+            we make property decisions easier, smarter, and more profitable.
           </p>
         </div>
 
-        {/* Key Features */}
+        {/* Feature Highlights */}
         <div
           style={{
-            backgroundColor: '#000', // Background set to black
-            padding: '40px 20px',
-            borderRadius: '10px',
-            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+            backgroundColor: '#E9DFCF',
+            padding: '60px 20px',
           }}
         >
-          <h2 style={{ fontSize: '36px', marginBottom: '40px', color: '#D4AA04' }}>Why Choose Ignite?</h2>
+          <h2 style={{ textAlign: 'center', fontSize: '32px', marginBottom: '40px', color: '#362706' }}>
+            What We Offer
+          </h2>
           <div
             style={{
               display: 'flex',
-              justifyContent: 'space-around',
+              justifyContent: 'center',
               flexWrap: 'wrap',
-              gap: '20px',
+              gap: '30px',
               maxWidth: '1200px',
               margin: '0 auto',
             }}
           >
-            {/* Feature 1 */}
-            <div style={{ flex: '1', minWidth: '250px', maxWidth: '300px' }}>
-              <h3 style={{ fontSize: '24px', marginBottom: '10px', color: '#D4AA04' }}>AI-Driven Property Valuation</h3>
-              <p style={{ fontSize: '16px', lineHeight: '1.6', color: '#D4AA04' }}>
-                Get instant, accurate property valuations powered by advanced AI algorithms. Make informed decisions with confidence.
+            <div style={{ maxWidth: '300px' }}>
+              <h3 style={{ fontSize: '22px', marginBottom: '10px', color: '#362706' }}>🏡 ROI Prediction</h3>
+              <p style={{ fontSize: '16px', lineHeight: '1.6', color: '#362706' }}>
+                Get real-time ROI insights and forecasted returns on any property.
+                Make smarter investment decisions backed by data.
               </p>
             </div>
-
-            {/* Feature 2 */}
-            <div style={{ flex: '1', minWidth: '250px', maxWidth: '300px' }}>
-              <h3 style={{ fontSize: '24px', marginBottom: '10px', color: '#D4AA04' }}>Renovation Planning</h3>
-              <p style={{ fontSize: '16px', lineHeight: '1.6', color: '#D4AA04' }}>
-                Plan your renovations with ease. Our platform provides personalized recommendations and cost estimates tailored to your needs.
+            <div style={{ maxWidth: '300px' }}>
+              <h3 style={{ fontSize: '22px', marginBottom: '10px', color: '#362706' }}>🔨 Renovation Planning</h3>
+              <p style={{ fontSize: '16px', lineHeight: '1.6', color: '#362706' }}>
+                Use our intelligent tools to plan your renovations and increase your home’s value
+                with clear cost estimates and improvement ROI.
               </p>
             </div>
-
-            {/* Feature 3 */}
-            <div style={{ flex: '1', minWidth: '250px', maxWidth: '300px' }}>
-              <h3 style={{ fontSize: '24px', marginBottom: '10px', color: '#D4AA04' }}>Trusted Contractor Marketplace</h3>
-              <p style={{ fontSize: '16px', lineHeight: '1.6', color: '#D4AA04' }}>
-                Connect with verified contractors in your area. Read reviews, compare quotes, and choose the best professional for your project.
+            <div style={{ maxWidth: '300px' }}>
+              <h3 style={{ fontSize: '22px', marginBottom: '10px', color: '#362706' }}>💸 Financing & Loans</h3>
+              <p style={{ fontSize: '16px', lineHeight: '1.6', color: '#362706' }}>
+                Explore financing options that fit your goals. Compare offers, calculate payments, and
+                choose the best plan to move forward.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Call-to-Action */}
-        <div style={{ margin: '60px 0' }}>
-          <h2 style={{ fontSize: '36px', marginBottom: '20px', color: '#D4AA04' }}>Ready to Get Started?</h2>
-          <p style={{ fontSize: '18px', marginBottom: '30px', color: '#D4AA04' }}>
-            Join thousands of satisfied users who trust Ignite for their property needs. Sign up today and take the first step toward smarter property decisions.
+        {/* Final Call-to-Action */}
+        <div style={{ padding: '60px 20px', textAlign: 'center' }}>
+          <h2 style={{ fontSize: '28px', marginBottom: '20px', color: '#362706' }}>Ready to Get Started?</h2>
+          <p style={{ fontSize: '18px', marginBottom: '30px', color: '#362706' }}>
+            Sign up today and unlock smarter property decisions with UpHome.
           </p>
-          <Link 
+          <Link
             to="/signup"
             style={{
               padding: '12px 24px',
-              backgroundColor: isHovered ? '#B58C00' : '#D4AA04', // Hover color: #B58C00
-              color: '#000', // Button text color set to black
+              backgroundColor: '#362706',
+              color: '#F6EEE0',
               textDecoration: 'none',
               borderRadius: '5px',
               fontSize: '18px',
-              transition: 'background-color 0.3s ease',
-              
+              fontWeight: '500',
             }}
           >
-            Sign Up Now!
+            Sign Up Now
           </Link>
         </div>
-        </div>
-        
-
       </div>
 
       {/* Footer */}

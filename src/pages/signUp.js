@@ -37,7 +37,7 @@ const SignUp = () => {
     <div className="auth-container">
       <div className="auth-overlay"></div>
       <div className="auth-form">
-        <h2 style={{color: 'black'}}>Sign Up</h2>
+        <h2 className="auth-heading">Sign Up</h2>
         {error && <p className="error-text">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="input-group">
@@ -52,7 +52,9 @@ const SignUp = () => {
             <FaLock className="input-icon" />
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           </div>
-          <p className={`password-hint ${isValidPassword(password) ? 'valid' : 'invalid'}`}>Password must be at least 8 characters, include a number, and a special character.</p>
+          <p className={`password-hint ${isValidPassword(password) ? 'valid' : 'invalid'}`}>
+            Password must be at least 8 characters, include a number, and a special character.
+          </p>
           <button type="submit">Sign Up</button>
         </form>
         <p>Already have an account? <Link to="/signin">Sign In</Link></p>
@@ -88,6 +90,11 @@ const SignUp = () => {
             z-index: 2;
             position: relative;
             animation: fadeIn 0.5s ease-in-out;
+            color: black;
+          }
+          .auth-heading {
+            color: black !important;
+            font-weight: bold;
           }
           .input-group {
             position: relative;
