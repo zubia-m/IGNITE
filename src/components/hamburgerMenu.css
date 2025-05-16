@@ -16,13 +16,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #D4AA04; /* Change to your preferred color */
+  color: #1E4D8C !important; /* Change to your preferred color */
   transition: all 0.2s ease;
   z-index: 1001;
 }
 
 .hamburger-button:hover {
-  color: #D4AA04; /* Hover color */
+  color: #1E4D8C; /* Hover color */
   transform: scale(1.05);
 }
 
@@ -34,16 +34,17 @@
 }
 
 /* Dropdown menu styles */
-.dropdown-menu {
+.hb-dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 0;
-  width: 220px;
-  background: #2d2d2d;
+  margin-right: 70px;
+  width: 160px;
+  background: #F6EEE0;
   border-radius: 8px;
-  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0); */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0);
   z-index: 1000;
   overflow: hidden;
+  border: 2px solid #1E4D8C; /* Blue outline */
 }
 
 .dropdown-menu ul {
@@ -60,7 +61,7 @@
   text-align: left;
   background: none;
   border: none;
-  color: white;
+  color: #163D69 !important;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 16px;  /* Explicit pixel value */
@@ -68,6 +69,6 @@
 }
 
 .menu-item:hover {
-  background: #D4AA04;
-  color: #000;
+  transform: scale(1.05); /* Slightly larger on hover */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Add shadow */
 }

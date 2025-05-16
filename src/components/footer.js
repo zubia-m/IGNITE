@@ -1,13 +1,52 @@
 import './footer.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaEnvelope, FaPhone } from 'react-icons/fa';
+import { FaTwitter, FaInstagram, FaLinkedin, FaEnvelope, FaPhone } from 'react-icons/fa';
 import { IoMdHome } from 'react-icons/io';
 import { RiCustomerService2Fill } from 'react-icons/ri';
 
 const Footer = () => {
+  const [email, setEmail] = React.useState('');
+  const [notification, setNotification] = React.useState(null);
+
+  const showNotification = (message, isSuccess) => {
+    setNotification({ message, isSuccess });
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000); // Notification disappears after 3 seconds
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('https://formspree.io/f/xqapjrgv', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+      
+      if (response.ok) {
+        setEmail('');
+        showNotification('Thank you for subscribing!', true);
+      } else {
+        throw new Error('Submission failed');
+      }
+    } catch (err) {
+      showNotification('Failed to subscribe. Please try again later.', false);
+    }
+  };
+
   return (
     <footer className="footer">
+      {/* Notification popup */}
+      {notification && (
+        <div className={`notification ${notification.isSuccess ? 'success' : 'error'}`}>
+          {notification.message}
+        </div>
+      )}
+      
       <div className="footer-wave"></div>
       
       <div className="footer-container">
@@ -32,27 +71,14 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Quick Links */}
-        <div className="footer-section">
-          <h3 className="footer-heading">Quick Links</h3>
-          <ul className="footer-nav">
-            <li><Link to="/" className="footer-link">Home</Link></li>
-            <li><Link to="/services" className="footer-link">Services</Link></li>
-            <li><Link to="/portfolio" className="footer-link">Portfolio</Link></li>
-            {/* <li><Link to="/about" className="footer-link">About Us</Link></li> */}
-            {/* <li><Link to="/contact" className="footer-link">Contact</Link></li> */}
-          </ul>
-        </div>
-
         {/* Services */}
         <div className="footer-section">
           <h3 className="footer-heading">Our Services</h3>
           <ul className="footer-services">
-            <li><Link to="/renovation" className="footer-link">Kitchen Remodeling</Link></li>
-            <li><Link to="/renovation" className="footer-link">Bathroom Renovation</Link></li>
-            <li><Link to="/renovation" className="footer-link">Full Home Makeovers</Link></li>
-            {/* <li><Link to="/services/design" className="footer-link">Interior Design</Link></li> */}
-            <li><Link to="/services/consultation" className="footer-link">Free Consultation</Link></li>
+            <li><Link to="/renovation" className="footer-link">Home Transformations</Link></li>
+            <li><Link to="/roi-analysis" className="footer-link">Investment Insights</Link></li>
+            <li><Link to="/finance" className="footer-link">Valuation Reports</Link></li>
+            <li><Link to="/consultation" className="footer-link">Free Consultation</Link></li>
           </ul>
         </div>
 
@@ -62,9 +88,12 @@ const Footer = () => {
           <p className="footer-newsletter-text">
             Subscribe to our newsletter for renovation tips and special offers.
           </p>
-          <form className="newsletter-form">
+          <form onSubmit={handleSubmit} className="newsletter-form">
             <input 
               type="email" 
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Your email address" 
               className="newsletter-input"
               required
@@ -74,9 +103,6 @@ const Footer = () => {
             </button>
           </form>
           <div className="footer-social">
-            {/* <a href="https://facebook.com" className="social-icon" aria-label="Facebook">
-              <FaFacebook />
-            </a> */}
             <a href="https://twitter.com" className="social-icon" aria-label="Twitter">
               <FaTwitter />
             </a>

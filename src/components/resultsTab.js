@@ -31,10 +31,35 @@ export default function ResultsTabs({ data, beforeImg, afterImg }) {
     <div className="results-container">
       <Tabs>
         <TabList>
-          <Tab>Financial Summary</Tab>
           <Tab>Visual Comparison</Tab>
+          <Tab>Financial Summary</Tab>
           <Tab>ROI Analysis</Tab>
+          <Tab>Contractor Marketplace</Tab>
         </TabList>
+         
+        <TabPanel>
+          <div className="visuals-section">
+            <h2>Before & After</h2>
+            <div className="image-comparison">
+              <div className="image-wrapper">
+                <h3>Current</h3>
+                {beforeImg ? (
+                  <img src={beforeImg} alt="Before renovation" className="result-image" />
+                ) : (
+                  <div className="no-image">No original image available</div>
+                )}
+              </div>
+              <div className="image-wrapper">
+                <h3>Proposed</h3>
+                {afterImg ? (
+                  <img src={afterImg} alt="After renovation" className="result-image" />
+                ) : (
+                  <div className="no-image">No generated image available</div>
+                )}
+              </div>
+            </div>
+          </div>
+        </TabPanel>
 
         <TabPanel>
           <div className="summary-section">
@@ -57,30 +82,6 @@ export default function ResultsTabs({ data, beforeImg, afterImg }) {
               <div className="metric-card highlight">
                 <span className="metric-label">Value Increase</span>
                 <span className="metric-value">${valueIncrease.toLocaleString()}</span>
-              </div>
-            </div>
-          </div>
-        </TabPanel>
-
-        <TabPanel>
-          <div className="visuals-section">
-            <h2>Before & After</h2>
-            <div className="image-comparison">
-              <div className="image-wrapper">
-                <h3>Current</h3>
-                {beforeImg ? (
-                  <img src={beforeImg} alt="Before renovation" className="result-image" />
-                ) : (
-                  <div className="no-image">No original image available</div>
-                )}
-              </div>
-              <div className="image-wrapper">
-                <h3>Proposed</h3>
-                {afterImg ? (
-                  <img src={afterImg} alt="After renovation" className="result-image" />
-                ) : (
-                  <div className="no-image">No generated image available</div>
-                )}
               </div>
             </div>
           </div>

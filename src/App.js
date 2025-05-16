@@ -11,6 +11,11 @@ import SearchBar from "./components/searchBar";
 import Layout from "./components/layout"; 
 import Finance from "./pages/finance";
 import RoiAnalysis from "./pages/roianalysis";
+import ProfilePage from './pages/profilePage';
+import ContractorPage from "./pages/contractorPage";
+import ResultsTabs from "./components/resultsTab";
+
+
 const App = () => {
   const [user, setUser] = useState(null);
 
@@ -34,6 +39,8 @@ const App = () => {
   };
 
   return (
+    <div style={{ overflowX: "hidden", width: "100%" }}>
+
     <Router>
       <Layout user={user} setUser={setUser} onSignOut={handleSignOut}>
         <Routes>
@@ -45,9 +52,13 @@ const App = () => {
           <Route path="/renovation" element={<Renovation />} />
           <Route path="/finance" element={<Finance />} />
           <Route path="/roi-analysis" element={<RoiAnalysis />} />
-                  </Routes>
+          <Route path="/profilePage" element={<ProfilePage />} />
+          <Route path="/contractors" element={<ContractorPage />} />
+        </Routes>
       </Layout>
     </Router>
+    </div>
+
   );
 };
 

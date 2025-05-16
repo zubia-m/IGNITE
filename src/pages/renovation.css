@@ -16,7 +16,7 @@
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-  background-color: #362706 !important;
+  background-color: #163D69 !important;
 }
 
 .address-section h2 {
@@ -33,12 +33,18 @@
   border-radius: 4px;
   margin-bottom: 10px;
   background-color: #F6EEE0 !important;
-  color: #362706 !important;
+  color: #163D69 !important;
+}
+.reno-title{
+  color: #163D69 !important;
+}
+.reno-phrase{
+  color: #163D69;
 }
 
 .submit-button {
   background: #F6EEE0 !important;
-  color: #362706 !important;
+  color: #163D69 !important;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -58,8 +64,7 @@
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-  background-color: #362706 !important;
-
+  background-color: #163D69 !important;
 }
 
 .renovation-title {
@@ -67,7 +72,6 @@
   margin-top: 60px;
   color: #F6EEE0 !important;
   font-size: 1.8rem;
-
 }
 
 .tile-grid {
@@ -87,7 +91,7 @@
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   width: 180px;
   height: 220px;
-  background: #362706; /* Changed to #362706 */
+  background: #163D69; /* Changed to #163D69 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -99,8 +103,8 @@
 }
 
 .tile.selected {
-  box-shadow: 0 0 0 3px #F6EEE0, 0 8px 16px rgba(212, 170, 4, 0.2);
-  background-color: #362706;
+  box-shadow: 0 0 0 3px #F6EEE0, 0 8px 16px #2196F3;
+  background-color: #163D69;
 }
 
 .tile.selected::after {
@@ -111,7 +115,7 @@
   width: 24px;
   height: 24px;
   background: #F6EEE0; /* Updated to match requested color scheme */
-  color: #362706; /* Contrast color for the tick icon */
+  color: #163D69; /* Contrast color for the tick icon */
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -138,7 +142,7 @@
   justify-content: center;
   padding: 16px 8px;
   background: #F6EEE0; /* Fixed the background issue */
-  color: #362706; /* Text color updated */
+  color: #163D69; /* Text color updated */
   font-size: 15px;
   font-weight: 500;
   text-align: center;
@@ -147,7 +151,7 @@
 }
 
 .tile.selected .tile-label {
-  background: linear-gradient(135deg, #362706 0%, #4a3810 100%);
+  background: linear-gradient(135deg, #163D69 0%, #1E4D8C 100%);
   color: #F6EEE0; /* Ensures selected label text remains readable */
 }
 
@@ -176,7 +180,7 @@
   }
   
   .tile-grid::-webkit-scrollbar-thumb {
-    background: #362706;
+    background: #163D69;
     border-radius: 10px;
   }
 }
@@ -192,9 +196,8 @@
   animation: subtleGlow 1.5s ease-out;
 }
 
-
 .renovate-button {
-  background: linear-gradient(135deg, #8B6C34 0%, #BC9A47 100%); /* Gradient background */
+  background: linear-gradient(135deg, #163D69 0%, #2196F3 100%) !important; /* Gradient background */
   color: #F6EEE0; /* Text color */
   border: none;
   padding: 15px 30px;
@@ -207,7 +210,7 @@
   margin: 30px auto;
   display: block;
   width: fit-content;
-  box-shadow: 0 4px 15px rgba(212, 170, 4, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4);
   transition: all 0.3s ease, background 0.5s ease-in-out;
   position: relative;
   overflow: hidden;
@@ -215,17 +218,17 @@
 
 .renovate-button:hover {
   transform: translateY(-3px);
-  background: linear-gradient(135deg, #BC9A47 0%, #8B6C34 100%); /* Hover gradient */
-  box-shadow: 0 8px 25px rgba(212, 170, 4, 0.6), 0 0 10px rgba(212, 170, 4, 0.5);
+  background: linear-gradient(135deg, #2196F3 0%, #163D69 100%) !important; /* Hover gradient */
+  box-shadow: 0 8px 25px rgba(0, 136, 204, 0.6), 0 0 10px rgba(0, 136, 204, 0.5);
 }
 
 .renovate-button:active {
   transform: translateY(1px);
-  box-shadow: 0 4px 15px rgba(212, 170, 4, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4);
 }
 
 .renovate-button:disabled {
-  background: linear-gradient(135deg, #6A5035 0%, #4A3810 100%); /* Disabled gradient */
+  background: linear-gradient(135deg, #4A69A6 0%, #2A3D69 100%); /* Disabled gradient */
   transform: none;
   box-shadow: none;
   cursor: not-allowed;
@@ -239,7 +242,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle, rgba(212, 170, 4, 0.4) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(0, 136, 204, 0.4) 0%, transparent 60%);
   opacity: 0;
   transition: opacity 0.3s ease, transform 0.3s ease;
   transform: scale(0.9);
@@ -284,7 +287,7 @@
   left: 50%;
   width: 150%;
   height: 150%;
-  background: rgba(212, 170, 4, 0.2);
+  background: rgba(0, 136, 204, 0.2);
   border-radius: 50%;
   transform: scale(0);
   opacity: 0;
@@ -299,7 +302,7 @@
 .upload-section {
   padding: 30px;
   border-radius: 10px;
-  background-color: #362706 !important;
+  background-color: #163D69 !important;
   margin-bottom: 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   max-width: 600px;
@@ -320,7 +323,6 @@
 }
 .upload-button {
   color:#F6EEE0 !important;
-
 }
 
 .image-preview {
@@ -378,7 +380,7 @@
 }
 
 .close-popup-button {
-  color: #362706 !important;
+  color: #163D69 !important;
   border: none;
   padding: 0;
   cursor: pointer;
@@ -393,7 +395,6 @@
   display: inline; /* Prevent block-level rendering */
 }
 
-
 .close-popup-button:hover {
   background: red !important;
 }
@@ -402,14 +403,14 @@
   padding: 5px 10px; /* Adjust padding for a smaller box */
   font-size: 14px; /* Smaller font size */
   border-radius: 5px; /* Optional: add rounded corners */
-  background-color: #362706 !important; /* Button background color */
+  background-color: #163D69 !important; /* Button background color */
   color: #F6EEE0 !important; /* Text color */
   border: none; /* No border */
   cursor: pointer; /* Change cursor to a pointer on hover */
 }
 
 .save-data-button:hover {
-  background-color: #4a3810 !important; /* Darken background color on hover */
+  background-color: #1E4D8C !important; /* Darken background color on hover */
 }
 
 .generated-image-preview {
@@ -433,7 +434,7 @@
   top: 8px;
   right: 8px;
   background: rgba(255, 255, 255, 0.9);
-  color: #362706 !important;
+  color: #163D69 !important;
   border: none;
   border-radius: 50%;
   width: 28px;
@@ -476,7 +477,7 @@
 
 .capture-button {
   background-color: #F6EEE0 !important; 
-  color: #362706 !important;
+  color: #163D69 !important;
   padding: 12px 20px;
   border: none;
   border-radius: 12px;
@@ -487,7 +488,7 @@
 }
 
 .capture-button:hover {
-  color: #4a3810 !important;
+  color: #1E4D8C !important;
 }
 
 .camera-container {
@@ -500,7 +501,7 @@
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: #362706 !important;
+  background: #163D69 !important;
   color: #F6EEE0 !important; 
   border: none;
   border-radius: 50%;
@@ -520,7 +521,7 @@
 }
 
 .capture-icon-button:hover {
-  background: #4a3810 !important; 
+  background: #1E4D8C !important; 
   color: #F6EEE0 !important;
   transform: translateX(-50%) scale(1.05);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
@@ -570,7 +571,7 @@
   color: #F6EEE0 !important;
   padding: 10px 20px;
   margin-top: 90px;
-  box-shadow: 0 4px 6px rgba(54, 39, 6, 0.2) !important;
+  box-shadow: 0 4px 6px rgba(22, 61, 105, 0.2) !important;
   transition: all 0.3s ease;
 }
 
@@ -578,18 +579,17 @@
   background: linear-gradient(135deg, #4A3810, #6A5035) !important;
   color: #EDE4D8 !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(54, 39, 6, 0.3) !important;
+  box-shadow: 0 6px 12px rgba(22, 61, 105, 0.3) !important;
 }
 
 .back-button:active {
   transform: translateY(0);
-  box-shadow: 0 3px 6px rgba(54, 39, 6, 0.2) !important;
+  box-shadow: 0 3px 6px rgba(22, 61, 105, 0.2) !important;
 }
-
 
 .popup2 {
   position: fixed;
-  background-color: #362706 !important;
+  background-color: #163D69 !important;
   top: 20px;
   right: 10px;
   color: #F6EEE0 !important;
@@ -617,11 +617,11 @@
 
 .saved-address p {
   margin: 0 0 10px 0;
-  color: #362706 !important;
+  color: #163D69 !important;
 }
 
 .change-address-button {
-  background-color: #362706 !important;
+  background-color: #163D69 !important;
   color: #F6EEE0 !important;
   border: 1px solid #ccc;
   padding: 8px 15px;
@@ -659,20 +659,20 @@
 }
 
 .loading-modal h2 {
-  color: #362706 !important;
+  color: #163D69 !important;
   margin-bottom: 20px;
   font-size: 1.5rem;
 }
 
 .processing-message {
   margin-top: 1rem;
-  color: #362706 !important;
+  color: #163D69 !important;
 }
 
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-radius: 50%;
-  border-top: 4px solid #362706 !important;
+  border-top: 4px solid #163D69 !important;
   width: 40px;
   height: 40px;
   animation: spin 1s linear infinite;
@@ -694,12 +694,12 @@
 .image-loading {
   text-align: center;
   padding: 1rem;
-  color: #362706 !important;
+  color: #163D69 !important;
 }
 
 .renovate-button.loading {
   background-color: #F6EEE0 !important;
-  color: #362706 !important;
+  color: #163D69 !important;
 }
 
 /* Responsive Design */
@@ -730,7 +730,7 @@
   padding: 15px 25px;
   border-radius: 5px;
   color: #F6EEE0 !important;
-  background-color: #362706 !important;
+  background-color: #163D69 !important;
   font-weight: bold;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   z-index: 1000;
@@ -773,7 +773,7 @@
 
 .image-comparison-item h3 {
   margin-bottom: 10px;
-  color: #362706 !important;
+  color: #163D69 !important;
 }
 
 .comparison-image {
@@ -801,12 +801,12 @@
   }
 }
 
-.footer-wave {
+.reno-wave {
   position: absolute;
   top: -50px;
   left: 0;
   width: 100%;
   height: 50px;
-  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%23627035" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%23627035" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23627035"/></svg>') no-repeat;
+  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%230a1a3a" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%230a1a3a" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%2309152e"/></svg>') no-repeat;  
   background-size: cover;
 }

@@ -1,0 +1,111 @@
+/* General Header Styling */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #F6EEE0 !important;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+  }
+  
+  /* Left Section Styling */
+  .left-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .logo {
+    width: 70px;
+    height: 60px;
+  }
+  
+  /* Hamburger Dropdown Styling */
+  .hamburger-wrapper {
+    position: relative;
+  }
+  
+  .hamburger-dropdown {
+    position: absolute;
+    top: 70px;
+    margin-left: 60px !important;
+    background: #2d2624;
+    color: #1E4D8C;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    z-index: 1000;
+  }
+  
+  /* Right Section Styling */
+  .nav {
+    display: flex;
+    align-items: center;
+  }
+  
+  .dropdown-wrapper {
+    position: relative;
+  }
+  
+  .profile-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #163D69 !important;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-left: -180px;
+    background: #F6EEE0 !important;
+    color: #163D69 !important;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 250px;
+    padding: 10px;
+    text-align: center;
+    z-index: 1000;
+    box-sizing: border-box;
+  }
+  
+  .dropdown-menu.adjust-left {
+    left: 40;
+    right: auto;
+  }
+  
+  
+  .dropdown-email {
+    margin-bottom: 10px;
+    font-weight: bold;
+    
+  }
+  
+  .signout-button {
+    padding: 8px;
+    background-color: #163D69 !important;
+    color: #F6EEE0 !important;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .icon {
+    margin-right: 5px;
+  }
+  
+  .signin-button {
+    padding: 5px 10px;
+    background-color: #163D69 !important;
+    color: #F6EEE0 !important;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+  

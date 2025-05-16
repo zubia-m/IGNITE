@@ -4,17 +4,11 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate, Link } from 'react-router-dom';
 import { auth } from '../firebase'; // Correct import path
 import Footer from '../components/footer'; // Import the Footer component
-import SearchBar from '../components/searchBar'; // Import the SearchBar component
 
 const Home = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleButtonClick = () => {
-    navigate('/signup');
-  };
-  
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -33,92 +27,92 @@ const Home = () => {
     }
   };
 
-  const handleAddressSelect = (address) => {
-    console.log('Selected Address:', address);
-    // Add additional logic here to handle the selected address
-  };
+    useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        setIsSignedIn(!!user);
+      });
+      return () => unsubscribe();
+    }, []);
+  
+    const handleClick = () => {
+      if (isSignedIn) {
+        alert('You are already signed in!');
+      } else {
+        navigate('/signup');
+      }
+    };
 
   return (
-    <div className="home">
-      <div className="overlay">
-        {/* Search Bar Section */}
-        <div className="search-section">
-          <h1>Start Your Search Here</h1>
-          <div className="search-bar-container">
-            <SearchBar />
+    
+    <div className="home-container">
+      <div className="home-main-content">
+        {/* Hero Section */}
+        <div className="home-hero">
+          <h1>Welcome to UpHome</h1>
+          <p>
+            Empowering homeowners and investors with AI-driven ROI prediction, 
+            personalized renovation plans, and financing tools.
+          </p>
+        </div>
+
+        {/* Feature Buttons */}
+        <div className="home-buttons">
+          <Link to="/renovation" className="home-button">🛠️ Renovation</Link>
+          <Link to="/roi-analysis" className="home-button">📊 ROI Prediction</Link>
+          <Link to="/finance" className="home-button">💰 Financing & Loans</Link>
+        </div>
+
+        {/* Mission Statement */}
+        <div className="home-mission">
+          <h2>Our Mission</h2>
+          <p>
+            At UpHome, our mission is to revolutionize how people make decisions about their homes. 
+            With AI-powered ROI insights, intelligent renovation suggestions, and accessible financing tools, 
+            we make property decisions easier, smarter, and more profitable.
+          </p>
+        </div>
+
+        {/* Feature Highlights */}
+        <div className="home-features">
+          <h2>What We Offer</h2>
+          <div className="home-feature-cards">
+            <div className="home-feature-card">
+              <h3>🏡 ROI Prediction</h3>
+              <p>
+                Get real-time ROI insights and forecasted returns on any property. 
+                Make smarter investment decisions backed by data.
+              </p>
+            </div>
+            <div className="home-feature-card">
+              <h3>🔨 Renovation Planning</h3>
+              <p>
+                Use our intelligent tools to plan your renovations and increase your home’s value 
+                with clear cost estimates and improvement ROI.
+              </p>
+            </div>
+            <div className="home-feature-card">
+              <h3>💸 Financing & Loans</h3>
+              <p>
+                Explore financing options that fit your goals. Compare offers, calculate payments, 
+                and choose the best plan to move forward.
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* About Section */}
-        <div className="about-section">
-          <div className="hero">
-            <h1>IGNITE - UpHome</h1>
-            <p>
-              {/* Empowering homeowners and investors with AI-driven property valuation, renovation planning,
-              and a trusted contractor marketplace. */}
-            </p>
-          </div>
-
-          {/* Mission Statement */}
-          <div className="mission">
-            <h2>Our Mission</h2>
-            <p>
-              At UpHome, our mission is to revolutionize the way people make decisions about their properties.
-              We combine cutting-edge AI technology with a user-friendly platform to provide accurate
-              property valuations, personalized renovation plans, and access to a network of trusted contractors.
-            </p>
-          </div>
-
-          {/* Key Features */}
-          <div className="features">
-            <h2>Why Choose Ignite?</h2>
-            <div className="features-container">
-              <div className="feature">
-                <h3>AI-Driven Property Valuation</h3>
-                <p>
-                  Get instant, accurate property valuations powered by advanced AI algorithms.
-                  Make informed decisions with confidence.
-                </p>
-              </div>
-
-              <div className="feature">
-                <h3>Renovation Planning</h3>
-                <p>
-                  Plan your renovations with ease. Our platform provides personalized recommendations
-                  and cost estimates tailored to your needs.
-                </p>
-              </div>
-
-              <div className="feature">
-                <h3>Trusted Contractor Marketplace</h3>
-                <p>
-                  Connect with verified contractors in your area. Read reviews, compare quotes,
-                  and choose the best professional for your project.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Call-to-Action */}
-          <div className="cta">
-            <h2>Ready to Get Started?</h2>
-            <p>
-              Join thousands of satisfied users who trust Ignite for their property needs.
-              Sign up today and take the first step toward smarter property decisions.
-            </p>
-            <button 
-      className={`cta-button ${isHovered ? 'hover' : ''}`} 
-      onMouseEnter={() => setIsHovered(true)} 
-      onMouseLeave={() => setIsHovered(false)} 
-      onClick={handleButtonClick}
+        {/* Final Call-to-Action */}
+        <div className="home-cta">
+          <h2>Ready to Get Started?</h2>
+          <p>Sign up today and unlock smarter property decisions with UpHome.</p>
+          <button 
+      onClick={handleClick}
+      className="home-signup-button"
     >
       Sign Up Now!
     </button>
-          </div>
-        </div>
+      </div>
       </div>
 
-      {/* Footer */}
       <Footer />
     </div>
   );

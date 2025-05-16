@@ -14,13 +14,13 @@
     position: relative;
     font-family: 'Roboto', sans-serif;
     color: #333;
-    background: url("../assets/pattern.svg") repeat;
+    /* background: url("../assets/pattern.svg") repeat; */
     background-size: 200px 200px;
   }
     
   /* Form */
   .auth-form {
-    background-color: #000;
+    background-color: #FAF7F5 !important;
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
@@ -28,16 +28,16 @@
     text-align: center;
     z-index: 2;
     animation: fadeIn 0.5s ease-in-out;
-    border: 2px solid #F5D342;
+    border: 2px solid #163D69;
     transition: box-shadow 0.3s ease-in-out;
     
   }
   .auth-form:hover {
-    box-shadow: 0 0 15px #F5D342, 0 0 30px #D4AA04;
+    box-shadow: 0 0 15px #163D69, 0 0 30px #163D69;
   }
   .auth-title {
     margin-bottom: 25px;
-    color: #007bff;
+    color: #163D69 !important;
     font-size: 26px;
     font-weight: bold;
     text-transform: uppercase;
@@ -53,7 +53,7 @@
   .input-group {
     position: relative;
     margin-bottom: 20px;
-    color: #000;
+    color: #163D69 !important;
   }
   
   .input-icon {
@@ -71,7 +71,8 @@
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 14px;
-    background: #000;
+    background: #FAF7F5 !important;
+    color: #000000 !important;
     outline: none;
     transition: border-color 0.3s ease, background-color 0.3s ease;
   }
@@ -98,7 +99,7 @@
   /* Button */
   .auth-button {
     padding: 12px;
-    background-color: #007bff;
+    background-color: #163D69;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -147,5 +148,32 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  .verification-message {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .verification-message h3 {
+    color: #4CAF50;
+    margin-bottom: 15px;
+  }
+  
+  .resend-link {
+    background: none;
+    border: none;
+    color: #4CAF50;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    font-size: inherit;
+  }
+  
+  .resend-link:hover {
+    color: #45a049;
   }
   

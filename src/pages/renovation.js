@@ -354,7 +354,7 @@ useEffect(() => {
       formData.append('formattedAddress', formattedAddress);
       formData.append('renovation_type', selectedOption);
   
-      const response = await fetch('https://1444-20-185-56-188.ngrok-free.app/process_renovation', {
+      const response = await fetch('https://86d4-20-185-56-188.ngrok-free.app/process_renovation', {
         method: 'POST',
         body: formData,
       });
@@ -399,17 +399,20 @@ useEffect(() => {
   return (
     
     <div className="renovation-page">
-      <div className="footer-wave"></div>
+      <div className="reno-wave"></div>
 
       <div className="back-button-container">
         <button className="back-button" onClick={() => navigate(-1)}>
-          ← Back
+          ←
         </button>
       </div>
 
       {notification && (
         <Notification message={notification.message} type={notification.type} />
       )}
+
+      <h1 className='reno-title'>UPLOAD, VISUALIZE, PRICE-WISE</h1>
+      <h3 className='reno-phrase'>UpHome’s AI technology helps you plan renovations that fit your style and budget.</h3>
 
       <form onSubmit={handleSubmit}>
         {/* Address Input Section */}
