@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import "./mortgagecalculator.css";
 
 const MortgageCalculator = () => {
   const [homePrice, setHomePrice] = useState("");
@@ -8,6 +9,43 @@ const MortgageCalculator = () => {
   const [interestRate, setInterestRate] = useState("");
   const [monthlyPayment, setMonthlyPayment] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [rateFilter, setRateFilter] = useState("");
+  const [termFilter, setTermFilter] = useState("");
+
+  const lenders = [
+    {
+      name: "Rocket Mortgage",
+      rate: 6.2,
+      termOptions: [15, 30],
+      contact: "www.rocketmortgage.com",
+    },
+    {
+      name: "Better.com",
+      rate: 5.95,
+      termOptions: [20, 30],
+      contact: "www.better.com",
+    },
+    {
+      name: "Bank of America",
+      rate: 6.5,
+      termOptions: [15, 30],
+      contact: "www.bankofamerica.com",
+    },
+    {
+      name: "Wells Fargo",
+      rate: 6.45,
+      termOptions: [20, 30],
+      contact: "www.wellsfargo.com",
+    },
+  ];
+
+  const filteredLenders = lenders.filter((lender) => {
+    const matchesRate =
+      !rateFilter || lender.rate <= parseFloat(rateFilter);
+    const matchesTerm =
+      !termFilter || lender.termOptions.includes(parseInt(termFilter));
+    return matchesRate && matchesTerm;
+  });
 
   const calculateMortgage = () => {
     if (!homePrice || !downPayment || !interestRate) {
@@ -91,12 +129,59 @@ const MortgageCalculator = () => {
           exit={{ opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.3 }}
         >
-          <p>Estimated Monthly Payment: <strong>${monthlyPayment}</strong></p>
+          <p>
+            Estimated Monthly Payment: <strong>${monthlyPayment}</strong>
+          </p>
           <button onClick={() => setShowPopup(false)} className="close-popup">
             Close
           </button>
         </motion.div>
       )}
+
+      {/* Lenders and Financers Section */}
+      <div className="lenders-section">
+        <h3 className="lenders-title">Available Lenders & Financers</h3>
+
+        <div className="filter-group">
+          <input
+            type="number"
+            placeholder="Max Interest Rate (%)"
+            value={rateFilter}
+            onChange={(e) => setRateFilter(e.target.value)}
+          />
+          <select
+            value={termFilter}
+            onChange={(e) => setTermFilter(e.target.value)}
+          >
+            <option value="">All Terms</option>
+            <option value="15">15 years</option>
+            <option value="20">20 years</option>
+            <option value="30">30 years</option>
+          </select>
+        </div>
+
+        <div className="lenders-list">
+          {filteredLenders.length > 0 ? (
+            filteredLenders.map((lender, index) => (
+              <div key={index} className="lender-card">
+                <h4>{lender.name}</h4>
+                <p>
+                  Current Rate: <strong>{lender.rate}%</strong>
+                </p>
+                <a
+                  href={`https://${lender.contact}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Visit Site
+                </a>
+              </div>
+            ))
+          ) : (
+            <p>No lenders match the selected criteria.</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

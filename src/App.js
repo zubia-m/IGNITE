@@ -10,7 +10,7 @@ import Renovation from "./pages/renovation";
 import SearchBar from "./components/searchBar";
 import Layout from "./components/layout"; 
 import Finance from "./pages/finance";
-import RoiAnalysis from "./pages/roianalysis";
+import Roiprediction from "./pages/roiprediction";
 const App = () => {
   const [user, setUser] = useState(null);
 
@@ -44,7 +44,7 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/renovation" element={<Renovation />} />
           <Route path="/finance" element={<Finance />} />
-          <Route path="/roi-analysis" element={<RoiAnalysis />} />
+          <Route path="/roi-analysis" element={<Roiprediction />} />
                   </Routes>
       </Layout>
     </Router>

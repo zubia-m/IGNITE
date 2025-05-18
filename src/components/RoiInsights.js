@@ -1,50 +1,69 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
+import React from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  LineChart,
+  Line
+} from "recharts";
 
 const RoiInsights = ({ houses }) => {
-  if (!houses.length) return null;
+  if (!houses || houses.length === 0) return null;
 
-  // Sort by price or ROI placeholder logic
-  const top3 = [...houses].sort((a, b) => a.price - b.price).slice(0, 3);
+  // Sort by price and select top 3 affordable options
+  const top3 = [...houses]
+    .filter(h => h.history && typeof h.history === "object")
+    .sort((a, b) => a.price - b.price)
+    .slice(0, 3);
 
-  // Placeholder growth data
-  const growthData = [
-    { year: '2020', value: 100 },
-    { year: '2021', value: 110 },
-    { year: '2022', value: 130 },
-    { year: '2023', value: 160 },
-    { year: '2024', value: 185 }
-  ];
+  // Create a dynamic market trend line using avg price per year
+  const years = ["2020", "2021", "2022", "2023", "2024", "2025"];
+const validHouses = houses.filter(h => h.history && typeof h.history === "object");
 
+const trendData = years.map((year) => {
+  const total = validHouses.reduce((acc, h) => acc + (h.history[year] || 0), 0);
+  const avg = validHouses.length ? total / validHouses.length : 0;
+  return { year, value: Math.round(avg) };
+});
   return (
-    <div style={{ marginTop: "40px", textAlign: "left" }}>
-      <h2>🏆 Top 3 Investment Picks</h2>
+    <div style={{ marginTop: "40px", color: "#362706", textAlign: "left" }}>
+      <h2 style={{ fontSize: "1.5rem", marginBottom: "10px" }}>🏆 Top 3 Investment Picks</h2>
       <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={top3.map(h => ({ name: h.address.split(",")[0], price: h.price }))}>
+        <BarChart
+          data={top3.map((h) => ({
+            name: h.address.split(",")[0],
+            price: h.price
+          }))}
+          margin={{ top: 20, right: 30, left: 0, bottom: 10 }}
+        >
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="price" fill="#82ca9d" />
+          <Bar dataKey="price" fill="#A68A64" radius={[10, 10, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
 
-      <h3 style={{ marginTop: "30px" }}>📈 Market Growth History</h3>
+      <h3 style={{ marginTop: "30px", fontSize: "1.2rem" }}>📈 Avg Market Price Trend (2020–2025)</h3>
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={growthData}>
+        <LineChart
+          data={trendData}
+          margin={{ top: 20, right: 30, left: 0, bottom: 10 }}
+        >
           <XAxis dataKey="year" />
           <YAxis />
           <Tooltip />
-          <Line type="monotone" dataKey="value" stroke="#8884d8" />
+          <Line
+            type="monotone"
+            dataKey="value"
+            stroke="#362706"
+            strokeWidth={2}
+            dot={{ r: 4 }}
+          />
         </LineChart>
       </ResponsiveContainer>
-
-      <div style={{ marginTop: "30px", background: "#3b3b3b", padding: "20px", borderRadius: "12px" }}>
-        <h3>🤖 AI Insight Summary</h3>
-        <p>
-          Based on current market trends and affordability, we recommend investing in{" "}
-          <strong>{top3[0].address.split(",")[0]}</strong> due to its price-performance ratio
-          and rental potential. Townhouses are showing steady appreciation in the area.
-        </p>
-      </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 // src/components/HouseDetails.js
 import React from "react";
-
+import "./HouseDetails.css";
 const HouseDetails = ({ house, onBack }) => {
   if (!house) return null;
 
@@ -22,7 +22,7 @@ const HouseDetails = ({ house, onBack }) => {
 
       <h2 className="text-xl font-bold mb-2">{house.address}</h2>
       <div className="mb-4">
-        <img src={`/images/${house.images[0]}`} alt="House" className="rounded-lg" />
+      <img src={`/images/${house.images[0]}`} alt="House" className="rounded-lg" />
       </div>
       <p><strong>Type:</strong> {house.type}</p>
       <p><strong>Price:</strong> ${house.price.toLocaleString()}</p>
@@ -62,4 +62,4 @@ const HouseDetails = ({ house, onBack }) => {
   );
 };
 
-export default HouseDetails;
+export default HouseDetails; 

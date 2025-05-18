@@ -1,121 +1,131 @@
 /* Home Component Styles */
 
 .home {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background-color: #000; /* Black background */
-    color: #D4AA04; /* Default text color */
-  }
-  
-  .overlay {
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Search Section */
-  .search-section {
-    text-align: center;
-    padding: 40px 20px;
-  }
-  
-  .search-section h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
-    color: #D4AA04;
-  }
-  
-  .search-bar-container {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  /* About Section */
-  .about-section {
-    font-family: 'Poppins', sans-serif;
-    background-color: #000;
-    color: #D4AA04;
-    padding: 40px 20px;
-    text-align: center;
-    flex: 1;
-  }
-  
-  .hero {
-    background-image: url("../assets/signInSignUpBackground.jpg");    
-    background-size: cover;
-    background-position: center;
-    padding: 100px 20px;
-    border-radius: 10px;
-    color: #D4AA04;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  }
-  
-  .hero h1 {
-    font-size: 48px;
-    margin-bottom: 20px;
-  }
-  
-  .hero p {
-    font-size: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  .mission {
-    margin: 60px 0;
-  }
-  
-  .mission h2 {
-    font-size: 36px;
-    margin-bottom: 20px;
-  }
-  
-  .mission p {
-    font-size: 18px;
-    max-width: 800px;
-    margin: 0 auto;
-    line-height: 1.6;
-  }
-  
-  .features {
-    background-color: #000;
-    padding: 40px 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .features h2 {
-    font-size: 36px;
-    margin-bottom: 40px;
-  }
-  
-  .features-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .feature {
-    flex: 1;
-    min-width: 250px;
-    max-width: 300px;
-  }
-  
-  .feature h3 {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  .feature p {
-    font-size: 16px;
-    line-height: 1.6;
-  }
-  
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #000; /* Black background */
+  color: #D4AA04; /* Default text color */
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Search Section */
+.search-section {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.search-section h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #D4AA04;
+}
+
+.search-bar-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* About Section */
+.about-section {
+  font-family: 'Poppins', sans-serif;
+  background-color: #000;
+  color: #D4AA04;
+  padding: 40px 20px;
+  text-align: center;
+  flex: 1;
+}
+.hero-title {
+  font-size: 48px;
+  margin-bottom: 20px;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  color: #163D69; /* Pantone Espresso color */
+}
+
+/* Hero Section */
+.hero {
+  background-image: url("../assets/signInSignUpBackground.jpg");
+  background-size: cover;
+  background-position: center;
+  padding: 100px 20px;
+  border-radius: 10px;
+  color: #D4AA04;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Mission Section */
+.mission {
+  margin: 60px 0;
+}
+
+.mission h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.mission p {
+  font-size: 18px;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Features Section */
+.features {
+  background-color: #000;
+  padding: 40px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.features h2 {
+  font-size: 36px;
+  margin-bottom: 40px;
+}
+
+.features-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature {
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+}
+
+.feature h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.feature p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
 /* Button Styles */
 .cta-button {
   background: linear-gradient(135deg, #D4AA04 0%, #F5D342 100%);
@@ -138,7 +148,7 @@
 }
 
 .cta-button:hover {
-  transform: translateY(-3px);
+  transform: translateY(-3px) scale(1.05); /* Added subtle scale effect */
   box-shadow: 0 6px 20px rgba(212, 170, 4, 0.6);
   background: linear-gradient(135deg, #F5D342 0%, #D4AA04 100%);
 }
@@ -179,7 +189,3 @@
     transform: rotate(360deg);
   }
 }
-
-  
-
-  

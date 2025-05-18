@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { User, LogOut } from "lucide-react"; // Import icons
-import HamburgerMenu from "./hamburgerMenu"; // Import the HamburgerMenu component
+import { User, LogOut } from "lucide-react";
+import HamburgerMenu from "./hamburgerMenu";
 
 const Header = ({ user, onSignOut }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
-  const isSignedIn = !!user; // Check if user is signed in
+  const isSignedIn = !!user;
 
   return (
     <header
@@ -20,16 +20,16 @@ const Header = ({ user, onSignOut }) => {
         borderBottom: "1px solid #ddd",
       }}
     >
-      {/* Left Side: Hamburger Menu, Logo, and Brand Name */}
+      {/* Left Side: Logo + Brand + Hamburger */}
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
         {/* Hamburger Menu with Hover Control */}
         <div
           style={{ position: "relative" }}
           onMouseEnter={() => setIsHamburgerOpen(true)}
           onMouseLeave={() => setIsHamburgerOpen(false)}
-        ></div>
-        <HamburgerMenu isSignedIn={isSignedIn} />
-        {isHamburgerOpen && (
+        >
+          <HamburgerMenu isSignedIn={isSignedIn} />
+          {isHamburgerOpen && (
             <div
               style={{
                 position: "absolute",
@@ -43,15 +43,18 @@ const Header = ({ user, onSignOut }) => {
                 zIndex: 1000,
               }}
             >
-              </div>
+              {/* Optional menu items */}
+            </div>
           )}
+        </div>
+
         <img
           src="IQ.jpg"
           alt="Logo"
           className="logo"
           style={{ width: "140px", height: "50px" }}
         />
-        {/* <span
+        <span
           className="brand-name"
           style={{
             fontSize: "24px",
@@ -60,8 +63,6 @@ const Header = ({ user, onSignOut }) => {
           }}
         >
           UpHome
-        </span> */}
-          UpHome
         </span>
       </div>
 
@@ -69,7 +70,6 @@ const Header = ({ user, onSignOut }) => {
       <div className="nav">
         {isSignedIn ? (
           <div style={{ position: "relative" }}>
-            {/* Profile Icon */}
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               style={{
@@ -82,7 +82,6 @@ const Header = ({ user, onSignOut }) => {
               <User size={30} />
             </button>
 
-            {/* Dropdown Menu */}
             {isDropdownOpen && (
               <div
                 style={{
@@ -124,7 +123,6 @@ const Header = ({ user, onSignOut }) => {
             )}
           </div>
         ) : (
-          // Sign-In Button when not signed in
           <Link
             to="/signin"
             style={{

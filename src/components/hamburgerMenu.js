@@ -13,10 +13,11 @@ const HamburgerMenu = ({ isSignedIn }) => {
     { title: "Renovation", path: "/renovation" },
     { title: "Financing & Loans", path: "/finance" },
     { title: "ROI Predictions", path: "/roi-analysis" },
+    { title: "Wishlist", path: "/wishlist" }, // ✅ New Wishlist Section
   ];
 
   const handleFeatureClick = (path) => {
-    if (!isSignedIn) {
+    if (!isSignedIn && path !== "/") {
       navigate("/signin", { state: { from: path } });
     } else {
       navigate(path);
@@ -26,19 +27,14 @@ const HamburgerMenu = ({ isSignedIn }) => {
 
   return (
     <div className="menu-wrapper">
-      {/* Hamburger Menu Button */}
-      <button 
-        className="hamburger-button" 
+      <button
+        className="hamburger-button"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Menu"
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {/* Brand Name - You can replace this with your actual logo/brand component */}
-      {/* <div className="brand-name">Your Brand</div> */}
-
-      {/* Dropdown Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
