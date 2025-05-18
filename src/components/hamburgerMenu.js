@@ -10,10 +10,9 @@ const HamburgerMenu = ({ isSignedIn }) => {
 
   const features = [
     { title: "Home", path: "/" },
-    { title: "Renovation", path: "/renovation" },
-    { title: "Financing & Loans", path: "/finance" },
-    { title: "ROI Predictions", path: "/roi-analysis" },
-    { title: "Wishlist", path: "/wishlist" }, // ✅ New Wishlist Section
+    { title: "My Profile", path: "/profilePage" },
+    { title: "Wishlist", path: "/wishlist" },
+    { title: "Contractors", path: "/contractors" },
   ];
 
   const handleFeatureClick = (path) => {
@@ -42,7 +41,7 @@ const HamburgerMenu = ({ isSignedIn }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.3 }}
-            className="dropdown-menu"
+            className="hb-dropdown-menu"
           >
             <nav>
               <ul>

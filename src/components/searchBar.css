@@ -46,7 +46,7 @@
 
 
 
-/* Popup Message Styling */
+/* Popup Message Styling
 .popup {
   position: fixed;
   top: 20px;
@@ -58,8 +58,8 @@
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
   animation: fadeInOut 3s ease;
   width: 100px; /* Set your desired width */
-  text-align: center; /* Keep the content centered */
-}
+  /* text-align: center; /* Keep the content centered */
+/* }  */
 
 /* Fade In-Out Animation */
 @keyframes fadeInOut {

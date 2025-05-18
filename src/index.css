@@ -1,135 +1,14 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
-  background-color: #000000;
-  color: #333;
-}
-
-button, input, a {
-  animation: none !important;
-}
-.header {
-  position: fixed;  /* Keep header always visible */
-  top: 0;
-  left: 0;
-  width: 100%;  /* Make it stretch across the entire page */
-  background-color: black;  /* Make header black */
-  color: white;  /* Text should be visible */
-  z-index: 1;  /* Ensure it's above other elements */
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.menu-button {
-  cursor: pointer;
-  font-size: 24px;
-  color: white;
-}
-
-.logo-container {
-  display: flex;
-  align-items: middle;
-}
-
-.logo {
-  height: 40px;
-  margin-right: 10px;
-}
-
-.brand-name {
-  font-size: 24px;
-  font-weight: bold;
-  color: #ffffff;
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-}
-
-.landing-text {
-  font-size: 25px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.background-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
+  font-family: 'Arial';
+  background-color: #F6EEE0;
+  /* overflow-x: hidden !important; */
   width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
-  z-index: 2; /* Ensure overlay is above the background */
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.landing-text, .search-container {
-  animation: fadeIn 1s ease-in-out;
-}
-
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-nav {
-  position: sticky;
-  top: 0;
-  background-color: rgba(0, 0, 0, 0.8);
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 1000;
-}
-
-nav img {
-  height: 40px;
-  margin-right: 10px;
-}
-
-nav span {
-  color: #fff;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-nav a {
-  color: #CD7F32	;
-  margin-right: 20px;
-  text-decoration: none;
-}
-
-body {
-  font-family: 'Poppins', sans-serif;
-}
-
-.content-container {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 1200px;
-  padding: 20px;
+  scroll-behavior: smooth;
 }

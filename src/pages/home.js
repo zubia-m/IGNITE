@@ -2,18 +2,13 @@ import React, { useState, useEffect } from 'react';
 import './home.css';
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate, Link } from 'react-router-dom';
-import { auth } from '../firebase';
-import Footer from '../components/footer'; // Make sure Footer is imported correctly
-import SearchBar from '../components/searchBar';
+import { auth } from '../firebase'; // Correct import path
+import Footer from '../components/footer'; // Import the Footer component
 
 const Home = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleButtonClick = () => {
-    navigate('/signup');
-  };
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -32,118 +27,93 @@ const Home = () => {
     }
   };
 
+    useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        setIsSignedIn(!!user);
+      });
+      return () => unsubscribe();
+    }, []);
+  
+    const handleClick = () => {
+      if (isSignedIn) {
+        alert('You are already signed in!');
+      } else {
+        navigate('/signup');
+      }
+    };
+
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        background: 'linear-gradient(135deg, #F6EEE0, #B4A7D6)', // Gradient
-        color: '#163D69', // Text color
-        fontFamily: 'Inter, sans-serif', // <-- Better font
-      }}
+    
+    <div className="home-container">
+      <div className="home-main-content">
+        {/* Hero Section */}
+        <div className="home-hero">
+          <h1>Welcome to UpHome</h1>
+          <p>
+            Empowering homeowners and investors with AI-driven ROI prediction, 
+            personalized renovation plans, and financing tools.
+          </p>
+        </div>
+
+        {/* Feature Buttons */}
+        <div className="home-buttons">
+          <Link to="/renovation" className="home-button">🛠️ Renovation</Link>
+          <Link to="/roi-analysis" className="home-button">📊 ROI Prediction</Link>
+          <Link to="/finance" className="home-button">💰 Financing & Loans</Link>
+        </div>
+
+        {/* Mission Statement */}
+        <div className="home-mission">
+          <h2>Our Mission</h2>
+          <p>
+            At UpHome, our mission is to revolutionize how people make decisions about their homes. 
+            With AI-powered ROI insights, intelligent renovation suggestions, and accessible financing tools, 
+            we make property decisions easier, smarter, and more profitable.
+          </p>
+        </div>
+
+        {/* Feature Highlights */}
+        <div className="home-features">
+          <h2>What We Offer</h2>
+          <div className="home-feature-cards">
+            <div className="home-feature-card">
+              <h3>🏡 ROI Prediction</h3>
+              <p>
+                Get real-time ROI insights and forecasted returns on any property. 
+                Make smarter investment decisions backed by data.
+              </p>
+            </div>
+            <div className="home-feature-card">
+              <h3>🔨 Renovation Planning</h3>
+              <p>
+                Use our intelligent tools to plan your renovations and increase your home’s value 
+                with clear cost estimates and improvement ROI.
+              </p>
+            </div>
+            <div className="home-feature-card">
+              <h3>💸 Financing & Loans</h3>
+              <p>
+                Explore financing options that fit your goals. Compare offers, calculate payments, 
+                and choose the best plan to move forward.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Final Call-to-Action */}
+        <div className="home-cta">
+          <h2>Ready to Get Started?</h2>
+          <p>Sign up today and unlock smarter property decisions with UpHome.</p>
+          <button 
+      onClick={handleClick}
+      className="home-signup-button"
     >
-      {/* Banner Image */}
-      <div style={{ width: '100%', height: '400px', overflow: 'hidden' }}>
-        <img 
-          src="/banner.jpeg" // <-- Save your house image as public/banner.jpeg
-          alt="UpHome Banner" 
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-        />
+      Sign Up Now!
+    </button>
+      </div>
       </div>
 
-      <div style={{ flex: '1' }}>
-     {/* Hero Section */}
-<div
-  style={{
-    padding: '80px 20px 60px',
-    textAlign: 'center',
-    color: '#163D69', // Default text color
-  }}
->
-  <h1 
-    className="hero-title" 
-    style={{ 
-      fontSize: '48px', 
-      fontWeight: 'bold', 
-      color: '#163d69 !important' // <- UpHome text color changed here
-    }}
-  >
-    Welcome to UpHome
-  </h1>
-  <p
-    style={{
-      fontSize: '20px',
-      maxWidth: '800px',
-      margin: '20px auto 0',
-      lineHeight: '1.6',
-    }}
-  >
-    Empowering homeowners and investors with AI-driven ROI prediction, personalized renovation plans,
-    and financing tools.
-  </p>
-</div>
-{/* Feature Buttons */}
-<div
-  style={{
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '20px',
-    flexWrap: 'wrap',
-    marginBottom: '60px',
-  }}
->
-  <Link
-    to="/renovation"
-    style={{
-      padding: '15px 30px',
-      backgroundColor: '#163d69',
-      color: '#F6EEE0', // Light text color for contrast
-      borderRadius: '8px',
-      textDecoration: 'none',
-      fontSize: '18px',
-      fontWeight: '600',
-      transition: 'all 0.3s ease',
-    }}
-  >
-    🛠️ Renovation
-  </Link>
-  <Link
-    to="/roi"
-    style={{
-      padding: '15px 30px',
-      backgroundColor: '#163d69',
-      color: '#F6EEE0',
-      borderRadius: '8px',
-      textDecoration: 'none',
-      fontSize: '18px',
-      fontWeight: '600',
-      transition: 'all 0.3s ease',
-    }}
-  >
-    📊 ROI Predictions
-  </Link>
-  <Link
-    to="/finance"
-    style={{
-      padding: '15px 30px',
-      backgroundColor: '#163d69',
-      color: '#F6EEE0',
-      borderRadius: '8px',
-      textDecoration: 'none',
-      fontSize: '18px',
-      fontWeight: '600',
-      transition: 'all 0.3s ease',
-    }}
-  >
-    💰 Financing & Loans
-  </Link>
-</div>
-            
-
-        {/* Footer */}
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 };

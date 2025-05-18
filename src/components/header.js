@@ -1,138 +1,90 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { User, LogOut } from "lucide-react";
-import HamburgerMenu from "./hamburgerMenu";
+import { User, LogOut } from "lucide-react"; // Import icons
+import HamburgerMenu from "./hamburgerMenu"; // Import the HamburgerMenu component
+import useOutsideClick from './useOutsideClick'; // or wherever you put the hook
+import { useRef } from 'react';
+import "./header.css"; // Import the external CSS file
 
 const Header = ({ user, onSignOut }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [dropdownStyle, setDropdownStyle] = useState({ right: "0" });
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
-  const isSignedIn = !!user;
+  const isSignedIn = !!user; // Check if user is signed in
+  const dropdownRef = useRef(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const hamburgerRef = useRef(null);
+
+
+  useEffect(() => {
+    if (isDropdownOpen && dropdownRef.current) {
+      const dropdownRect = dropdownRef.current.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+  
+      if (dropdownRect.right > viewportWidth) {
+        dropdownRef.current.classList.add("adjust-left");
+      } else {
+        dropdownRef.current.classList.remove("adjust-left");
+      }
+    }
+  }, [isDropdownOpen]);
+  
+
+  useOutsideClick(dropdownRef, () => {
+    if (isDropdownOpen) setIsDropdownOpen(false);
+  });
+
+  useOutsideClick(hamburgerRef, () => {
+    if (isHamburgerOpen) setIsHamburgerOpen(false);
+  });
+  
 
   return (
-    <header
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "10px 20px",
-        backgroundColor: "#000000",
-        width: "100%",
-        borderBottom: "1px solid #ddd",
-      }}
-    >
-      {/* Left Side: Logo + Brand + Hamburger */}
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        {/* Hamburger Menu with Hover Control */}
+    <header className="header">
+      {/* Left Side: Hamburger Menu, Logo, and Brand Name */}
+      <div className="left-section">
         <div
-          style={{ position: "relative" }}
+          className="hamburger-wrapper"
+          ref={hamburgerRef}
           onMouseEnter={() => setIsHamburgerOpen(true)}
           onMouseLeave={() => setIsHamburgerOpen(false)}
-        >
-          <HamburgerMenu isSignedIn={isSignedIn} />
-          {isHamburgerOpen && (
-            <div
-              style={{
-                position: "absolute",
-                top: "40px",
-                left: "0",
-                background: "#2d2624",
-                color: "#D4AA04",
-                borderRadius: "8px",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                padding: "10px",
-                zIndex: 1000,
-              }}
-            >
-              {/* Optional menu items */}
-            </div>
-          )}
-        </div>
-
-        <img
-          src="IQ.jpg"
-          alt="Logo"
-          className="logo"
-          style={{ width: "140px", height: "50px" }}
-        />
-        <span
-          className="brand-name"
-          style={{
-            fontSize: "24px",
-            fontWeight: "bold",
-            color: "#D4AA04",
-          }}
-        >
-          UpHome
-        </span>
+        ></div>
+        <HamburgerMenu isSignedIn={isSignedIn} />
+        {isHamburgerOpen && (
+          <div className="hamburger-dropdown">
+          </div>
+        )}
+        <img src="croppedLogo.jpg" alt="Logo" className="logo" />
       </div>
 
       {/* Right Side: Profile Icon or Sign In Button */}
       <div className="nav">
         {isSignedIn ? (
-          <div style={{ position: "relative" }}>
+          <div className="dropdown-wrapper" ref={dropdownRef}>
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                color: "#D4AA04",
-              }}
+              className="profile-button"
+              aria-expanded={isDropdownOpen}
+              aria-label="User menu"
             >
               <User size={30} />
             </button>
 
             {isDropdownOpen && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: "40px",
-                  right: "0",
-                  background: "white",
-                  color: "black",
-                  borderRadius: "8px",
-                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                  width: "200px",
-                  padding: "10px",
-                  textAlign: "center",
-                  zIndex: "1000",
-                }}
-              >
-                <p style={{ marginBottom: "10px", fontWeight: "bold" }}>
-                  {user.email}
-                </p>
-                <button
-                  onClick={onSignOut}
-                  style={{
-                    padding: "8px",
-                    backgroundColor: "#2d2624",
-                    color: "#D4AA04",
-                    border: "none",
-                    borderRadius: "5px",
-                    cursor: "pointer",
-                    width: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <LogOut size={18} style={{ marginRight: "5px" }} />
-                  Sign Out
-                </button>
-              </div>
-            )}
+  <div
+    className={`dropdown-menu`} // This will be dynamically updated by JS with `adjust-left` class
+    ref={dropdownRef}
+  >
+    <p className="dropdown-email">{user.email}</p>
+    <button onClick={onSignOut} className="signout-button">
+      <LogOut size={18} className="icon" />
+      Sign Out
+    </button>
+  </div>
+)}
+
           </div>
         ) : (
-          <Link
-            to="/signin"
-            style={{
-              padding: "5px 10px",
-              backgroundColor: "#2d2624",
-              color: "#D4AA04",
-              borderRadius: "5px",
-              textDecoration: "none",
-            }}
-          >
+          <Link to="/signin" className="signin-button">
             Sign In
           </Link>
         )}

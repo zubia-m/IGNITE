@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, setPersistence, browserLocalPersistence } from "firebase/auth";
+import { getAuth, setPersistence, browserLocalPersistence, EmailAuthProvider,updatePassword,reauthenticateWithCredential } from "firebase/auth";
+import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBUUGWZ2QprdIy_towYSsfrOlu9sadyTjI",
@@ -12,8 +13,28 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-setPersistence(auth, browserLocalPersistence);
+// Set persistence
+setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    console.log("Persistence set successfully");
+  })
+  .catch((error) => {
+    console.error("Error setting persistence:", error);
+  });
+
+// Export all the necessary Firebase functions and instances
+export { 
+  auth, 
+  db,
+  EmailAuthProvider,
+  updatePassword,
+  reauthenticateWithCredential,
+  doc, 
+  getDoc, 
+  updateDoc 
+};
 
 export default app;

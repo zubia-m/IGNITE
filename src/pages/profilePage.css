@@ -1,0 +1,159 @@
+/* ProfilePage.css */
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+  }
+
+  .back-button-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+  
+  .back-button {
+    background: linear-gradient(135deg, #163D69, #163D69) !important;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #F6EEE0 !important;
+    padding: 7px 9px;
+    margin-top: 90px;
+    box-shadow: 0 4px 6px rgba(54, 39, 6, 0.2) !important;
+    transition: all 0.3s ease;
+  }
+  
+  .back-button:hover {
+    background: linear-gradient(135deg, #163D69, #2196F3) !important;
+    color: #EDE4D8 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(54, 39, 6, 0.3) !important;
+  }
+  
+  .back-button:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 6px rgba(54, 39, 6, 0.2) !important;
+  }
+
+  .header-myprofile {
+    color: #163D69 !important;
+    text-align: center;
+  }
+  .error-message{
+    text-align: center;
+  }
+  .profile-section {
+    background: #fff !important;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .header-myprofile{
+    color: #163D69 !important;
+  }
+
+  .header-renovations{
+    color: #163D69 !important;
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #163D69 !important;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .section-header.clickable {
+    cursor: pointer;
+  }
+  
+  .section-header h2 {
+    margin: 0;
+    color: #333 !important;
+  }
+  
+  .profile-details p {
+    margin: 10px 0;
+    color: #555;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #000 !important;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .edit-button, .cta-button {
+    background-color: #163D69;
+    color: white;
+  }
+  
+  .save-button {
+    background-color: #163D69;
+    color: white;
+  }
+  
+  .cancel-button {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .placeholder-section {
+    text-align: center;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+  }
+  
+  .placeholder-section p {
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .error-message {
+    color: #f44336;
+    background-color: #ffebee ;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  
+  .loading {
+    text-align: center;
+    padding: 50px;
+    font-size: 18px;
+  }

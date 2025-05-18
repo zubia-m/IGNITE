@@ -21,13 +21,14 @@ const RoiInsights = ({ houses }) => {
 
   // Create a dynamic market trend line using avg price per year
   const years = ["2020", "2021", "2022", "2023", "2024", "2025"];
-const validHouses = houses.filter(h => h.history && typeof h.history === "object");
+  const validHouses = houses.filter(h => h.history && typeof h.history === "object");
 
-const trendData = years.map((year) => {
-  const total = validHouses.reduce((acc, h) => acc + (h.history[year] || 0), 0);
-  const avg = validHouses.length ? total / validHouses.length : 0;
-  return { year, value: Math.round(avg) };
-});
+  const trendData = years.map((year) => {
+    const total = validHouses.reduce((acc, h) => acc + (h.history[year] || 0), 0);
+    const avg = validHouses.length ? total / validHouses.length : 0;
+    return { year, value: Math.round(avg) };
+  });
+
   return (
     <div style={{ marginTop: "40px", color: "#362706", textAlign: "left" }}>
       <h2 style={{ fontSize: "1.5rem", marginBottom: "10px" }}>🏆 Top 3 Investment Picks</h2>

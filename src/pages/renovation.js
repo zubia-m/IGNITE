@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import "./renovation.css";
+import ResultsTabs from '../components/resultsTab.js';
 import { useNavigate } from 'react-router-dom';
 import ReactGoogleAutocomplete from "react-google-autocomplete";
-import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
-import { toast } from 'react-toastify'; // For user notifications
-import 'react-toastify/dist/ReactToastify.css'; // Toastify styling
+import { toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const Renovation = () => {
   const navigate = useNavigate();
@@ -28,6 +28,7 @@ const Renovation = () => {
   const [notification, setNotification] = useState(null);
   const [originalImageUrl, setOriginalImageUrl] = useState('');
   const fileInputRef = useRef(null);
+  const [data, setData] = useState(null); // For the renovation response data
 
   const options = [
     { value: 'Kitchen Remodel', label: 'Kitchen Remodel' },
@@ -89,6 +90,10 @@ const Renovation = () => {
       return;
     }
     setFormattedAddress(address);
+    setIsAddressFromHome(false); // This is important to show the correct UI
+    
+    sessionStorage.setItem('savedAddress', address);
+
     setNotification({ message: 'Address saved successfully!', type: 'success' });
     console.log('Address saved:', address);
     setError('');
@@ -189,19 +194,61 @@ const Renovation = () => {
     setError('');
   };
 
-  const openCamera = async () => {
+  // Add this near the beginning of your component
+useEffect(() => {
+  if (!navigator.mediaDevices?.getUserMedia) {
+    setError('Camera API not supported in your browser');
+    setNotification({
+      message: 'Camera not supported - please use a modern browser',
+      type: 'error'
+    });
+  }
+}, []);
+
+  const openCamera = async (facing = 'environment') => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      setIsCameraOpen(true); // Immediately show the camera UI
+
+      const constraints = {
+        video: {
+          facingMode: { ideal: facing }, // 'environment' for back, 'user' for front
+          width: { ideal: 1280 },       // Add preferred resolution
+          height: { ideal: 720 }
+        },
+        audio: false
+      };
+      
+      // Remove the extra {} around constraints
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        // Add event listener to handle when the video is ready
+        videoRef.current.onloadedmetadata = () => {
+          console.log(`Camera opened successfully using: ${facing}`);
+        };
       }
       setIsCameraOpen(true);
-      console.log('Camera opened successfully');
     } catch (error) {
-      const errorMsg = 'Could not access camera. Please check permissions.';
+      let errorMsg = 'Could not access camera. Please check permissions.';
       console.error('Camera error:', error);
+      
+      // More specific error messages
+      if (error.name === 'NotAllowedError') {
+        errorMsg = 'Camera access denied. Please allow camera permissions.';
+      } else if (error.name === 'NotFoundError') {
+        errorMsg = 'No camera found on this device.';
+      } else if (error.name === 'NotReadableError') {
+        errorMsg = 'Camera is already in use by another application.';
+      }
+      
       setError(errorMsg);
       setNotification({ message: errorMsg, type: 'error' });
+      
+      // Clean up if partial access was granted
+      if (videoRef.current?.srcObject) {
+        videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+      }
     }
   };
 
@@ -284,12 +331,14 @@ const Renovation = () => {
       pdf.addImage(generatedImage, 'JPEG', 110, yPosition, 90, 60);
     }
     
-    pdf.save("renovation-report.pdf");
+    pdf.save("UpHome renovation-report.pdf");
     toast.success("Report saved successfully!");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError('');
     
     if (!formattedAddress || !selectedOption || !image) {
       const errorMsg = 'Please complete all fields: address, renovation type, and image.';
@@ -298,79 +347,63 @@ const Renovation = () => {
       console.error('Submission failed:', errorMsg);
       return;
     }
-
-    console.log('Starting renovation process with:', {
-      formattedAddress: formattedAddress,
-      renovation_type: selectedOption,
-      image_data: image.name
-    });
-
-    setIsLoading(true);
-
+  
     try {
       const formData = new FormData();
       formData.append('file', image);
       formData.append('formattedAddress', formattedAddress);
       formData.append('renovation_type', selectedOption);
-
-      const response = await fetch('https://f48c-20-185-56-188.ngrok-free.app/process_renovation', {
+  
+      const response = await fetch('https://86d4-20-185-56-188.ngrok-free.app/process_renovation', {
         method: 'POST',
         body: formData,
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to process renovation.');
       }
-
+  
+      const responseData = await response.json();
+      console.log('Full API response:', responseData); // Debug log
       
-    // Handle both JSON data and image blob
-    const contentType = response.headers.get('content-type');
-    let data, imageBlob;
-
-    if (contentType.includes('application/json')) {
-      // If response is JSON with image data
-      data = await response.json();
-      
-      // Check if image is base64 encoded
-      if (data.generated_image) {
-        setGeneratedImage(`data:image/jpeg;base64,${data.generated_image}`);
+      const fullImagePath = responseData.generated_image_path 
+      ? `https://1444-20-185-56-188.ngrok-free.app/${responseData.generated_image_path}`
+      : null;
+      // Set all the data properly
+      setData({
+        formattedAddress: responseData.formattedAddress,
+        renovation_type: responseData.renovation_type,
+        currentPrice: responseData.currentPrice,
+        postRenovationValue: responseData.postRenovationValue,
+        renovation_cost: responseData.renovation_cost,
+        roi: responseData.roi,
+        roiPositiveYear: responseData.roiPositiveYear
+      });
+  
+      // Handle the generated image
+      if (responseData.generated_image_path) {
+        setGeneratedImage(responseData.generated_image_path);
       }
-    } else if (contentType.includes('image/jpeg')) {
-      // If response is direct image
-      imageBlob = await response.blob();
-      setGeneratedImage(URL.createObjectURL(imageBlob));
-      data = {}; // You might need to get metadata another way
-    }
-
-      const formattedResponse = `
-        Address: ${data.formattedAddress}
-        Renovation Type: ${data.renovation_type}
-        Current Price: $${data.currentPrice}
-        Post-Renovation Value: $${data.postRenovationValue}
-        Renovation Cost: $${data.renovation_cost}
-        ROI: ${data.roi.toFixed(2)}%
-        ROI Positive Year: ${data.roiPositiveYear}
-      `;
-
-      setPopupMessage(formattedResponse);
+  
       setShowPopup(true);
       setNotification({ message: 'Renovation analysis complete!', type: 'success' });
-    
+      
     } catch (error) {
-      console.error('Processing error during renovation:', error);
-      setPopupMessage(error.message);
+      console.error('Processing error:', error);
       setNotification({ message: error.message, type: 'error' });
-      setShowPopup(true);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
+    
     <div className="renovation-page">
+      <div className="reno-wave"></div>
+
       <div className="back-button-container">
         <button className="back-button" onClick={() => navigate(-1)}>
-          ← Back
+          ←
         </button>
       </div>
 
@@ -378,11 +411,14 @@ const Renovation = () => {
         <Notification message={notification.message} type={notification.type} />
       )}
 
+      <h1 className='reno-title'>UPLOAD, VISUALIZE, PRICE-WISE</h1>
+      <h3 className='reno-phrase'>UpHome’s AI technology helps you plan renovations that fit your style and budget.</h3>
+
       <form onSubmit={handleSubmit}>
         {/* Address Input Section */}
         <div className="address-section">
           <h2>Enter Your Address</h2>
-          {formattedAddress && isAddressFromHome ? (
+          {formattedAddress || isAddressFromHome ? (
             <div className="saved-address">
               <p>Given address: <strong>{formattedAddress}</strong></p>
               <button 
@@ -448,7 +484,7 @@ const Renovation = () => {
         </div>
 
         {/* Renovation Type Section */}
-        <div className="content">
+        <div className="renovation-type-section">
           <h2 className="renovation-title">What do you want to renovate?</h2>
           <div className="tile-grid">
             {options.map((option) => (
@@ -533,7 +569,7 @@ const Renovation = () => {
         <div className="submit-section">
           <button 
             type="submit" 
-            className={`renovate-button ${isLoading ? 'loading' : ''}`}
+            className="renovate-button"
             disabled={!formattedAddress || !selectedOption || !image || isLoading}
           >
             {isLoading ? (
@@ -542,7 +578,7 @@ const Renovation = () => {
                 <span>Processing...</span>
               </div>
             ) : (
-              'Renovate'
+              'Renovate!'
             )}
           </button>
         </div>
@@ -550,81 +586,23 @@ const Renovation = () => {
 
       {/* Results Popup */}
       {showPopup && (
-        <div className="popup-overlay">
-          <div className="popup">
-            <button 
-              className="close-popup-button" 
-              onClick={() => setShowPopup(false)}
-            >×
-            </button>
-            <h2>Renovation Results</h2>
-
-            <div className="data-display">
-              <pre>{popupMessage}</pre>
-            </div>
-
-            {/* Image Comparison Section */}
-      <div className="image-comparison-container">
-        {/* Original Image (Before) */}
-        <div className="image-comparison-item">
-          <h3>Before Renovation</h3>
-          {originalImageUrl && (
-            <img 
-              src={originalImageUrl} 
-              alt="Original Space" 
-              className="comparison-image"
-              onError={(e) => {
-                console.error('Original image failed to load');
-                e.target.style.display = 'none';
-              }}
-            />
-          )}
-        </div>
-        
-        {/* Generated Image (After) */}
-        <div className="image-comparison-item">
-          <h3>After Renovation</h3>
-          {generatedImage ? (
-            <img 
-              src={generatedImage} 
-              alt="Suggested Renovation" 
-              className="comparison-image"
-              onError={(e) => {
-                console.error('Generated image failed to load');
-                e.target.style.display = 'none';
-                setNotification({
-                  message: 'Failed to load generated image',
-                  type: 'error'
-                });
-              }}
-            />
-          ) : (
-            <div className="image-loading-placeholder">
-              <p>Generating renovation preview...</p>
-              <div className="spinner"></div>
-            </div>
-            )}
-            </div>
-            </div>
-
-
-            <div className="popup-buttons">
-              <button 
-                className="save-data-button"
-                onClick={saveDataToFile}
-              >
-                Save Results
-              </button>
-              {/* <button 
-                className="close-button" 
-                onClick={() => setShowPopup(false)}
-              >
-                Close
-              </button> */}
-            </div>
-          </div>
-        </div>
-      )}
+  <div className="popup-overlay">
+    <div className="popup" style={{ maxWidth: '900px' }}> {/* Adjusted width */}
+      <button 
+        className="close-popup-button" 
+        onClick={() => setShowPopup(false)}
+      >×
+      </button>
+      
+      <ResultsTabs 
+        data={data} 
+        beforeImg={originalImageUrl} 
+        afterImg={generatedImage} 
+      />
+    </div>
+  </div>
+)}
+       
     </div>
   );
 };

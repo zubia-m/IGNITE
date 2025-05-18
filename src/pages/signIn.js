@@ -4,7 +4,7 @@ import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase';
 import './signIn.css';
-
+import ParticlesBackground from "../components/particlesBackground";
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -22,7 +22,7 @@ const SignIn = () => {
     } catch (error) {
       setError(error.message);
     }
-  };
+  }; 
 
   const isValidPassword = (password) => {
     return /^(?=.*[!@#$%^&*])(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$/.test(password);
@@ -30,13 +30,12 @@ const SignIn = () => {
 
   return (
     <div className="signIn-container">
-      {/* Overlay */}
+      {/* <ParticlesBackground /> */}
       <div className="signIn-overlay"></div>
 
-      {/* Sign In Form */}
       <div className="signIn-form">
         <h2>Sign In</h2>
-        {error && <p className="signIn-error">{error}</p>}
+        {error && <p className="signIn-error">Invalid credentials</p>}
 
         <form onSubmit={handleSubmit}>
           {/* Email Input */}
@@ -55,20 +54,19 @@ const SignIn = () => {
           <div className="signIn-input">
             <FaLock className="signIn-icon" />
             <input
-              type={showPassword ? "password" : "text"}
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <button
-              type="button"
+            {/* <button
               onClick={() => setShowPassword(!showPassword)}
               className="toggle-password-btn"
               aria-label="Toggle Password Visibility"
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </button>
+            </button> */}
           </div>
 
           {/* Password Validation Message */}
