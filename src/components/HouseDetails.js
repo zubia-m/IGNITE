@@ -1,5 +1,6 @@
 // src/components/HouseDetails.js
 import React from "react";
+import "./HouseDetails.css";
 
 const HouseDetails = ({ house, onBack }) => {
   if (!house) return null;
