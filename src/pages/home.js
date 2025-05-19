@@ -2,20 +2,19 @@ import React, { useState, useEffect } from 'react';
 import './home.css';
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate, Link } from 'react-router-dom';
-import { auth } from '../firebase'; // Correct import path
-import Footer from '../components/footer'; // Import the Footer component
+import { auth } from '../firebase'; // Ensure this imports Firebase auth correctly
+import Footer from '../components/footer';
 
 const Home = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null); // Tracks if a user is signed in (null = signed out)
   const navigate = useNavigate();
-  const [isSignedIn, setIsSignedIn] = useState(false);
 
+  // Check auth state on component mount
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user || null);
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser); // Sets user object if signed in, null if signed out
     });
-
-    return () => unsubscribe();
+    return () => unsubscribe(); // Cleanup on unmount
   }, []);
 
   const handleSignOut = async () => {
@@ -27,23 +26,15 @@ const Home = () => {
     }
   };
 
-    useEffect(() => {
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        setIsSignedIn(!!user);
-      });
-      return () => unsubscribe();
-    }, []);
-  
-    const handleClick = () => {
-      if (isSignedIn) {
-        alert('You are already signed in!');
-      } else {
-        navigate('/signup');
-      }
-    };
+  const handleClick = () => {
+    if (user) { // If user exists (signed in)
+      alert('You are already signed in!');
+    } else {
+      navigate('/signup');
+    }
+  };
 
   return (
-    
     <div className="home-container">
       <div className="home-main-content">
         {/* Hero Section */}
@@ -100,17 +91,19 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Final Call-to-Action */}
-        <div className="home-cta">
-          <h2>Ready to Get Started?</h2>
-          <p>Sign up today and unlock smarter property decisions with UpHome.</p>
-          <button 
-      onClick={handleClick}
-      className="home-signup-button"
-    >
-      Sign Up Now!
-    </button>
-      </div>
+        {/* CTA Section (Only shows if user is NOT signed in) */}
+        {!user && (
+          <div className="home-cta">
+            <h2>Ready to Get Started?</h2>
+            <p>Sign up today and unlock smarter property decisions with UpHome.</p>
+            <button 
+              onClick={handleClick}
+              className="home-signup-button"
+            >
+              Sign Up Now!
+            </button>
+          </div>
+        )}
       </div>
 
       <Footer />

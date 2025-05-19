@@ -344,7 +344,7 @@ useEffect(() => {
       const errorMsg = 'Please complete all fields: address, renovation type, and image.';
       setError(errorMsg);
       setNotification({ message: errorMsg, type: 'error' });
-      console.error('Submission failed:', errorMsg);
+      setIsLoading(false);
       return;
     }
   
@@ -354,22 +354,26 @@ useEffect(() => {
       formData.append('formattedAddress', formattedAddress);
       formData.append('renovation_type', selectedOption);
   
-      const response = await fetch('https://86d4-20-185-56-188.ngrok-free.app/process_renovation', {
+      const response = await fetch('https://919a-172-172-186-25.ngrok-free.app/process_renovation', {
         method: 'POST',
         body: formData,
       });
   
       if (!response.ok) {
-        throw new Error('Failed to process renovation.');
+        throw new Error(`Server error: ${response.status}`);
       }
   
       const responseData = await response.json();
-      console.log('Full API response:', responseData); // Debug log
-      
-      const fullImagePath = responseData.generated_image_path 
-      ? `https://1444-20-185-56-188.ngrok-free.app/${responseData.generated_image_path}`
-      : null;
-      // Set all the data properly
+      console.log('API Response:', responseData);
+  
+      // Construct full image URL
+      const fullImageUrl = responseData.image_url 
+        ? `https://919a-172-172-186-25.ngrok-free.app${responseData.image_url}`
+        : null;
+        console.log("Generated Image URL:", fullImageUrl);
+
+  
+      // Set all data including itemized costs
       setData({
         formattedAddress: responseData.formattedAddress,
         renovation_type: responseData.renovation_type,
@@ -377,20 +381,23 @@ useEffect(() => {
         postRenovationValue: responseData.postRenovationValue,
         renovation_cost: responseData.renovation_cost,
         roi: responseData.roi,
-        roiPositiveYear: responseData.roiPositiveYear
+        roiPositiveYear: responseData.roiPositiveYear,
+        itemized_costs: responseData.itemized_costs || {},
+        image_url: fullImageUrl
       });
   
-      // Handle the generated image
-      if (responseData.generated_image_path) {
-        setGeneratedImage(responseData.generated_image_path);
+      // Set the generated image
+      if (fullImageUrl) {
+        setGeneratedImage(fullImageUrl);
       }
   
       setShowPopup(true);
       setNotification({ message: 'Renovation analysis complete!', type: 'success' });
-      
+  
     } catch (error) {
       console.error('Processing error:', error);
-      setNotification({ message: error.message, type: 'error' });
+      const errorMsg = error.message || 'Failed to process renovation. Please try again.';
+      setNotification({ message: errorMsg, type: 'error' });
     } finally {
       setIsLoading(false);
     }
@@ -587,7 +594,7 @@ useEffect(() => {
       {/* Results Popup */}
       {showPopup && (
   <div className="popup-overlay">
-    <div className="popup" style={{ maxWidth: '900px' }}> {/* Adjusted width */}
+    <div className="popup" style={{ maxWidth: '900px', minHeight: '550px'}}> {/* Adjusted width */}
       <button 
         className="close-popup-button" 
         onClick={() => setShowPopup(false)}
@@ -598,7 +605,10 @@ useEffect(() => {
         data={data} 
         beforeImg={originalImageUrl} 
         afterImg={generatedImage} 
+        userAddress={formattedAddress}  // Pass the address here
+
       />
+      
     </div>
   </div>
 )}

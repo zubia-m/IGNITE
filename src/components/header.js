@@ -53,7 +53,7 @@ const Header = ({ user, onSignOut }) => {
           <div className="hamburger-dropdown">
           </div>
         )}
-        <img src="croppedLogo.jpg" alt="Logo" className="logo" />
+        <img src="newLogo.png" alt="Logo" className="logo" />
       </div>
 
       {/* Right Side: Profile Icon or Sign In Button */}

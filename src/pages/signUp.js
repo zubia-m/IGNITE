@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FaUser, FaEnvelope, FaLock, FaCheckCircle} from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaLock, FaCheckCircle, FaEye, FaEyeSlash} from 'react-icons/fa';
 import { createUserWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from '../firebase';
 import './signUp.css';
-import pattern from '../assets/pattern.svg';
 
 const SignUp = () => {
   const [name, setName] = useState('');
@@ -16,6 +15,7 @@ const SignUp = () => {
   const [isCheckingVerification, setIsCheckingVerification] = useState(false);
   const [verificationCheckCount, setVerificationCheckCount] = useState(0);
   const navigate = useNavigate();
+  const [hasInteracted, setHasInteracted] = useState(false); // Track if user typed in password
   const location = useLocation();
 
   const from = location.state?.from?.pathname || '/home';
@@ -156,7 +156,11 @@ const SignUp = () => {
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setHasInteracted(true); // Mark interaction on typing
+                
+                }}
                 required
               />
               {/* <button
@@ -168,9 +172,12 @@ const SignUp = () => {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button> */}
             </div>
-            <p className={`password-hint ${isValidPassword(password) ? 'valid' : 'invalid'}`}>
-              Password must be at least 8 characters, include a number, and a special character.
-            </p>
+
+            {hasInteracted && !isValidPassword(password) && (
+              <p className="password-hint invalid">
+                {/* Password must be at least 8 characters, include a number, and a special character. */}
+              </p>
+            )}
             <button type="submit" className="auth-button">Sign Up</button>
           </form>
         )}

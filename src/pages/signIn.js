@@ -71,7 +71,6 @@ const SignIn = () => {
 
           {/* Password Validation Message */}
           <p className={`signIn-password ${isValidPassword(password) ? 'valid' : 'invalid'}`}>
-            Password must be at least 8 characters, include a number, and a special character.
           </p>
 
           <button type="submit" className="signIn-button">

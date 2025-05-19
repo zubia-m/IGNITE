@@ -16,6 +16,8 @@ const HamburgerMenu = ({ isSignedIn }) => {
     { title: "My Profile", path: "/profilePage" },
     { title: "Wishlist", path: "/wishlist" },
     { title: "Contractors", path: "/contractors" },
+    { title: "Results", path: "/resultsTab" },
+
   ];
 
   const handleFeatureClick = (path) => {

@@ -54,6 +54,8 @@ const App = () => {
           <Route path="/roi-analysis" element={<RoiAnalysis />} />
           <Route path="/profilePage" element={<ProfilePage />} />
           <Route path="/contractors" element={<ContractorPage />} />
+          <Route path="/resultsTab" element={<ResultsTabs />} />
+
         </Routes>
       </Layout>
     </Router>

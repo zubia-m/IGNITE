@@ -88,7 +88,7 @@
     transition: all 0.3s ease;
     z-index: 11;
     color: #000 !important;
-    background-color: transparent; /* Ensures icon visibility */
+    /* background-color: transparent; Ensures icon visibility */
   }
 
   .signIn-input input:focus {

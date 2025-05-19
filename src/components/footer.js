@@ -54,6 +54,7 @@ const Footer = () => {
         <div className="footer-brand">
           <div className="logo-container">
             <IoMdHome className="footer-logo-icon" />
+            
             <span className="footer-logo-text">UpHome</span>
           </div>
           <p className="footer-mission">

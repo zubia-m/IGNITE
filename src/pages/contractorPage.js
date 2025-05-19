@@ -6,14 +6,148 @@ const ContractorPage = () => {
   const location = useLocation();
   const { state } = location;
   
-  // Get data passed from renovation page or use defaults
+  // Get data passed from renovation page
   const renovationData = state?.renovationData || {
     formattedAddress: '',
     renovation_type: ''
   };
 
-  // Sample contractor data - replace with your API calls
-  const allContractors = [
+  // State management
+  const [contractors, setContractors] = useState([]);
+  const [allContractors, setAllContractors] = useState([]);
+  const [selectedContractor, setSelectedContractor] = useState(null);
+  const [filters, setFilters] = useState({
+    projectType: mapRenovationType(renovationData.renovation_type),
+    location: renovationData.formattedAddress || ''
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Map renovation types to contractor specialties
+  function mapRenovationType(renovationType) {
+    switch(renovationType) {
+      case 'Kitchen Remodel': return 'Kitchen';
+      case 'Bathroom Upgrade': return 'Bathroom';
+      case 'Full Home Remodel': return 'Full Home';
+      default: return '';
+    }
+  }
+
+  // Fetch contractors from API
+  useEffect(() => {
+    const fetchContractors = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('https://919a-172-172-186-25.ngrok-free.app/contractors', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            address: renovationData.formattedAddress,
+            projectType: mapRenovationType(renovationData.renovation_type)
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch contractors');
+        }
+
+        const data = await response.json();
+        
+        // Transform API data to match our UI structure
+        const transformedContractors = data.map((contractor, index) => ({
+          id: index + 1,
+          name: contractor.businessName,
+          image: `https://source.unsplash.com/random/300x200/?contractor,${index}`,
+          specialties: [mapRenovationType(renovationData.renovation_type)],
+          rating: contractor.rating || 4.0, // Default to 4 if no rating
+          reviews: Math.floor(Math.random() * 100) + 10, // Generate random reviews
+          projects: [
+            { 
+              id: 1, 
+              image: `https://source.unsplash.com/random/300x200/?${mapRenovationType(renovationData.renovation_type)},1`, 
+              title: `${mapRenovationType(renovationData.renovation_type)} Project 1` 
+            },
+            { 
+              id: 2, 
+              image: `https://source.unsplash.com/random/300x200/?${mapRenovationType(renovationData.renovation_type)},2`, 
+              title: `${mapRenovationType(renovationData.renovation_type)} Project 2` 
+            }
+          ],
+          testimonials: [
+            { 
+              id: 1, 
+              author: 'Happy Customer', 
+              rating: contractor.rating || 4.0, 
+              text: 'Great work! Would recommend.' 
+            },
+            { 
+              id: 2, 
+              author: 'Satisfied Client', 
+              rating: Math.min(5, (contractor.rating || 4.0) + 0.5), 
+              text: 'Quality service and professional team.' 
+            }
+          ],
+          location: contractor.address,
+          budget: getRandomBudget()
+        }));
+
+        setAllContractors(transformedContractors);
+        setContractors(transformedContractors);
+      } catch (err) {
+        setError(err.message);
+        // Fallback to sample data if API fails
+        setAllContractors(sampleContractors);
+        setContractors(sampleContractors);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContractors();
+  }, [renovationData]);
+
+  // Helper function to generate random budget ranges
+  const getRandomBudget = () => {
+    const ranges = ['$0 - $5,000', '$5,000 - $15,000', '$15,000+'];
+    return ranges[Math.floor(Math.random() * ranges.length)];
+  };
+
+  // Filter contractors based on selections
+  useEffect(() => {
+    if (allContractors.length === 0) return;
+    
+    setLoading(true);
+    const filtered = allContractors.filter(contractor => {
+      const matchesProject = !filters.projectType || 
+        contractor.specialties.includes(filters.projectType);
+      const matchesLocation = !filters.location || 
+        contractor.location.toLowerCase().includes(filters.location.toLowerCase());
+      return matchesProject && matchesLocation;
+    });
+    
+    setTimeout(() => {
+      setContractors(filtered);
+      setLoading(false);
+    }, 500);
+  }, [filters, allContractors]);
+
+  // Render star ratings
+  const renderStars = (rating) => {
+    return (
+      <div className="stars">
+        {[...Array(5)].map((_, i) => (
+          <span key={i} className={i < Math.floor(rating) ? 'star filled' : 'star'}>
+            {i < rating ? (i + 1 <= rating ? '★' : '½') : '☆'}
+          </span>
+        ))}
+      </div>
+    );
+  };
+
+  // Sample data as fallback
+  const sampleContractors = [
     {
       id: 1,
       name: 'Dream Kitchen Renovations',
@@ -52,58 +186,6 @@ const ContractorPage = () => {
     }
   ];
 
-  // State management
-  const [contractors, setContractors] = useState(allContractors);
-  const [selectedContractor, setSelectedContractor] = useState(null);
-  const [filters, setFilters] = useState({
-    projectType: mapRenovationType(renovationData.renovation_type),
-    budget: '',
-    location: renovationData.formattedAddress || ''
-  });
-  const [loading, setLoading] = useState(false);
-
-  // Map renovation types to contractor specialties
-  function mapRenovationType(renovationType) {
-    switch(renovationType) {
-      case 'Kitchen Remodel': return 'Kitchen';
-      case 'Bathroom Upgrade': return 'Bathroom';
-      case 'Full Home Remodel': return 'Full Home';
-      default: return '';
-    }
-  }
-
-  // Filter contractors based on selections
-  useEffect(() => {
-    setLoading(true);
-    const filtered = allContractors.filter(contractor => {
-      const matchesProject = !filters.projectType || 
-        contractor.specialties.includes(filters.projectType);
-      const matchesBudget = !filters.budget || 
-        contractor.budget === filters.budget;
-      const matchesLocation = !filters.location || 
-        contractor.location.toLowerCase().includes(filters.location.toLowerCase());
-      return matchesProject && matchesBudget && matchesLocation;
-    });
-    
-    setTimeout(() => {
-      setContractors(filtered);
-      setLoading(false);
-    }, 500);
-  }, [filters]);
-
-  // Render star ratings
-  const renderStars = (rating) => {
-    return (
-      <div className="stars">
-        {[...Array(5)].map((_, i) => (
-          <span key={i} className={i < Math.floor(rating) ? 'star filled' : 'star'}>
-            {i < rating ? (i + 1 <= rating ? '★' : '½') : '☆'}
-          </span>
-        ))}
-      </div>
-    );
-  };
-
   return (
     <div className="contractor-page">
       <header className="page-header">
@@ -113,7 +195,7 @@ const ContractorPage = () => {
         )}
       </header>
 
-      {/* Filters Section - Pre-populated from renovation data */}
+      {/* Filters Section */}
       <div className="filters-section">
         <div className="filter-group">
           <label>Project Type</label>
@@ -125,19 +207,6 @@ const ContractorPage = () => {
             <option value="Kitchen">Kitchen</option>
             <option value="Bathroom">Bathroom</option>
             <option value="Full Home">Full Home</option>
-          </select>
-        </div>
-
-        <div className="filter-group">
-          <label>Budget Range</label>
-          <select 
-            value={filters.budget}
-            onChange={(e) => setFilters({...filters, budget: e.target.value})}
-          >
-            <option value="">Any Budget</option>
-            <option value="$0 - $5,000">$0 - $5,000</option>
-            <option value="$5,000 - $15,000">$5,000 - $15,000</option>
-            <option value="$15,000+">$15,000+</option>
           </select>
         </div>
 
@@ -156,6 +225,11 @@ const ContractorPage = () => {
       <div className="results-section">
         {loading ? (
           <div className="loading">Loading contractors...</div>
+        ) : error ? (
+          <div className="error-message">
+            <p>Error loading contractors: {error}</p>
+            <p>Showing sample data instead.</p>
+          </div>
         ) : contractors.length === 0 ? (
           <div className="no-results">No contractors match your filters. Try adjusting your search.</div>
         ) : (

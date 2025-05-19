@@ -1,293 +1,413 @@
+/* resultsTab.css */
+
 /* Base Styles */
 .results-container {
-  padding: 50px;
-  max-width: 90%;
-  margin: 0 auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f7fa;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
 }
 
-/* Tab Styles */
+/* Tab Styling Overrides */
+.react-tabs {
+  position: relative;
+}
+
 .react-tabs__tab-list {
-  border-bottom: 2px solid #e1e5eb;
-  margin: 0 0 25px;
-  padding: 0;
   display: flex;
-  overflow-x: auto;
-  scrollbar-width: none; /* Firefox */
-}
-
-.react-tabs__tab-list::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  border-bottom: 2px solid #e2e8f0;
+  margin: 0 0 2rem;
+  padding: 0;
 }
 
 .react-tabs__tab {
-  display: inline-block;
-  padding: 12px 24px;
-  cursor: pointer;
   list-style: none;
-  border: 1px solid transparent;
-  border-bottom: none;
-  position: relative;
-  bottom: -1px;
-  background: #f8f9fa;
-  margin-right: 8px;
-  border-radius: 8px 8px 0 0;
-  font-weight: 500;
-  color: #555;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: #64748b;
+  border-bottom: 3px solid transparent;
   transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.react-tabs__tab:hover {
-  background: #e9ecef;
 }
 
 .react-tabs__tab--selected {
-  background: white;
-  border-color: #ddd;
-  border-bottom: 2px solid white;
-  color: #2e7d32;
-  font-weight: 600;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  color: #163D69;
+  border-bottom: 3px solid #163D69;
 }
 
-.react-tabs__tab:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.3);
+.react-tabs__tab:hover {
+  color: #163D69;
+  background-color: #f8fafc;
 }
 
-/* Content Sections */
-.summary-section, .visuals-section, .roi-section {
-  padding: 25px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  margin-bottom: 20px;
-}
-
-.section-title {
-  color: #2c3e50;
-  margin-bottom: 20px;
+/* Section Headers */
+h2 {
+  color: #163D69 !important;
   font-size: 1.5rem;
-  font-weight: 600;
-  border-bottom: 2px solid #f1f3f5;
-  padding-bottom: 10px;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e2e8f0;
 }
 
-/* Property Details */
+/* Visual Comparison Section */
+.visuals-section {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.image-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.image-wrapper {
+  text-align: center;
+}
+
+.image-wrapper h3 {
+  color: #334155;
+  margin-bottom: 0.5rem;
+}
+
+.result-image {
+  width: 100%;
+  max-height: 400px;
+  display: block !important;
+  visibility: visible !important;
+  height: auto;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.result-image:hover {
+  transform: scale(1.02);
+}
+
+.no-image {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  border-radius: 6px;
+  color: #64748b;
+  font-style: italic;
+}
+
+/* Cost Breakdown Section */
+.costs-section {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.costs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cost-card {
+  background: white;
+  border-radius: 6px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 4px solid #163D69;
+  transition: all 0.2s ease;
+}
+
+.cost-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(22, 61, 105, 0.1);
+}
+
+.cost-category {
+  font-weight: 500;
+  color: #334155;
+}
+
+.cost-amount {
+  font-weight: 600;
+  color: #163D69;
+}
+
+.cost-card.total {
+  background-color: #163D69;
+  color: white;
+  grid-column: 1 / -1;
+}
+
+.cost-card.total .cost-category,
+.cost-card.total .cost-amount {
+  color: white;
+  font-weight: 600;
+}
+
+/* Financial Summary Section */
+.summary-section {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
 .detail-card {
-  background: #f8f9fa;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 25px;
-  border-left: 4px solid #4CAF50;
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  border-left: 3px solid #163D69;
 }
 
-.detail-card p {
-  margin: 8px 0;
-  font-size: 1rem;
-  color: #333;
-}
-
-.detail-card strong {
-  color: #2c3e50;
-  font-weight: 600;
-}
-
-/* Metrics Grid */
 .metrics-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  margin: 25px 0;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .metric-card {
-  background: #f8f9fa;
-  padding: 20px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.2s ease;
-}
-
-.metric-card:hover {
-  transform: translateY(-3px);
+  background: white;
+  border-radius: 6px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  border-top: 3px solid #e2e8f0;
 }
 
 .metric-card.highlight {
-  background: #e8f5e9;
-  border-left: 4px solid #2e7d32;
-  box-shadow: 0 4px 6px rgba(46, 125, 50, 0.1);
+  border-top: 3px solid #163D69;
 }
 
 .metric-label {
-  color: #666;
-  font-size: 0.95em;
-  margin-bottom: 8px;
+  display: block;
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
 }
 
 .metric-value {
   font-weight: 700;
-  font-size: 1.4em;
-  color: #2c3e50;
+  color: #163D69;
+  font-size: 1.2rem;
 }
 
-/* Image Comparison */
-.visuals-section {
-  overflow: hidden;
+.metric-card.highlight .metric-value {
+  color: #163D69;
 }
 
-.image-comparison {
-  display: flex;
-  gap: 25px;
-  margin-top: 20px;
-}
-
-.image-wrapper {
-  flex: 1;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-}
-
-.image-wrapper h3 {
-  margin-bottom: 15px;
-  color: #2c3e50;
-  font-weight: 600;
-}
-
-.image-comparison img {
-  width: 100%;
-  max-height: 450px;
-  object-fit: cover;
+/* ROI Analysis Section */
+.roi-section {
+  background: white;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  border: 1px solid #eee;
-  flex-grow: 1;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-.no-image {
-  background: #f8f9fa;
-  padding: 40px 20px;
-  border-radius: 8px;
-  color: #666;
-  font-style: italic;
-  border: 1px dashed #ddd;
-}
-
-/* ROI Section */
 .roi-metrics {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin: 25px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .roi-card {
-  flex: 1;
-  min-width: 220px;
-  background: #f8f9fa;
-  padding: 20px;
-  border-radius: 10px;
-  transition: transform 0.2s ease;
-}
-
-.roi-card:hover {
-  transform: translateY(-3px);
+  background: white;
+  border-radius: 6px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e2e8f0;
 }
 
 .roi-card.highlight {
-  background: #e8f5e9;
-  border-left: 4px solid #2e7d32;
-  box-shadow: 0 4px 6px rgba(46, 125, 50, 0.1);
+  border: 2px solid #163D69;
+  background-color: #f8fafc;
 }
 
 .roi-card span {
-  display: block;
-  color: #666;
-  font-size: 0.95em;
-  margin-bottom: 8px;
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
 }
 
 .roi-card strong {
-  font-weight: 700;
-  font-size: 1.4em;
-  color: #2c3e50;
-  display: block;
+  color: #163D69;
+  font-size: 1.3rem;
+  margin-top: auto;
 }
 
 .value-gain {
+  background: #f1f5f9;
+  padding: 1.5rem;
+  border-radius: 8px;
   text-align: center;
-  margin-top: 30px;
-  padding: 25px;
-  background: linear-gradient(135deg, #f0f7ff 0%, #e3f2fd 100%);
-  border-radius: 10px;
-  border: 1px solid #e1e5eb;
-}
-
-.value-gain h3 {
-  color: #2c3e50;
-  margin-bottom: 10px;
-  font-size: 1.3rem;
+  margin-top: 2rem;
 }
 
 .gain-amount {
-  font-size: 2.2em;
-  color: #4CAF50;
+  font-size: 2rem;
   font-weight: 700;
-  margin: 15px 0;
+  color: #163D69;
+  margin: 0.5rem 0;
 }
 
 .gain-description {
-  color: #666;
-  font-size: 1em;
-  max-width: 500px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Contractors Section */
+.contractors-section {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.header-cont {
+  color: #163D69;
+}
+
+.contractors-init {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.find-contractors-btn {
+  background-color: #163D69;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.find-contractors-btn:hover {
+  background-color: #0f2a4a;
+  transform: translateY(-2px);
+}
+
+.find-contractors-btn:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.contractors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.contractor-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.contractor-card h4 {
+  color: #163D69;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.contractor-card p {
+  color: #475569;
+  margin: 0.5rem 0;
+}
+
+.contact-btn {
+  display: inline-block;
+  background-color: #163D69;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 1rem;
+  transition: all 0.2s ease;
+}
+
+.contact-btn:hover {
+  background-color: #0f2a4a;
+}
+
+.refresh-contractors-btn {
+  background-color: white;
+  color: #163D69;
+  border: 1px solid #163D69;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: block;
   margin: 0 auto;
 }
 
-/* Loading State */
-.loading-message {
-  text-align: center;
-  padding: 40px;
-  color: #666;
-  font-size: 1.1rem;
+.refresh-contractors-btn:hover {
+  background-color: #f8fafc;
 }
 
-/* Responsive */
+.error-message {
+  color: #dc2626;
+  margin-top: 1rem;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-  .results-container {
-    padding: 15px;
-  }
-  
   .image-comparison {
-    flex-direction: column;
-    gap: 15px;
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
   
-  .metrics-grid, .roi-metrics {
+  .costs-grid,
+  .metrics-grid,
+  .roi-metrics,
+  .contractors-grid {
     grid-template-columns: 1fr;
   }
   
-  .summary-section, .visuals-section, .roi-section {
-    padding: 18px;
-  }
-  
   .react-tabs__tab {
-    padding: 10px 15px;
+    padding: 0.5rem 1rem;
     font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
-  .metric-value, .roi-card strong {
-    font-size: 1.2em;
+  .results-container {
+    padding: 0 0.5rem;
   }
   
-  .gain-amount {
-    font-size: 1.8em;
+  h2 {
+    font-size: 1.3rem;
+  }
+  
+  .react-tabs__tab-list {
+    flex-wrap: wrap;
+  }
+  
+  .react-tabs__tab {
+    padding: 0.5rem;
+    font-size: 0.8rem;
   }
 }
