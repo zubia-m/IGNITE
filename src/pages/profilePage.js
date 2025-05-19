@@ -11,6 +11,7 @@ const ProfilePage = () => {
     
   const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
+  const [renovations, setRenovations] = useState([]);
 
 
   // Add this temporary check to your ProfilePage.jsx
@@ -67,6 +68,11 @@ useEffect(() => {
     fetchProfileData();
   }, [user]);
 
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem('myRenovations')) || [];
+    setRenovations(saved);
+  }, []);
+
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -121,11 +127,14 @@ useEffect(() => {
     return <div className="loading">Loading profile...</div>;
   }
 
+  const beforeImg = sessionStorage.getItem("beforeImg");
+  console.log("Retrieved Before Image:", beforeImg); // Debugging
+
   return (
     <div className="profile-container">
         <div className="back-button-container">
-        <button className="back-button" onClick={() => navigate(-1)}>
-          ← Back
+        <button className="back-button" onClick={() => navigate("/")}>
+          ←
         </button>
       </div>
 
@@ -283,18 +292,55 @@ useEffect(() => {
         <h2 className='header-portfolio'>Investment Portfolio</h2>
         <div className="placeholder-section">
           <p>Your investment portfolio will appear here once you start investing.</p>
-          <button className="cta-button">Start Investing</button>
+          <button className="cta-button"
+              onClick={() => navigate("/finance")} // Redirects to 'renovation' page
+              >Start Investing</button>
         </div>
       </section>
 
-      {/* My Renovations Section (Placeholder) */}
       <section className="profile-section">
-        <h2 className='header-renovations'>My Renovations</h2>
+      <h2 className='header-renovations'>My Renovations</h2>
+
+      {renovations.length === 0 ? (
         <div className="placeholder-section">
           <p>Your renovation projects will appear here once you start planning.</p>
-          <button className="cta-button">Start a Renovation Project</button>
+          <button 
+            className="cta-button"
+            onClick={() => navigate("/renovation")}
+          >
+            Start a Renovation Project
+          </button>
         </div>
-      </section>
+      ) : (
+        <div className="renovation-list">
+          {renovations.map((reno, index) => (
+            <div className="reno-card" key={index}>
+              <h3>{reno.address}</h3>
+              <p><strong>Type:</strong> {reno.renovationType}</p>
+
+              <div className="reno-images">
+                <img src={reno.beforeImg} alt="Before Renovation" />
+                <img src={reno.afterImg} alt="After Renovation" />
+              </div>
+
+              <div className="financials">
+                <p><strong>Current Value:</strong> ${reno.financials.currentPrice.toLocaleString()}</p>
+                <p><strong>Future Value:</strong> ${reno.financials.postValue.toLocaleString()}</p>
+                <p><strong>Renovation Cost:</strong> ${reno.financials.renovationCost.toLocaleString()}</p>
+                <p><strong>ROI:</strong> {reno.financials.roi}% (Positive by {reno.financials.roiPositiveYear})</p>
+              </div>
+
+              <h4>Shortlisted Contractors:</h4>
+              <ul>
+                {reno.shortlistedContractors.map((c, i) => (
+                  <li key={i}>{c.name} - {c.address}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
     </div>
   );
 };

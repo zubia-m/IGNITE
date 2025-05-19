@@ -12,7 +12,7 @@ const Finance = () => {
     <div className="finance-container">
       <div className="back-button-container">
         <button className="back-button" onClick={() => navigate(-1)}>
-          ← Back
+          ←
         </button>
       </div>
       <h1>Financing & Loans</h1>

@@ -9,6 +9,7 @@ import {
   LineChart,
   Line
 } from "recharts";
+import "./RoiInsights.css"; // Importing the new CSS file
 
 const RoiInsights = ({ houses }) => {
   if (!houses || houses.length === 0) return null;
@@ -30,8 +31,8 @@ const RoiInsights = ({ houses }) => {
   });
 
   return (
-    <div style={{ marginTop: "40px", color: "#362706", textAlign: "left" }}>
-      <h2 style={{ fontSize: "1.5rem", marginBottom: "10px" }}>🏆 Top 3 Investment Picks</h2>
+    <div className="roi-container">
+      <h2 className="roi-heading">🏆 Top 3 Investment Picks</h2>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           data={top3.map((h) => ({
@@ -47,7 +48,7 @@ const RoiInsights = ({ houses }) => {
         </BarChart>
       </ResponsiveContainer>
 
-      <h3 style={{ marginTop: "30px", fontSize: "1.2rem" }}>📈 Avg Market Price Trend (2020–2025)</h3>
+      <h3 className="roi-subheading">📈 Avg Market Price Trend (2020–2025)</h3>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart
           data={trendData}

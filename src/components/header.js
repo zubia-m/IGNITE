@@ -54,6 +54,7 @@ const Header = ({ user, onSignOut }) => {
           </div>
         )}
         <img src="newLogo.png" alt="Logo" className="logo" />
+        <span class="brand-name">UpHome</span>
       </div>
 
       {/* Right Side: Profile Icon or Sign In Button */}

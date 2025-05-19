@@ -411,3 +411,43 @@ h2 {
     font-size: 0.8rem;
   }
 }
+
+.shortlist-btn {
+  margin-top: 10px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background-color: #163D69;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.shortlist-btn.shortlisted {
+  background-color: #28a745;
+}
+
+.finish-renovation-btn {
+  background: linear-gradient(135deg, #163D69 0%, #2196F3 100%) !important; /* Gradient background */
+  color: #F6EEE0; /* Text color */
+  border: none;
+  padding: 15px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 30px auto;
+  display: block;
+  width: fit-content;
+  box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4);
+  transition: all 0.3s ease, background 0.5s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+.finish-renovation-btn:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #2196F3 0%, #163D69 100%) !important; /* Hover gradient */
+  box-shadow: 0 8px 25px rgba(0, 136, 204, 0.6), 0 0 10px rgba(0, 136, 204, 0.5);
+}

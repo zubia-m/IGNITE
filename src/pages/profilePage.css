@@ -157,3 +157,73 @@
     padding: 50px;
     font-size: 18px;
   }
+
+  .header-renovations {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #163D69;
+  }
+  
+  .renovation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .reno-card {
+    background-color: #F6EEE0;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  .reno-card h3 {
+    font-size: 22px;
+    margin-bottom: 0.5rem;
+    color: #163D69;
+  }
+  
+  .reno-images {
+    display: flex;
+    gap: 10px;
+    margin: 12px 0;
+    visibility: visible !important;
+  }
+  
+  .reno-images img {
+    width: 200px;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+  }
+  
+  .financials p {
+    margin: 4px 0;
+  }
+  
+  ul {
+    margin-top: 10px;
+    padding-left: 18px;
+  }
+  
+  .placeholder-section {
+    background: #fefefe;
+    padding: 40px;
+    text-align: center;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  
+  .cta-button {
+    margin-top: 16px;
+    padding: 10px 20px;
+    background-color: #163D69;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  

@@ -66,10 +66,15 @@
   margin-right: auto;
   background-color: #163D69 !important;
 }
+.renovation-type-section p{
+  font-size: 1rem;
+    margin-bottom: 20px;
+    color: #F6EEE0 !important;
+}
 
 .renovation-title {
   margin-bottom: 0px;
-  margin-top: 60px;
+  margin-top: 35px;
   color: #F6EEE0 !important;
   font-size: 1.8rem;
 }
@@ -322,8 +327,30 @@
   color: #F6EEE0 !important;
 }
 .upload-button {
-  color:#F6EEE0 !important;
+  background-color: #F6EEE0 !important; 
+  color: #163D69 !important;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background-color 0.3s ease;
 }
+
+.image-input-options {
+  display: flex;
+  gap: -80px; /* Adds space between buttons */
+  align-items: center; /* Aligns items vertically */
+}
+
+.upload-option,
+.capture-option {
+  flex: 1; /* Ensures both take equal space */
+  display: flex;
+  justify-content: center;
+}
+
 
 .image-preview {
   margin-top: 10px;
@@ -632,7 +659,7 @@
 }
 
 .change-address-button:hover {
-  background-color: #F6EEE0 !important;
+  background-color: #1E4D8C !important;
 }
 
 /* New Styles for Loading State */

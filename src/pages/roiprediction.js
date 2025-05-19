@@ -3,6 +3,7 @@ import { Range } from "react-range";
 import RoiInsights from "../components/RoiInsights";
 import HouseDetails from "../components/HouseDetails";
 import { Heart } from "lucide-react"; // Ensure lucide-react is installed
+import "./roiprediction.css";
 
 const Roiprediction = () => {
   const [area, setArea] = useState("");
@@ -227,7 +228,7 @@ const Roiprediction = () => {
         values={maxInvestment}
         onChange={(values) => setMaxInvestment(values)}
         renderTrack={({ props, children }) => (
-          <div {...props} style={{ height: "6px", background: "#A68A64" }}>{children}</div>
+          <div {...props} style={{ height: "6px", background: "#163D69" }}>{children}</div>
         )}
         renderThumb={({ props }) => (
           <div

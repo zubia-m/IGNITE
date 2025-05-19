@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-color: #000000; /* Ensures black background */
+    background-color: #F6EEE0; /* Ensures black background */
     color: #FFFFFF !important; /* Ensures white text */
     padding: 20px;
     box-sizing: border-box;
@@ -43,27 +43,27 @@ back-button-container {
 }
 
 /* Input fields and select dropdown */
-input, select {
+/* input, select {
     width: 100%;
     padding: 15px;
     margin: 15px 0;
     font-size: 18px;
-    color: #FFFFFF !important;
+    color: #163D69 !important;
     background-color: rgba(255, 255, 255, 0.2);
     border: 1px solid #FFFFFF;
     border-radius: 8px;
     outline: none;
     box-sizing: border-box;
-}
+} */
 
 /* Calculate button styling */
-button {
+/* button {
     width: 100%;
     padding: 15px;
     font-size: 20px;
     background-color: #FFD700; /* Gold color */
     /* color: black; */
-    border: none;
+    /* border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -71,11 +71,11 @@ button {
 
 button:hover {
     /* background-color: #FFC107; */
-    box-shadow: 0px 5px 10px rgba(255, 255, 255, 0.2);
-}
+    /* box-shadow: 0px 5px 10px rgba(255, 255, 255, 0.2);
+} */
 
 /* Headings */
 h1, h2 {
     margin-bottom: 20px;
-    color: #FFFFFF !important;
+    color: #163D69 !important;
 }

@@ -39,7 +39,7 @@ const Home = () => {
       <div className="home-main-content">
         {/* Hero Section */}
         <div className="home-hero">
-          <h1>Welcome to UpHome</h1>
+          <h1>Welcome to UpHome!</h1>
           <p>
             Empowering homeowners and investors with AI-driven ROI prediction, 
             personalized renovation plans, and financing tools.
@@ -49,7 +49,7 @@ const Home = () => {
         {/* Feature Buttons */}
         <div className="home-buttons">
           <Link to="/renovation" className="home-button">🛠️ Renovation</Link>
-          <Link to="/roi-analysis" className="home-button">📊 ROI Prediction</Link>
+          <Link to="/roiPrediction" className="home-button">📊 ROI Prediction</Link>
           <Link to="/finance" className="home-button">💰 Financing & Loans</Link>
         </div>
 

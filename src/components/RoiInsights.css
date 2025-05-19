@@ -1,0 +1,152 @@
+.roi-container {
+    margin: 2rem auto !important; 
+    padding: 1.5rem !important;
+    max-width: 1200px !important;
+    background: white !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  }
+  
+  .roi-heading {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #163D69;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f0f4f8;
+  }
+  
+  .roi-subheading {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 2.5rem 0 1.5rem;
+    color: #163D69;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  /* Chart Containers */
+  .recharts-wrapper {
+    margin: 1rem 0 2rem;
+    border-radius: 8px;
+    background: #f8fafc;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+  
+  .recharts-wrapper:hover {
+    box-shadow: 0 4px 12px rgba(22, 61, 105, 0.1);
+  }
+  
+  /* Bar Chart Styling */
+  .recharts-bar-rectangle {
+    transition: all 0.3s ease;
+  }
+  
+  .recharts-bar-rectangle:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
+  }
+  
+  /* Line Chart Styling */
+  .recharts-line {
+    transition: all 0.3s ease;
+  }
+  
+  .recharts-line:hover {
+    stroke-width: 3px;
+  }
+  
+  .recharts-dot {
+    transition: all 0.3s ease;
+  }
+  
+  .recharts-dot:hover {
+    r: 6;
+    fill: #163D69;
+  }
+  
+  /* Tooltip Styling */
+  .recharts-tooltip-wrapper {
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border: none !important;
+    background: white !important;
+    padding: 0.5rem 1rem !important;
+  }
+  
+  .recharts-tooltip-label {
+    color: #163D69 !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .recharts-tooltip-item {
+    color: #334155 !important;
+  }
+  
+  .recharts-tooltip-item-value {
+    font-weight: 600 !important;
+    color: #163D69 !important;
+  }
+  
+  /* Axis Styling */
+  .recharts-cartesian-axis-tick-value {
+    font-size: 0.85rem;
+    color: #64748b;
+  }
+  
+  .recharts-cartesian-axis-line {
+    stroke: #e2e8f0;
+  }
+  
+  .recharts-cartesian-grid line {
+    stroke: #e2e8f0;
+    stroke-dasharray: 3 3;
+  }
+  
+  /* Legend Styling */
+  .recharts-legend-item-text {
+    color: #64748b !important;
+    font-size: 0.9rem !important;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .roi-container {
+      padding: 1rem;
+      margin: 1rem;
+    }
+    
+    .roi-heading {
+      font-size: 1.5rem;
+    }
+    
+    .roi-subheading {
+      font-size: 1.2rem;
+      margin: 2rem 0 1rem;
+    }
+    
+    .recharts-wrapper {
+      padding: 0.5rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .roi-heading,
+    .roi-subheading {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.2rem;
+    }
+    
+    .recharts-cartesian-axis-tick-value {
+      font-size: 0.7rem;
+    }
+  }

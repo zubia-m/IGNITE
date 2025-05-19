@@ -3,11 +3,13 @@ import { useState } from 'react';
 import 'react-tabs/style/react-tabs.css';
 import './resultsTab.css';
 
-export default function ResultsTabs({ data, beforeImg, afterImg, userAddress }) {
+export default function ResultsTabs({ data, beforeImg, afterImg, formattedAddress }) {
   const [imageLoadError, setImageLoadError] = useState(false);
   const [contractors, setContractors] = useState([]);
   const [loadingContractors, setLoadingContractors] = useState(false);
   const [contractorError, setContractorError] = useState(null);
+  const [shortlisted, setShortlisted] = useState([]);
+  const [contractorsFetched, setContractorsFetched] = useState(false);
 
   if (!data) {
     return (
@@ -22,20 +24,14 @@ export default function ResultsTabs({ data, beforeImg, afterImg, userAddress }) 
     try {
       setLoadingContractors(true);
       setContractorError(null);
+      setContractorsFetched(true);
 
-      const requestBody = {
-        formattedAddress: userAddress,
-        // renovation_type: data?.renovation_type
-      };
-
-      console.log("Sending request to backend:", JSON.stringify(requestBody)); // Added console.log
-
-      const response = await fetch('https://919a-172-172-186-25.ngrok-free.app/contractors', {
+      const response = await fetch('https://d22a-172-172-186-25.ngrok-free.app/contractors', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(requestBody),
+        body: JSON.stringify({ formattedAddress }),
       });
 
       if (!response.ok) {
@@ -43,19 +39,54 @@ export default function ResultsTabs({ data, beforeImg, afterImg, userAddress }) 
       }
 
       const contractorsData = await response.json();
-      setContractors(contractorsData);
+
+      if (!Array.isArray(contractorsData.contractors)) {
+        throw new Error('Contractors data is not an array');
+      }
+
+      setContractors(contractorsData.contractors);
     } catch (error) {
-      console.error('Error fetching contractors:', error);
       setContractorError(error.message || 'Failed to find contractors');
     } finally {
       setLoadingContractors(false);
     }
   };
 
-
-  // Calculate derived values
   const valueIncrease = data.postRenovationValue - data.currentPrice;
   const roiPercentage = data.roi?.toFixed(2) || '0.00';
+
+  const toggleShortlist = (contractor) => {
+    setShortlisted((prev) => {
+      const exists = prev.find((c) => c.name === contractor.name);
+      return exists ? prev.filter((c) => c.name !== contractor.name) : [...prev, contractor];
+    });
+  };
+
+  const handleFinishRenovation = () => {
+    const storedGeneratedImage = sessionStorage.getItem('generatedImage');
+
+    const newRenovation = {
+      address: data.formattedAddress,
+      renovationType: data.renovation_type,
+      beforeImg: beforeImg,
+      afterImg: afterImg || storedGeneratedImage,
+      financials: {
+        currentPrice: data.currentPrice,
+        postValue: data.postRenovationValue,
+        renovationCost: data.renovation_cost,
+        roi: data.roi,
+        roiPositiveYear: data.roiPositiveYear,
+        itemized_costs: data.itemized_costs,
+      },
+      shortlistedContractors: shortlisted,
+      timestamp: Date.now(),
+    };
+
+    const existing = JSON.parse(localStorage.getItem('myRenovations')) || [];
+    localStorage.setItem('myRenovations', JSON.stringify([...existing, newRenovation]));
+
+    window.location.href = '/profilePage';
+  };
 
   return (
     <div className="results-container">
@@ -65,20 +96,19 @@ export default function ResultsTabs({ data, beforeImg, afterImg, userAddress }) 
           <Tab>Cost Breakdown</Tab>
           <Tab>Financial Summary</Tab>
           <Tab>ROI Analysis</Tab>
-          <Tab>Find Contractors</Tab>  {/* New Tab */}
-
+          <Tab>Find Contractors</Tab>
         </TabList>
-         
+
         <TabPanel>
           <div className="visuals-section">
-            <h2>Before & After</h2>
+            {/* <h2>Before & After</h2> */}
             <div className="image-comparison">
               <div className="image-wrapper">
                 <h3>Current</h3>
                 {beforeImg ? (
-                  <img 
-                    src={beforeImg} 
-                    alt="Before renovation" 
+                  <img
+                    src={beforeImg}
+                    alt="Before renovation"
                     className="result-image"
                     onError={() => setImageLoadError(true)}
                   />
@@ -88,24 +118,16 @@ export default function ResultsTabs({ data, beforeImg, afterImg, userAddress }) 
               </div>
               <div className="image-wrapper">
                 <h3>Proposed</h3>
-                {afterImg ? (
-                  <img 
-                  src="https://919a-172-172-186-25.ngrok-free.app/generated/generated_kitchenOld.jpg" 
-                  alt="Test Image" 
- 
+                {(afterImg || sessionStorage.getItem('generatedImage')) ? (
+                  <img
+                    src={afterImg || sessionStorage.getItem('generatedImage')}
+                    alt="After renovation"
                     className="result-image"
-                    // style={{
-                    //   maxWidth: '100%', 
-                    //   display: 'block', 
-                    //   margin: '0 auto'
-                    // }} 
-                    onError={() => console.error("Image failed to load:", afterImg)}
                   />
                 ) : (
                   <div className="no-image">No generated image available</div>
                 )}
               </div>
-              
             </div>
           </div>
         </TabPanel>
@@ -121,7 +143,7 @@ export default function ResultsTabs({ data, beforeImg, afterImg, userAddress }) 
                 </div>
               ))}
               <div className="cost-card total">
-                <span className="cost-category">Total Renovation Cost: </span>
+                <span className="cost-category">Total Renovation Cost:</span>
                 <span className="cost-amount">${data.renovation_cost.toLocaleString()}</span>
               </div>
             </div>
@@ -135,7 +157,6 @@ export default function ResultsTabs({ data, beforeImg, afterImg, userAddress }) 
               <p><strong>Address:</strong> {data.formattedAddress}</p>
               <p><strong>Renovation Type:</strong> {data.renovation_type}</p>
             </div>
-
             <h2>Valuation</h2>
             <div className="metrics-grid">
               <div className="metric-card">
@@ -150,18 +171,6 @@ export default function ResultsTabs({ data, beforeImg, afterImg, userAddress }) 
                 <span className="metric-label">Value Increase</span>
                 <span className="metric-value">${valueIncrease.toLocaleString()}</span>
               </div>
-              {/* <div className="metric-card">
-                <span className="metric-label">Renovation Cost</span>
-                <span className="metric-value">${data.renovation_cost.toLocaleString()}</span>
-              </div>
-              <div className="metric-card">
-                <span className="metric-label">ROI</span>
-                <span className="metric-value">{data.roi.toLocaleString()}</span>
-              </div>
-              <div className="metric-card highlight">
-                <span className="metric-label">Positive ROI Year</span>
-                <span className="metric-value">{data.roiPositiveYear}</span>
-              </div> */}
             </div>
           </div>
         </TabPanel>
@@ -183,12 +192,9 @@ export default function ResultsTabs({ data, beforeImg, afterImg, userAddress }) 
                 <strong>{data.roiPositiveYear}</strong>
               </div>
             </div>
-            
             <div className="value-gain">
               <h3>Net Value Gain</h3>
-              <p className="gain-amount">
-                ${valueIncrease.toLocaleString()}
-              </p>
+              <p className="gain-amount">${valueIncrease.toLocaleString()}</p>
               <p className="gain-description">
                 Potential increase in property value after renovation
               </p>
@@ -198,12 +204,20 @@ export default function ResultsTabs({ data, beforeImg, afterImg, userAddress }) 
 
         <TabPanel>
           <div className="contractors-section">
-            <h2 className='header-cont'>Find Local Contractors</h2>
+            {contractorsFetched && (
+              <button
+                className="finish-renovation-btn"
+                onClick={handleFinishRenovation}
+              >
+                FINISH RENOVATION!
+              </button>
+            )}
+            <h2 className="header-cont">Find Local Contractors</h2>
             <p>Get quotes from professionals in your area</p>
-            
-            {!contractors ? (
+
+            {contractors.length === 0 ? (
               <div className="contractors-init">
-                <button 
+                <button
                   onClick={findContractors}
                   disabled={loadingContractors}
                   className="find-contractors-btn"
@@ -214,20 +228,24 @@ export default function ResultsTabs({ data, beforeImg, afterImg, userAddress }) 
               </div>
             ) : (
               <div className="contractors-list">
-                <h3>Available Contractors Near {userAddress}</h3>
+                <h3>Available Contractors Near {formattedAddress}</h3>
                 <div className="contractors-grid">
-                  {contractors.map((contractor, index) => (
-                    <div key={index} className="contractor-card">
-                      <h4>{contractor.name}</h4>
-                      <p>⭐ {contractor.rating} ({contractor.reviews} reviews)</p>
-                      <p>📞 {contractor.phone}</p>
-                      <p>📍 {contractor.distance} miles away</p>
-                      <p>💵 {contractor.price_range}</p>
-                      <a href={`mailto:${contractor.email}`} className="contact-btn">Contact</a>
+                  {contractors.map((contractor, i) => (
+                    <div key={i} className="contractor-card">
+                      <h4>{contractor?.name}</h4>
+                      <p>⭐ {contractor?.rating} ({contractor.user_rating_total} reviews)</p>
+                      <p>📞 {contractor?.phone || "N/A"}</p>
+                      <p>📍 {contractor?.address}</p>
+                      <button
+                        className={`shortlist-btn ${shortlisted.find(c => c.name === contractor.name) ? 'shortlisted' : ''}`}
+                        onClick={() => toggleShortlist(contractor)}
+                      >
+                        {shortlisted.find(c => c.name === contractor.name) ? 'Shortlisted' : 'Shortlist'}
+                      </button>
                     </div>
                   ))}
                 </div>
-                <button 
+                <button
                   onClick={findContractors}
                   className="refresh-contractors-btn"
                 >
@@ -237,7 +255,6 @@ export default function ResultsTabs({ data, beforeImg, afterImg, userAddress }) 
             )}
           </div>
         </TabPanel>
-        
       </Tabs>
     </div>
   );

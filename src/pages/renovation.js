@@ -29,6 +29,7 @@ const Renovation = () => {
   const [originalImageUrl, setOriginalImageUrl] = useState('');
   const fileInputRef = useRef(null);
   const [data, setData] = useState(null); // For the renovation response data
+  const [selectedImageFile, setSelectedImageFile] = useState(null);
 
   const options = [
     { value: 'Kitchen Remodel', label: 'Kitchen Remodel' },
@@ -137,6 +138,7 @@ const Renovation = () => {
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
+    setSelectedImageFile(file); // Save this in state
     if (!file) {
       console.log('No file selected');
       return;
@@ -170,7 +172,9 @@ const Renovation = () => {
     const imageUrl = URL.createObjectURL(file);
     setImagePreview(imageUrl);
     setOriginalImageUrl(imageUrl); // Store the original image URL
-    
+    sessionStorage.setItem("beforeImg", imageUrl);
+    console.log("Saved Before Image:", imageUrl);
+
     // Success log with all details
     console.log('Image successfully uploaded:', {
       name: file.name,
@@ -259,7 +263,8 @@ useEffect(() => {
       const imageData = canvasRef.current.toDataURL('image/png');
       setCapturedImage(imageData);
       setOriginalImageUrl(imageData); // Store the original image URL
-
+      sessionStorage.setItem("beforeImg", imageData);
+  console.log("Captured Before Image Saved:", imageData);
       
       // Close camera immediately after capture
       if (videoRef.current.srcObject) {
@@ -354,7 +359,7 @@ useEffect(() => {
       formData.append('formattedAddress', formattedAddress);
       formData.append('renovation_type', selectedOption);
   
-      const response = await fetch('https://919a-172-172-186-25.ngrok-free.app/process_renovation', {
+      const response = await fetch('https://d22a-172-172-186-25.ngrok-free.app/process_renovation', {
         method: 'POST',
         body: formData,
       });
@@ -368,7 +373,7 @@ useEffect(() => {
   
       // Construct full image URL
       const fullImageUrl = responseData.image_url 
-        ? `https://919a-172-172-186-25.ngrok-free.app${responseData.image_url}`
+        ? `https://d22a-172-172-186-25.ngrok-free.app${responseData.image_url}`
         : null;
         console.log("Generated Image URL:", fullImageUrl);
 
@@ -389,6 +394,7 @@ useEffect(() => {
       // Set the generated image
       if (fullImageUrl) {
         setGeneratedImage(fullImageUrl);
+        sessionStorage.setItem('generatedImage', fullImageUrl); // 👈 Save to sessionStorage
       }
   
       setShowPopup(true);
@@ -493,6 +499,8 @@ useEffect(() => {
         {/* Renovation Type Section */}
         <div className="renovation-type-section">
           <h2 className="renovation-title">What do you want to renovate?</h2>
+          <p>Select one of the following tiles</p>
+
           <div className="tile-grid">
             {options.map((option) => (
               <div 
@@ -509,7 +517,7 @@ useEffect(() => {
 
         {/* Image Upload Section */}
         <div className="upload-section">
-          <h2>Upload or Capture a Picture</h2>
+          <h2>Upload or Capture an Image</h2>
           <p>Upload a picture of the area you want to renovate</p>
           
           <div className="image-input-options">
@@ -526,6 +534,7 @@ useEffect(() => {
                 Choose File
               </label>
             </div>
+            
             
             <div className="capture-option">
               <button 
@@ -605,7 +614,7 @@ useEffect(() => {
         data={data} 
         beforeImg={originalImageUrl} 
         afterImg={generatedImage} 
-        userAddress={formattedAddress}  // Pass the address here
+        formattedAddress={formattedAddress}  // Pass the address here
 
       />
       

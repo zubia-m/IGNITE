@@ -108,4 +108,10 @@
     border-radius: 5px;
     text-decoration: none;
   }
+
+  .brand-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #163D69; /* Adjust branding color */
+  }
   
