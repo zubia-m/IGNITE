@@ -4,6 +4,8 @@ import RoiInsights from "../components/RoiInsights";
 import HouseDetails from "../components/HouseDetails";
 import { Heart } from "lucide-react"; // Ensure lucide-react is installed
 import "./roiprediction.css";
+import { useNavigate } from 'react-router-dom';
+
 
 const Roiprediction = () => {
   const [area, setArea] = useState("");
@@ -12,6 +14,8 @@ const Roiprediction = () => {
   const [filteredHouses, setFilteredHouses] = useState([]);
   const [selectedHouse, setSelectedHouse] = useState(null);
   const [wishlist, setWishlist] = useState([]);
+  const navigate = useNavigate();
+
 
   const toggleWishlist = (address) => {
     if (wishlist.includes(address)) {
@@ -191,6 +195,12 @@ const Roiprediction = () => {
 
   return (
     <div style={{ textAlign: "center", padding: "20px", color: "#163D69", backgroundColor: "#F6EEE0", minHeight: "100vh" }}>
+      <div className="back-button-container">
+              <button className="back-button" onClick={() => navigate(-1)}>
+                ←
+              </button>
+            </div>
+
       <h1 style={{ fontSize: "2rem", fontWeight: "bold" }}>ROI Analysis</h1>
       <p>Search for properties in your desired area.</p>
 

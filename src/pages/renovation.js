@@ -55,11 +55,11 @@ const Renovation = () => {
   const getImageForOption = (value) => {
     switch (value) {
       case 'Kitchen Remodel':
-        return 'https://png.pngtree.com/background/20230520/original/pngtree-kitchen-with-some-rustic-style-picture-image_2676030.jpg';
+        return '/modernkitchen.png';
       case 'Bathroom Upgrade':
-        return 'https://png.pngtree.com/background/20230522/original/pngtree-clean-and-modern-white-bathroom-picture-image_2688744.jpg';
+        return '/realistic_bathroom_toilet.png';
       case 'Full Home Remodel':
-        return 'https://img.freepik.com/free-photo/3d-rendering-house-model_23-2150799681.jpg';
+        return '/realistic full home.png';
       default:
         return 'https://th.bing.com/th/id/OIP.8M18_Vu6DC0gZsjcQMKJoQHaEK?rs=1&pid=ImgDetMain';
     }

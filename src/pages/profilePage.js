@@ -6,20 +6,10 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import './profilePage.css';
 import { useNavigate } from 'react-router-dom';
 
-
 const ProfilePage = () => {
-    
   const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
   const [renovations, setRenovations] = useState([]);
-
-
-  // Add this temporary check to your ProfilePage.jsx
-useEffect(() => {
-    console.log("Current Firebase user:", user);
-    console.log("User UID:", user?.uid);
-  }, [user]);
-
   const [profileData, setProfileData] = useState({
     name: '',
     email: '',
@@ -38,23 +28,34 @@ useEffect(() => {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    console.log("Current Firebase user:", user?.uid);
+  }, [user]);
+
+  useEffect(() => {
     const fetchProfileData = async () => {
       if (user) {
         try {
           const docRef = doc(db, 'users', user.uid);
           const docSnap = await getDoc(docRef);
-          
+
           if (docSnap.exists()) {
             const data = docSnap.data();
             setProfileData({
               name: data.name || '',
               email: user.email || '',
               address: data.address || '',
-              memberSince: new Date(user.metadata.creationTime).toLocaleDateString()
+              memberSince: user.metadata?.creationTime
+                ? new Date(user.metadata.creationTime).toLocaleDateString()
+                : ''
             });
-            
-            // For address history (would come from renovations)
-            setAddressHistory(data.formattedAddress || []);
+
+            // Normalize formattedAddress (can be string or array)
+            const formatted = data.formattedAddress;
+            if (Array.isArray(formatted)) {
+              setAddressHistory(formatted);
+            } else if (typeof formatted === 'string') {
+              setAddressHistory([formatted]);
+            }
           }
           setLoadingProfile(false);
         } catch (err) {
@@ -91,7 +92,7 @@ useEffect(() => {
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     setError('');
-    
+
     if (passwordData.newPassword !== passwordData.confirmPassword) {
       setError("New passwords don't match");
       return;
@@ -102,14 +103,10 @@ useEffect(() => {
         user.email,
         passwordData.currentPassword
       );
-      
-      // Reauthenticate user
+
       await reauthenticateWithCredential(user, credential);
-      
-      // Update password
       await updatePassword(user, passwordData.newPassword);
-      
-      // Reset form
+
       setPasswordData({
         currentPassword: '',
         newPassword: '',
@@ -127,22 +124,18 @@ useEffect(() => {
     return <div className="loading">Loading profile...</div>;
   }
 
-  const beforeImg = sessionStorage.getItem("beforeImg");
-  console.log("Retrieved Before Image:", beforeImg); // Debugging
-
   return (
     <div className="profile-container">
-        <div className="back-button-container">
+      <div className="back-button-container">
         <button className="back-button" onClick={() => navigate("/")}>
           ←
         </button>
       </div>
 
       <h1 className='header-myprofile'>My Profile</h1>
-      
       {error && <div className="error-message">{error}</div>}
 
-      {/* Personal Information Section */}
+      {/* Personal Information */}
       <section className="profile-section">
         <div className="section-header">
           <h2>Personal Information</h2>
@@ -152,7 +145,7 @@ useEffect(() => {
             </button>
           )}
         </div>
-        
+
         {editMode ? (
           <form onSubmit={handleProfileUpdate}>
             <div className="form-group">
@@ -160,39 +153,31 @@ useEffect(() => {
               <input
                 type="text"
                 value={profileData.name}
-                onChange={(e) => setProfileData({...profileData, name: e.target.value})}
+                onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
                 required
               />
             </div>
-            
+
             <div className="form-group">
               <label>Email</label>
-              <input
-                type="email"
-                value={profileData.email}
-                disabled
-              />
+              <input type="email" value={profileData.email} disabled />
               <small>(Email cannot be changed)</small>
             </div>
-            
+
             <div className="form-group">
               <label>Address</label>
               <input
                 type="text"
                 value={profileData.address}
-                onChange={(e) => setProfileData({...profileData, address: e.target.value})}
+                onChange={(e) => setProfileData({ ...profileData, address: e.target.value })}
               />
             </div>
-            
+
             <div className="form-group">
               <label>Member Since</label>
-              <input
-                type="text"
-                value={profileData.memberSince}
-                disabled
-              />
+              <input type="text" value={profileData.memberSince} disabled />
             </div>
-            
+
             <div className="form-actions">
               <button type="submit" className="save-button">Save Changes</button>
               <button type="button" onClick={() => setEditMode(false)} className="cancel-button">
@@ -210,16 +195,13 @@ useEffect(() => {
         )}
       </section>
 
-      {/* Change Password Section */}
+      {/* Change Password */}
       <section className="profile-section">
-        <div 
-          className="section-header clickable" 
-          onClick={() => setShowPasswordForm(!showPasswordForm)}
-        >
+        <div className="section-header clickable" onClick={() => setShowPasswordForm(!showPasswordForm)}>
           <h2>Change Password</h2>
           <span>{showPasswordForm ? '▼' : '▶'}</span>
         </div>
-        
+
         {showPasswordForm && (
           <form onSubmit={handlePasswordChange}>
             <div className="form-group">
@@ -227,37 +209,37 @@ useEffect(() => {
               <input
                 type="password"
                 value={passwordData.currentPassword}
-                onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
+                onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
                 required
               />
             </div>
-            
+
             <div className="form-group">
               <label>New Password</label>
               <input
                 type="password"
                 value={passwordData.newPassword}
-                onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
+                onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
                 required
                 minLength="6"
               />
             </div>
-            
+
             <div className="form-group">
               <label>Confirm New Password</label>
               <input
                 type="password"
                 value={passwordData.confirmPassword}
-                onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
+                onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
                 required
                 minLength="6"
               />
             </div>
-            
+
             <div className="form-actions">
               <button type="submit" className="save-button">Update Password</button>
-              <button 
-                type="button" 
+              <button
+                type="button"
                 onClick={() => {
                   setShowPasswordForm(false);
                   setPasswordData({
@@ -265,7 +247,7 @@ useEffect(() => {
                     newPassword: '',
                     confirmPassword: ''
                   });
-                }} 
+                }}
                 className="cancel-button"
               >
                 Cancel
@@ -275,7 +257,7 @@ useEffect(() => {
         )}
       </section>
 
-      {/* Address History Section */}
+      {/* Address History */}
       {addressHistory.length > 0 && (
         <section className="profile-section">
           <h2>Addresses Used</h2>
@@ -287,60 +269,57 @@ useEffect(() => {
         </section>
       )}
 
-      {/* Investment Portfolio Section (Placeholder) */}
+      {/* Investment Portfolio */}
       <section className="profile-section">
         <h2 className='header-portfolio'>Investment Portfolio</h2>
         <div className="placeholder-section">
           <p>Your investment portfolio will appear here once you start investing.</p>
-          <button className="cta-button"
-              onClick={() => navigate("/finance")} // Redirects to 'renovation' page
-              >Start Investing</button>
+          <button className="cta-button" onClick={() => navigate("/finance")}>
+            Start Investing
+          </button>
         </div>
       </section>
 
+      {/* My Renovations */}
       <section className="profile-section">
-      <h2 className='header-renovations'>My Renovations</h2>
+        <h2 className='header-renovations'>My Renovations</h2>
+        {renovations.length === 0 ? (
+          <div className="placeholder-section">
+            <p>Your renovation projects will appear here once you start planning.</p>
+            <button className="cta-button" onClick={() => navigate("/renovation")}>
+              Start a Renovation Project
+            </button>
+          </div>
+        ) : (
+          <div className="renovation-list">
+            {renovations.map((reno, index) => (
+              <div className="reno-card" key={index}>
+                <h3>{reno.address}</h3>
+                <p><strong>Type:</strong> {reno.renovationType}</p>
 
-      {renovations.length === 0 ? (
-        <div className="placeholder-section">
-          <p>Your renovation projects will appear here once you start planning.</p>
-          <button 
-            className="cta-button"
-            onClick={() => navigate("/renovation")}
-          >
-            Start a Renovation Project
-          </button>
-        </div>
-      ) : (
-        <div className="renovation-list">
-          {renovations.map((reno, index) => (
-            <div className="reno-card" key={index}>
-              <h3>{reno.address}</h3>
-              <p><strong>Type:</strong> {reno.renovationType}</p>
+                <div className="reno-images">
+                  <img src={reno.beforeImg} alt="Before Renovation" />
+                  <img src={reno.afterImg} alt="After Renovation" />
+                </div>
 
-              <div className="reno-images">
-                <img src={reno.beforeImg} alt="Before Renovation" />
-                <img src={reno.afterImg} alt="After Renovation" />
+                <div className="financials">
+                  <p><strong>Current Value:</strong> ${reno.financials?.currentPrice?.toLocaleString()}</p>
+                  <p><strong>Future Value:</strong> ${reno.financials?.postValue?.toLocaleString()}</p>
+                  <p><strong>Renovation Cost:</strong> ${reno.financials?.renovationCost?.toLocaleString()}</p>
+                  <p><strong>ROI:</strong> {reno.financials?.roi}% (Positive by {reno.financials?.roiPositiveYear})</p>
+                </div>
+
+                <h4>Shortlisted Contractors:</h4>
+                <ul>
+                  {reno.shortlistedContractors?.map((c, i) => (
+                    <li key={i}>{c.name} - {c.address}</li>
+                  ))}
+                </ul>
               </div>
-
-              <div className="financials">
-                <p><strong>Current Value:</strong> ${reno.financials.currentPrice.toLocaleString()}</p>
-                <p><strong>Future Value:</strong> ${reno.financials.postValue.toLocaleString()}</p>
-                <p><strong>Renovation Cost:</strong> ${reno.financials.renovationCost.toLocaleString()}</p>
-                <p><strong>ROI:</strong> {reno.financials.roi}% (Positive by {reno.financials.roiPositiveYear})</p>
-              </div>
-
-              <h4>Shortlisted Contractors:</h4>
-              <ul>
-                {reno.shortlistedContractors.map((c, i) => (
-                  <li key={i}>{c.name} - {c.address}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      )}
-    </section>
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 };
