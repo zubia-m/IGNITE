@@ -1,10 +1,11 @@
 // ProfilePage.jsx
 import React, { useState, useEffect } from 'react';
-import { auth, db, doc, getDoc, updateDoc } from '../firebase.js';
+import { auth, db } from '../firebase.js';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import './profilePage.css';
 import { useNavigate } from 'react-router-dom';
+import './profilePage.css';
 
 const ProfilePage = () => {
   const [user, loading] = useAuthState(auth);
@@ -57,6 +58,7 @@ const ProfilePage = () => {
               setAddressHistory([formatted]);
             }
           }
+
           setLoadingProfile(false);
         } catch (err) {
           console.error("Error fetching profile data:", err);

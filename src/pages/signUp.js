@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaUser, FaEnvelope, FaLock, FaCheckCircle, FaEye, FaEyeSlash} from 'react-icons/fa';
 import { createUserWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from '../firebase';
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 import './signUp.css';
 
 const SignUp = () => {
@@ -55,10 +55,19 @@ const SignUp = () => {
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("User signed up:", userCredential.user);
+      const user = userCredential.user;
+      console.log("User signed up:", user);
+      
+      // Store user info in Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        name: name,
+        email: user.email,
+        createdAt: new Date()
+      });
       
       // Send email verification
-      await sendEmailVerification(userCredential.user);
+      await sendEmailVerification(user);
       console.log("Verification email sent");
       setIsVerificationSent(true);
       
