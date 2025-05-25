@@ -172,11 +172,21 @@
   }
   
   .reno-card {
+    position: relative;
     background-color: #F6EEE0;
     border-radius: 16px;
     padding: 20px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: all 0.3s ease;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
   }
+
+  .reno-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
   
   .reno-card h3 {
     font-size: 22px;
@@ -193,6 +203,7 @@
   
   .reno-images img {
     width: 200px;
+    max-width: 100%;
     height: auto;
     border-radius: 12px;
     object-fit: cover;
@@ -227,3 +238,117 @@
     cursor: pointer;
   }
   
+.profile-signout-button {
+  margin-right: 20px;
+  margin-left: 340px;
+  padding: 10px 20px;
+  background-color: #163D69;
+  border: 2px solid #163D69;
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  /* text-align: center; */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-signout-button:hover {
+  background-color: #c0392b;
+  color: white;
+  transform: translateY(-2px);
+  border: 2px solid ;
+}
+
+.profile-signout-button:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.card-content {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.expand-arrow {
+  font-size: 14px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  color: #666;
+}
+
+.expand-arrow.expanded {
+  transform: rotate(180deg);
+}
+.remove-button {
+  position: absolute;
+  top: 15px; /* Adjust this to position vertically */
+  right: 15px; /* Positions the button 15px from the right */
+  background-color: #c0392b;
+  color: white;
+  padding: 6px 9px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 50px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.remove-button:hover {
+  background-color: #e74c3c;
+}
+
+.profile-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 5px;
+  color: #F6EEE0 !important;
+  background-color: #163D69 !important;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+}
+
+.profile-notification.success {
+  background-color: #2ecc71;
+  border-left: 5px solid #27ae60;}
+
+.profile-notification.error {
+  background-color: #e74c3c;
+  border-left: 5px solid #c0392b;}
+
+  @keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

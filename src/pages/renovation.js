@@ -3,8 +3,6 @@ import "./renovation.css";
 import ResultsTabs from '../components/resultsTab.js';
 import { useNavigate } from 'react-router-dom';
 import ReactGoogleAutocomplete from "react-google-autocomplete";
-import jsPDF from 'jspdf';
-import { toast } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
 
 const Renovation = () => {
@@ -14,7 +12,7 @@ const Renovation = () => {
   const [formattedAddress, setFormattedAddress] = useState('');
   const [error, setError] = useState('');
   const [popupMessage, setPopupMessage] = useState('');
-  const [showPopup, setShowPopup] = useState(false);
+const [showPopup, setShowPopup] = useState(false);
   const [image, setImage] = useState(null);
   const [capturedImage, setCapturedImage] = useState(null);
   const videoRef = useRef(null);
@@ -41,7 +39,7 @@ const Renovation = () => {
     useEffect(() => {
       const timer = setTimeout(() => {
         setNotification(null);
-      }, 3000);
+      }, 5000);
       return () => clearTimeout(timer);
     }, []);
 
@@ -314,34 +312,12 @@ useEffect(() => {
     setNotification({ message: 'Image removed', type: 'error' });
   };
 
-  const saveDataToFile = () => {
-    const pdf = new jsPDF();
-    
-    // Add text data
-    pdf.setFontSize(12);
-    pdf.text(popupMessage, 10, 20);
-    
-    // Add images if available
-    let yPosition = 40;
-    
-    if (originalImageUrl) {
-      pdf.text('Before Renovation', 10, yPosition);
-      yPosition += 10;
-      pdf.addImage(originalImageUrl, 'JPEG', 10, yPosition, 90, 60);
-    }
-    
-    if (generatedImage) {
-      pdf.text('After Renovation', 110, yPosition);
-      yPosition += 10;
-      pdf.addImage(generatedImage, 'JPEG', 110, yPosition, 90, 60);
-    }
-    
-    pdf.save("UpHome renovation-report.pdf");
-    toast.success("Report saved successfully!");
-  };
-
   const handleSubmit = async (e) => {
+    console.log('Form submit triggered'); // Add this
+    if (!e) return; // Add this guard
     e.preventDefault();
+    console.log('Default prevented'); // And this
+    e.stopPropagation(); // Add this to prevent bubbling
     setIsLoading(true);
     setError('');
     
@@ -359,7 +335,7 @@ useEffect(() => {
       formData.append('formattedAddress', formattedAddress);
       formData.append('renovation_type', selectedOption);
   
-      const response = await fetch('https://d22a-172-172-186-25.ngrok-free.app/process_renovation', {
+      const response = await fetch('https://ac38-172-172-186-25.ngrok-free.app/process_renovation', {
         method: 'POST',
         body: formData,
       });
@@ -373,7 +349,7 @@ useEffect(() => {
   
       // Construct full image URL
       const fullImageUrl = responseData.image_url 
-        ? `https://d22a-172-172-186-25.ngrok-free.app${responseData.image_url}`
+        ? `https://ac38-172-172-186-25.ngrok-free.app${responseData.image_url}`
         : null;
         console.log("Generated Image URL:", fullImageUrl);
 
@@ -395,6 +371,8 @@ useEffect(() => {
       if (fullImageUrl) {
         setGeneratedImage(fullImageUrl);
         sessionStorage.setItem('generatedImage', fullImageUrl); // 👈 Save to sessionStorage
+        console.log("Generated Image stored in session storage:", fullImageUrl);
+
       }
   
       setShowPopup(true);
@@ -410,7 +388,6 @@ useEffect(() => {
   };
 
   return (
-    
     <div className="renovation-page">
       <div className="reno-wave"></div>
 

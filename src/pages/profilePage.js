@@ -1,15 +1,15 @@
-// ProfilePage.jsx
 import React, { useState, useEffect } from 'react';
 import { auth, db, doc, getDoc, updateDoc } from '../firebase.js';
-import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
+import { updatePassword, reauthenticateWithCredential, EmailAuthProvider, signOut } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import './profilePage.css';
 import { useNavigate } from 'react-router-dom';
 
 const ProfilePage = () => {
   const [user, loading] = useAuthState(auth);
-  const navigate = useNavigate();
+  const [notification, setNotification] = useState(null);
   const [renovations, setRenovations] = useState([]);
+  const [expandedCards, setExpandedCards] = useState({});
   const [profileData, setProfileData] = useState({
     name: '',
     email: '',
@@ -26,10 +26,28 @@ const ProfilePage = () => {
   const [addressHistory, setAddressHistory] = useState([]);
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log("Current Firebase user:", user?.uid);
-  }, [user]);
+  const onSignOut = () => {
+  signOut(auth)
+    .then(() => {
+      setNotification({ message: "You have been signed out successfully", type: "success" });
+      console.log("User signed out.");
+    })
+    .catch((error) => {
+      setNotification({ message: "Error signing out", type: "error" });
+      console.error("Error signing out:", error);
+    });
+};
+
+  const Notification = ({ message, type }) => {
+    useEffect(() => {
+      const timer = setTimeout(() => setNotification(null), 5000);
+      return () => clearTimeout(timer);
+    }, []);
+
+    return <div className={`profile-notification ${type}`}>{message}</div>;
+  };
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -49,14 +67,10 @@ const ProfilePage = () => {
                 : ''
             });
 
-            // Normalize formattedAddress (can be string or array)
             const formatted = data.formattedAddress;
-            if (Array.isArray(formatted)) {
-              setAddressHistory(formatted);
-            } else if (typeof formatted === 'string') {
-              setAddressHistory([formatted]);
-            }
+            setAddressHistory(Array.isArray(formatted) ? formatted : formatted ? [formatted] : []);
           }
+
           setLoadingProfile(false);
         } catch (err) {
           console.error("Error fetching profile data:", err);
@@ -99,11 +113,7 @@ const ProfilePage = () => {
     }
 
     try {
-      const credential = EmailAuthProvider.credential(
-        user.email,
-        passwordData.currentPassword
-      );
-
+      const credential = EmailAuthProvider.credential(user.email, passwordData.currentPassword);
       await reauthenticateWithCredential(user, credential);
       await updatePassword(user, passwordData.newPassword);
 
@@ -120,29 +130,41 @@ const ProfilePage = () => {
     }
   };
 
+  const handleRemoveRenovation = (indexToRemove) => {
+  const updatedRenovations = renovations.filter((_, idx) => idx !== indexToRemove);
+  setRenovations(updatedRenovations);
+  localStorage.setItem('myRenovations', JSON.stringify(updatedRenovations));
+  setNotification({ message: "Renovation removed successfully", type: "success" });
+};
+
   if (loading || loadingProfile) {
     return <div className="loading">Loading profile...</div>;
   }
 
+  const toggleCard = (index) => {
+  setExpandedCards(prev => ({
+    ...prev,
+    [index]: !prev[index]
+  }));
+};
+
   return (
     <div className="profile-container">
       <div className="back-button-container">
-        <button className="back-button" onClick={() => navigate("/")}>
-          ←
-        </button>
+        <button className="back-button" onClick={() => navigate("/")}>←</button>
       </div>
+
+      {notification && <Notification message={notification.message} type={notification.type} />}
 
       <h1 className='header-myprofile'>My Profile</h1>
       {error && <div className="error-message">{error}</div>}
 
-      {/* Personal Information */}
+      {/* Personal Info */}
       <section className="profile-section">
         <div className="section-header">
           <h2>Personal Information</h2>
           {!editMode && (
-            <button onClick={() => setEditMode(true)} className="edit-button">
-              Edit Profile
-            </button>
+            <button onClick={() => setEditMode(true)} className="edit-button">Edit Profile</button>
           )}
         </div>
 
@@ -158,11 +180,11 @@ const ProfilePage = () => {
               />
             </div>
 
-            <div className="form-group">
+            {/* <div className="form-group">
               <label>Email</label>
               <input type="email" value={profileData.email} disabled />
               <small>(Email cannot be changed)</small>
-            </div>
+            </div> */}
 
             <div className="form-group">
               <label>Address</label>
@@ -195,7 +217,7 @@ const ProfilePage = () => {
         )}
       </section>
 
-      {/* Change Password */}
+      {/* Password */}
       <section className="profile-section">
         <div className="section-header clickable" onClick={() => setShowPasswordForm(!showPasswordForm)}>
           <h2>Change Password</h2>
@@ -242,11 +264,7 @@ const ProfilePage = () => {
                 type="button"
                 onClick={() => {
                   setShowPasswordForm(false);
-                  setPasswordData({
-                    currentPassword: '',
-                    newPassword: '',
-                    confirmPassword: ''
-                  });
+                  setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
                 }}
                 className="cancel-button"
               >
@@ -258,7 +276,7 @@ const ProfilePage = () => {
       </section>
 
       {/* Address History */}
-      {addressHistory.length > 0 && (
+      {/* {addressHistory.length > 0 && (
         <section className="profile-section">
           <h2>Addresses Used</h2>
           <ul className="address-history">
@@ -267,59 +285,74 @@ const ProfilePage = () => {
             ))}
           </ul>
         </section>
-      )}
-
-      {/* Investment Portfolio */}
-      <section className="profile-section">
-        <h2 className='header-portfolio'>Investment Portfolio</h2>
-        <div className="placeholder-section">
-          <p>Your investment portfolio will appear here once you start investing.</p>
-          <button className="cta-button" onClick={() => navigate("/finance")}>
-            Start Investing
-          </button>
-        </div>
-      </section>
+      )} */}
 
       {/* My Renovations */}
       <section className="profile-section">
-        <h2 className='header-renovations'>My Renovations</h2>
-        {renovations.length === 0 ? (
-          <div className="placeholder-section">
-            <p>Your renovation projects will appear here once you start planning.</p>
-            <button className="cta-button" onClick={() => navigate("/renovation")}>
-              Start a Renovation Project
-            </button>
+  <h2 className='header-renovations'>My Renovations</h2>
+  {renovations.length === 0 ? (
+    <div className="placeholder-section">
+      <p>Your renovation projects will appear here once you start planning.</p>
+      <button className="cta-button" onClick={() => navigate("/renovation")}>
+        Start a Renovation Project
+      </button>
+    </div>
+  ) : (
+    <div className="renovation-list">
+      {renovations.map((reno, index) => (
+        <div 
+          className={`reno-card ${expandedCards[index] ? 'expanded' : ''}`} 
+          key={index}
+        >
+          <div className="card-header" onClick={() => toggleCard(index)}>
+            <div>
+              <h3>{reno.address}</h3>
+              <p><strong>Type:</strong> {reno.renovationType}</p>
+            </div>
+            <div className="card-actions">
+              <button 
+                className="remove-button" 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleRemoveRenovation(index);
+                }}
+              >
+                ×
+              </button>
+              <span className={`expand-arrow ${expandedCards[index] ? 'expanded' : ''}`}>
+                ▼
+              </span>
+            </div>
           </div>
-        ) : (
-          <div className="renovation-list">
-            {renovations.map((reno, index) => (
-              <div className="reno-card" key={index}>
-                <h3>{reno.address}</h3>
-                <p><strong>Type:</strong> {reno.renovationType}</p>
 
-                <div className="reno-images">
-                  <img src={reno.beforeImg} alt="Before Renovation" />
-                  <img src={reno.afterImg} alt="After Renovation" />
-                </div>
-
-                <div className="financials">
-                  <p><strong>Current Value:</strong> ${reno.financials?.currentPrice?.toLocaleString()}</p>
-                  <p><strong>Future Value:</strong> ${reno.financials?.postValue?.toLocaleString()}</p>
-                  <p><strong>Renovation Cost:</strong> ${reno.financials?.renovationCost?.toLocaleString()}</p>
-                  <p><strong>ROI:</strong> {reno.financials?.roi}% (Positive by {reno.financials?.roiPositiveYear})</p>
-                </div>
-
-                <h4>Shortlisted Contractors:</h4>
-                <ul>
-                  {reno.shortlistedContractors?.map((c, i) => (
-                    <li key={i}>{c.name} - {c.address}</li>
-                  ))}
-                </ul>
+          {expandedCards[index] && (
+            <div className="card-content">
+              <div className="reno-images">
+                <img src={reno.beforeImg} alt="Before Renovation" />
+                <img src={reno.afterImg} alt="After Renovation" />
               </div>
-            ))}
-          </div>
-        )}
-      </section>
+              <div className="financials">
+                <p><strong>Current Value:</strong> ${reno.financials?.currentPrice?.toLocaleString()}</p>
+                <p><strong>Future Value:</strong> ${reno.financials?.postValue?.toLocaleString()}</p>
+                <p><strong>Renovation Cost:</strong> ${reno.financials?.renovationCost?.toLocaleString()}</p>
+                <p><strong>ROI:</strong> {reno.financials?.roi}% (Positive by {reno.financials?.roiPositiveYear})</p>
+              </div>
+              <h4>Shortlisted Contractors:</h4>
+              <ul>
+                {reno.shortlistedContractors?.map((c, i) => (
+                  <li key={i}>{c.name} - {c.address}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )}
+</section>
+
+      {/* Sign Out */}
+      <button onClick={onSignOut} className="profile-signout-button">Sign Out</button>
     </div>
   );
 };

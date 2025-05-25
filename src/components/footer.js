@@ -77,7 +77,7 @@ const Footer = () => {
           <h3 className="footer-heading">Our Services</h3>
           <ul className="footer-services">
             <li><Link to="/renovation" className="footer-link">Home Transformations</Link></li>
-            <li><Link to="/roi-analysis" className="footer-link">Investment Insights</Link></li>
+            <li><Link to="/roiPrediction" className="footer-link">Investment Insights</Link></li>
             <li><Link to="/finance" className="footer-link">Valuation Reports</Link></li>
             <li><Link to="/consultation" className="footer-link">Free Consultation</Link></li>
           </ul>

@@ -26,7 +26,7 @@ export default function ResultsTabs({ data, beforeImg, afterImg, formattedAddres
       setContractorError(null);
       setContractorsFetched(true);
 
-      const response = await fetch('https://d22a-172-172-186-25.ngrok-free.app/contractors', {
+      const response = await fetch('https://ac38-172-172-186-25.ngrok-free.app/contractors', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -39,6 +39,8 @@ export default function ResultsTabs({ data, beforeImg, afterImg, formattedAddres
       }
 
       const contractorsData = await response.json();
+      console.log('Contractor API Response:', contractorsData);
+
 
       if (!Array.isArray(contractorsData.contractors)) {
         throw new Error('Contractors data is not an array');
@@ -118,9 +120,9 @@ export default function ResultsTabs({ data, beforeImg, afterImg, formattedAddres
               </div>
               <div className="image-wrapper">
                 <h3>Proposed</h3>
-                {(afterImg || sessionStorage.getItem('generatedImage')) ? (
+                {(sessionStorage.getItem('generatedImage')) ? (
                   <img
-                    src={afterImg || sessionStorage.getItem('generatedImage')}
+                    src={sessionStorage.getItem('generatedImage')}
                     alt="After renovation"
                     className="result-image"
                   />
@@ -234,8 +236,19 @@ export default function ResultsTabs({ data, beforeImg, afterImg, formattedAddres
                     <div key={i} className="contractor-card">
                       <h4>{contractor?.name}</h4>
                       <p>⭐ {contractor?.rating} ({contractor.user_rating_total} reviews)</p>
-                      <p>📞 {contractor?.phone || "N/A"}</p>
+                      <p>📞 {contractor?.phone_number}</p>
                       <p>📍 {contractor?.address}</p>
+                      <p>
+                        🌐 <a 
+                              href={contractor?.website} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              style={{ color: '#163D69', textDecoration: 'underline' }}
+                          >
+                              {contractor?.website}
+                          </a>
+                      </p>
+
                       <button
                         className={`shortlist-btn ${shortlisted.find(c => c.name === contractor.name) ? 'shortlisted' : ''}`}
                         onClick={() => toggleShortlist(contractor)}
