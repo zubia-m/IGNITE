@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { auth, db } from '../firebase.js';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { auth, db, doc, getDoc, updateDoc } from '../firebase.js';
 import { updatePassword, reauthenticateWithCredential, EmailAuthProvider, signOut } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import './profilePage.css';
 import { useNavigate } from 'react-router-dom';
+import './profilePage.css';
 
 const ProfilePage = () => {
   const [user, loading] = useAuthState(auth);
@@ -68,6 +71,13 @@ const ProfilePage = () => {
             });
 
             const formatted = data.formattedAddress;
+            if (Array.isArray(formatted)) {
+              setAddressHistory(formatted);
+            } else if (typeof formatted === 'string') {
+              setAddressHistory([formatted]);
+            }
+          }
+
             setAddressHistory(Array.isArray(formatted) ? formatted : formatted ? [formatted] : []);
           }
 

@@ -97,8 +97,8 @@ export default function ResultsTabs({ data, beforeImg, afterImg, formattedAddres
           <Tab>Visual Comparison</Tab>
           <Tab>Cost Breakdown</Tab>
           <Tab>Financial Summary</Tab>
-          <Tab>ROI Analysis</Tab>
-          <Tab>Find Contractors</Tab>
+          <Tab>ROI Prediction</Tab>
+          <Tab>Contractor Marketplace</Tab>
         </TabList>
 
         <TabPanel>

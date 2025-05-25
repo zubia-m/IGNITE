@@ -14,10 +14,18 @@ import Roiprediction from "./pages/roiprediction";
 import ProfilePage from './pages/profilePage';
 // import ContractorPage from "./pages/contractorPage";
 import ResultsTabs from "./components/resultsTab";
-
+import Wishlist from './components/wishlist';
 
 const App = () => {
   const [user, setUser] = useState(null);
+  const [wishlist, setWishlist] = useState(() => {
+    const saved = localStorage.getItem("wishlist");
+    return saved ? JSON.parse(saved) : [];
+  });
+  useEffect(() => {
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  }, [wishlist]);
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -42,7 +50,13 @@ const App = () => {
     <div style={{ overflowX: "hidden", width: "100%" }}>
 
     <Router>
-      <Layout user={user} setUser={setUser} onSignOut={handleSignOut}>
+    <Layout
+          user={user}
+          setUser={setUser}
+          onSignOut={handleSignOut}
+          wishlist={wishlist}
+          setWishlist={setWishlist}
+        >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/searchBar" element={<SearchBar />} />
@@ -53,9 +67,8 @@ const App = () => {
           <Route path="/finance" element={<Finance />} />
           <Route path="/roiPrediction" element={<Roiprediction />} />
           <Route path="/profilePage" element={<ProfilePage />} />
-          {/* <Route path="/contractors" element={<ContractorPage />} /> */}
-          <Route path="/resultsTab" element={<ResultsTabs />} />
-
+          <Route path="/contractors" element={<ContractorPage />} />
+          <Route path="/wishlist" element={<Wishlist />} />
         </Routes>
       </Layout>
     </Router>

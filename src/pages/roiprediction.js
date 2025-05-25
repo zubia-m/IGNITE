@@ -288,25 +288,8 @@ const Roiprediction = () => {
                 position: "relative",
                 cursor: "pointer"
               }}
-            >
-              {/* Wishlist icon */}
-              <div
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleWishlist(house.address);
-                }}
-                style={{
-                  position: "absolute",
-                  top: 10,
-                  right: 10,
-                  background: wishlist.includes(house.address) ? "#ff6b6b" : "#ffffffcc",
-                  borderRadius: "50%",
-                  padding: "6px",
-                  zIndex: 1
-                }}
               >
-                <Heart color={wishlist.includes(house.address) ? "white" : "#163D69"} fill={wishlist.includes(house.address) ? "#ff6b6b" : "none"} />
-              </div>
+    
 
               {/* Image carousel */}
               <div onClick={() => setSelectedHouse(house)} style={{ display: "flex", overflowX: "auto" }}>

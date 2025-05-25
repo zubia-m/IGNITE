@@ -6,45 +6,35 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  LineChart,
-  Line
 } from "recharts";
 import "./RoiInsights.css"; // Importing the new CSS file
 
 const RoiInsights = ({ houses }) => {
   if (!houses || houses.length === 0) return null;
 
-  // Sort by price and select top 3 affordable options
+  // Filter houses with a numeric 'roi' field, sort descending by roi, get top 3
   const top3 = [...houses]
-    .filter(h => h.history && typeof h.history === "object")
-    .sort((a, b) => a.price - b.price)
+    .filter(h => typeof h.roi === "number")
+    .sort((a, b) => b.roi - a.roi)
     .slice(0, 3);
 
-  // Create a dynamic market trend line using avg price per year
-  const years = ["2020", "2021", "2022", "2023", "2024", "2025"];
-  const validHouses = houses.filter(h => h.history && typeof h.history === "object");
-
-  const trendData = years.map((year) => {
-    const total = validHouses.reduce((acc, h) => acc + (h.history[year] || 0), 0);
-    const avg = validHouses.length ? total / validHouses.length : 0;
-    return { year, value: Math.round(avg) };
-  });
+  if (top3.length === 0) return <p>No houses with ROI data available.</p>;
 
   return (
     <div className="roi-container">
       <h2 className="roi-heading">🏆 Top 3 Investment Picks</h2>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
-          data={top3.map((h) => ({
-            name: h.address.split(",")[0],
-            price: h.price
+          data={top3.map(h => ({
+            name: h.address.split(",")[0], // first part of address for label
+            roi: h.roi,
           }))}
           margin={{ top: 20, right: 30, left: 0, bottom: 10 }}
         >
           <XAxis dataKey="name" />
           <YAxis />
-          <Tooltip />
-          <Bar dataKey="price" fill="#A68A64" radius={[10, 10, 0, 0]} />
+          <Tooltip formatter={value => `${value}% ROI`} />
+          <Bar dataKey="roi" fill="#A68A64" radius={[10, 10, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
 
