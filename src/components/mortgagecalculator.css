@@ -56,8 +56,8 @@
 
 .input-group input,
 .input-group select {
-  width: 100%;
-  padding: 0.6rem;
+  /*width: 100%;
+  padding: 0.6rem;*/
   border-radius: 10px;
   border: 1px solid #C4D4E9;
   font-size: 1rem;

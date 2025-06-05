@@ -46,12 +46,26 @@ const Home = () => {
           </p>
         </div>
 
-        {/* Feature Buttons */}
-        <div className="home-buttons">
-          <Link to="/renovation" className="home-button">🛠️ Renovation</Link>
-          <Link to="/roiprediction" className="home-button">📊 ROI Prediction</Link>
-          <Link to="/finance" className="home-button">💰 Financing & Loans</Link>
+
+        {/* changes made to  Feature Buttons */}
+        <div className="home-buttons-info">  {/* added this line  */}
+        <p>Click a feature below to discover personalized insights, planning tools, and financing options.</p>
         </div>
+        <div className="home-buttons">
+        <Link to="/renovation" className="home-button-card" title="Plan renovations smartly">
+        🛠️
+         <span>Renovation</span>
+        </Link>
+       <Link to="/roiprediction" className="home-button-card" title="Predict Return on Investment">
+       📊
+       <span>ROI Prediction</span>
+       </Link>
+      <Link to="/finance" className="home-button-card" title="Explore loan options">
+      💰
+      <span>Financing & Loans</span>
+      </Link>
+      </div>
+
 
         {/* Mission Statement */}
         <div className="home-mission">

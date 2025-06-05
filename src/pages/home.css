@@ -4,13 +4,14 @@
   left: 0;
   width: 100%;
   height: 50px;
-  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%23005bff" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%23005bff" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23005bff"/></svg>') no-repeat;}
+  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120"...') no-repeat;
+}
 
 .home-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #F6EEE0; /* Marshmallow */
+  background-color: #F6EEE0;
   color: #163D69;
 }
 
@@ -38,7 +39,7 @@
   color: #163D69 !important;
 }
 
-/* Feature Buttons */
+/* Updated Feature Button Cards */
 .home-buttons {
   display: flex;
   justify-content: center;
@@ -47,21 +48,50 @@
   margin-bottom: 60px;
 }
 
-.home-button {
-  padding: 15px 30px;
-  background-color: #163D69 !important;
-  color: #F6EEE0;
-  border-radius: 5px;
+/* changes made here */
+.home-button-card { 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
+
+  padding: 20px;
+  width: 220px;
+  height: 80px;
+
+  background-color: #163D69; 
+  color: #ffffff;
+  border-radius: 12px;
+
+  font-size: 20px; /* slightly increased */
+  font-weight: 600;
+  transition: all 0.3s ease;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+/* increases font size */
+.home-button-card span {
+  margin-top: 8px;
   font-size: 18px;
+}
+/* added hover effect */
+.home-button-card:hover {
+  transform: scale(1.05);
+   background-color: #1e4d8c;
+  box-shadow: 0 6px 20px rgb(0, 3, 7);
+  color: #000000;
+  cursor: pointer;
+}
+
+.home-buttons-info {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #163D69;
   font-weight: 500;
-  transition: 0.3s;
 }
-
-.home-button:hover {
-  background-color: #1E4D8C !important;
-}
-
 /* Mission Section */
 .home-mission {
   padding: 0 20px 60px;
@@ -120,7 +150,7 @@
   color: #163D69 !important;
 }
 
-/* Call-to-Action Section */
+/* CTA Section */
 .home-cta {
   padding: 60px 20px;
   text-align: center;
@@ -139,28 +169,24 @@
 }
 
 .home-signup-button {
-  /* Size adjustments */
-  padding: 16px 40px; /* Larger padding for bigger button */
-  font-size: 20px; /* Larger text */
-  max-width: 200px; /* Minimum width */
-  
-  /* Existing styles */
+  padding: 16px 40px;
+  font-size: 20px;
+  max-width: 200px;
+
   background-color: #163D69 !important;
   color: #F6EEE0;
   text-decoration: none;
   border-radius: 5px;
   font-weight: 500;
-  
-  /* Additional enhancements */
-  transition: all 0.3s ease; /* Smooth hover effects */
-  border: none; /* Remove default border */
-  cursor: pointer; /* Change cursor on hover */
-  display: inline-block; /* Better layout control */
+
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
 }
 
-/* Hover state */
 .home-signup-button:hover {
-  transform: scale(1.05); /* Slightly larger on hover */
+  transform: scale(1.05);
   background-color: #1E4D8C !important;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Add shadow */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
