@@ -67,7 +67,7 @@ const App = () => {
           <Route path="/finance" element={<Finance />} />
           <Route path="/roiPrediction" element={<Roiprediction />} />
           <Route path="/profilePage" element={<ProfilePage />} />
-          <Route path="/contractors" element={<ContractorPage />} />
+          <Route path="/resultsTab" element={<ResultsTabs />} />
           <Route path="/wishlist" element={<Wishlist />} />
         </Routes>
       </Layout>

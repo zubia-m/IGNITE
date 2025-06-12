@@ -12,7 +12,7 @@ const Renovation = () => {
   const [formattedAddress, setFormattedAddress] = useState('');
   const [error, setError] = useState('');
   const [popupMessage, setPopupMessage] = useState('');
-const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const [image, setImage] = useState(null);
   const [capturedImage, setCapturedImage] = useState(null);
   const videoRef = useRef(null);
@@ -28,6 +28,22 @@ const [showPopup, setShowPopup] = useState(false);
   const fileInputRef = useRef(null);
   const [data, setData] = useState(null); // For the renovation response data
   const [selectedImageFile, setSelectedImageFile] = useState(null);
+  const [renovationPrompt, setRenovationPrompt] = useState('');
+    const [selectedStyle, setSelectedStyle] = useState('');
+    const styleOptions = [
+      { value: '', label: 'No specific style' },
+      { value: 'modern', label: 'Modern' },
+      { value: 'classic', label: 'Classic' },
+      { value: 'minimalist', label: 'Minimalist' },
+      { value: 'industrial', label: 'Industrial' },
+      { value: 'rustic', label: 'Rustic' },
+      { value: 'contemporary', label: 'Contemporary' },
+      { value: 'traditional', label: 'Traditional' },
+      { value: 'scandinavian', label: 'Scandinavian' },
+      { value: 'bohemian', label: 'Bohemian' },
+      { value: 'farmhouse', label: 'Farmhouse' },
+      { value: 'mid-century', label: 'Mid-Century Modern' },
+    ];
 
   const options = [
     { value: 'Kitchen Remodel', label: 'Kitchen Remodel' },
@@ -39,7 +55,7 @@ const [showPopup, setShowPopup] = useState(false);
     useEffect(() => {
       const timer = setTimeout(() => {
         setNotification(null);
-      }, 5000);
+      }, 3000);
       return () => clearTimeout(timer);
     }, []);
 
@@ -93,7 +109,7 @@ const [showPopup, setShowPopup] = useState(false);
     
     sessionStorage.setItem('savedAddress', address);
 
-    setNotification({ message: 'Address saved successfully!', type: 'success' });
+    setNotification({ message: 'Address saved!', type: 'success' });
     console.log('Address saved:', address);
     setError('');
     setAddress("");
@@ -132,6 +148,7 @@ const [showPopup, setShowPopup] = useState(false);
   const handleOptionSelect = (optionValue) => {
     setSelectedOption(optionValue);
     console.log('Renovation type selected:', optionValue);
+    setNotification({ message: 'Renovation Type selected!', type: 'success' });
   };
 
   const handleImageUpload = (e) => {
@@ -321,7 +338,7 @@ useEffect(() => {
     setIsLoading(true);
     setError('');
     
-    if (!formattedAddress || !selectedOption || !image) {
+    if (!formattedAddress || !selectedOption || !image || !renovationPrompt) {
       const errorMsg = 'Please complete all fields: address, renovation type, and image.';
       setError(errorMsg);
       setNotification({ message: errorMsg, type: 'error' });
@@ -334,8 +351,12 @@ useEffect(() => {
       formData.append('file', image);
       formData.append('formattedAddress', formattedAddress);
       formData.append('renovation_type', selectedOption);
+      formData.append('renovation_prompt', renovationPrompt);
+      if (selectedStyle) {
+        formData.append('style', selectedStyle);
+      }
   
-      const response = await fetch('https://ac38-172-172-186-25.ngrok-free.app/process_renovation', {
+      const response = await fetch('http://4.157.15.37/process_renovation', {
         method: 'POST',
         body: formData,
       });
@@ -349,7 +370,7 @@ useEffect(() => {
   
       // Construct full image URL
       const fullImageUrl = responseData.image_url 
-        ? `https://ac38-172-172-186-25.ngrok-free.app${responseData.image_url}`
+        ? `http://4.157.15.37${responseData.image_url}`
         : null;
         console.log("Generated Image URL:", fullImageUrl);
 
@@ -389,7 +410,7 @@ useEffect(() => {
 
   return (
     <div className="renovation-page">
-      <div className="reno-wave"></div>
+      <div className="reno-top-wave"></div>
 
       <div className="back-button-container">
         <button className="back-button" onClick={() => navigate(-1)}>
@@ -557,6 +578,36 @@ useEffect(() => {
           )}
         </div>
 
+                {/* Renovation Prompt Section */}
+        <div className="prompt-section">
+          <h2>What changes would you like to make?</h2>
+          <p>Describe in detail what you want to change in this space</p>
+          <textarea
+            className="renovation-prompt-input"
+            placeholder="(e.g. I want to change the countertops to quartz, and add a backsplash...)"
+            value={renovationPrompt}
+            onChange={(e) => setRenovationPrompt(e.target.value)}
+            required
+          />
+        </div>
+
+        {/* Style Selection Section */}
+        <div className="style-section">
+          <h2>Preferred Style (Optional)</h2>
+          <p>Select a design style for your renovation</p>
+          <select
+            className="style-select"
+            value={selectedStyle}
+            onChange={(e) => setSelectedStyle(e.target.value)}
+          >
+            {styleOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {error && <p className="error-message">{error}</p>}
 
         <div className="submit-section">
@@ -592,7 +643,8 @@ useEffect(() => {
         beforeImg={originalImageUrl} 
         afterImg={generatedImage} 
         formattedAddress={formattedAddress}  // Pass the address here
-
+        renovationPrompt={renovationPrompt}
+        selectedStyle={selectedStyle}
       />
       
     </div>

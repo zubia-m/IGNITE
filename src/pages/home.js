@@ -36,6 +36,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
+        <div className="home-header-wave"></div>
       <div className="home-main-content">
         {/* Hero Section */}
         <div className="home-hero">

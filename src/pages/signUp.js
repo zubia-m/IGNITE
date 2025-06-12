@@ -3,6 +3,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaUser, FaEnvelope, FaLock, FaCheckCircle, FaEye, FaEyeSlash} from 'react-icons/fa';
 import { createUserWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { auth } from '../firebase'; // adjust path if your firebase config is elsewhere
+import { db } from '../firebase';
 import './signUp.css';
 
 const SignUp = () => {

@@ -41,6 +41,7 @@
     "recharts": "^2.15.3",
     "stream-browserify": "^3.0.0",
     "use-places-autocomplete": "^4.0.1",
+    "vcharts": "^0.2.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

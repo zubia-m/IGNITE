@@ -6,10 +6,22 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
+  Line,
+  LineChart
 } from "recharts";
 import "./RoiInsights.css"; // Importing the new CSS file
 
 const RoiInsights = ({ houses }) => {
+  // ✅ Sample trend data
+const trendData = [
+  { year: "2020", value: 100000 },
+  { year: "2021", value: 110000 },
+  { year: "2022", value: 125000 },
+  { year: "2023", value: 140000 },
+  { year: "2024", value: 155000 },
+  { year: "2025", value: 170000 },
+];
+
   if (!houses || houses.length === 0) return null;
 
   // Filter houses with a numeric 'roi' field, sort descending by roi, get top 3

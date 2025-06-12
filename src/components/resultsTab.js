@@ -2,6 +2,9 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useState } from 'react';
 import 'react-tabs/style/react-tabs.css';
 import './resultsTab.css';
+import { doc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase.js';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 export default function ResultsTabs({ data, beforeImg, afterImg, formattedAddress }) {
   const [imageLoadError, setImageLoadError] = useState(false);
@@ -10,6 +13,7 @@ export default function ResultsTabs({ data, beforeImg, afterImg, formattedAddres
   const [contractorError, setContractorError] = useState(null);
   const [shortlisted, setShortlisted] = useState([]);
   const [contractorsFetched, setContractorsFetched] = useState(false);
+  const [user] = useAuthState(auth);
 
   if (!data) {
     return (
@@ -26,7 +30,7 @@ export default function ResultsTabs({ data, beforeImg, afterImg, formattedAddres
       setContractorError(null);
       setContractorsFetched(true);
 
-      const response = await fetch('https://ac38-172-172-186-25.ngrok-free.app/contractors', {
+      const response = await fetch('http://4.157.15.37/contractors', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,14 +61,55 @@ export default function ResultsTabs({ data, beforeImg, afterImg, formattedAddres
   const valueIncrease = data.postRenovationValue - data.currentPrice;
   const roiPercentage = data.roi?.toFixed(2) || '0.00';
 
-  const toggleShortlist = (contractor) => {
-    setShortlisted((prev) => {
-      const exists = prev.find((c) => c.name === contractor.name);
-      return exists ? prev.filter((c) => c.name !== contractor.name) : [...prev, contractor];
-    });
+  const toggleShortlist = async (contractor) => {
+    if (!user) {
+      alert('Please sign in to shortlist contractors');
+      return;
+    }
+
+    try {
+      const userDocRef = doc(db, 'users', user.uid);
+      
+      // Check if contractor already exists in Firestore
+      const userDoc = await getDoc(userDocRef);
+      const existingContractors = userDoc.exists() ? userDoc.data().shortlistedContractors || [] : [];
+      const alreadyShortlisted = existingContractors.some(c => c.name === contractor.name);
+
+      if (alreadyShortlisted) {
+        // Remove from shortlist
+        await updateDoc(userDocRef, {
+          shortlistedContractors: existingContractors.filter(c => c.name !== contractor.name)
+        });
+        setShortlisted(prev => prev.filter(c => c.name !== contractor.name));
+      } else {
+        // Add to shortlist
+        const contractorData = {
+          name: contractor.name,
+          rating: contractor.rating,
+          address: contractor.address,
+          phone: contractor.phone_number,
+          website: contractor.website,
+          shortlistedAt: new Date().toISOString()
+        };
+
+        await updateDoc(userDocRef, {
+          shortlistedContractors: arrayUnion(contractorData)
+        }, { merge: true });
+
+        setShortlisted(prev => [...prev, contractorData]);
+      }
+    } catch (error) {
+      console.error("Error updating shortlist:", error);
+      setContractorError('Failed to update shortlist');
+    }
   };
 
-  const handleFinishRenovation = () => {
+  const handleFinishRenovation = async () => {
+    if (!user) {
+      alert('Please sign in to save your renovation');
+      return;
+    }
+
     const storedGeneratedImage = sessionStorage.getItem('generatedImage');
 
     const newRenovation = {
@@ -81,13 +126,25 @@ export default function ResultsTabs({ data, beforeImg, afterImg, formattedAddres
         itemized_costs: data.itemized_costs,
       },
       shortlistedContractors: shortlisted,
-      timestamp: Date.now(),
+      timestamp: new Date().toISOString(),
     };
 
-    const existing = JSON.parse(localStorage.getItem('myRenovations')) || [];
-    localStorage.setItem('myRenovations', JSON.stringify([...existing, newRenovation]));
+    try {
+      // Save to Firestore
+      const userDocRef = doc(db, 'users', user.uid);
+      await updateDoc(userDocRef, {
+        renovations: arrayUnion(newRenovation)
+      }, { merge: true });
 
-    window.location.href = '/profilePage';
+      // Also save to localStorage for immediate access
+      const existing = JSON.parse(localStorage.getItem('myRenovations')) || [];
+      localStorage.setItem('myRenovations', JSON.stringify([...existing, newRenovation]));
+
+      window.location.href = '/profilePage';
+    } catch (error) {
+      console.error("Error saving renovation:", error);
+      setContractorError('Failed to save renovation');
+    }
   };
 
   return (
