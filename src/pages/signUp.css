@@ -66,11 +66,11 @@
   }
   
   .input-group input {
-    padding: 12px 15px 12px 45px;
-    width: 100%;
-    border-radius: 5px;
+    padding: 10px 10px 10px 40px;
+    width: 90%;
+    /*border-radius: 5px;
     border: 1px solid #ccc;
-    font-size: 14px;
+    font-size: 14px;*/
     background: #FAF7F5 !important;
     color: #000000 !important;
     outline: none;

@@ -23,7 +23,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #F6EEE0; /* Marshmallow */
+  background-color: #F6EEE0;
   color: #163D69;
 }
 
@@ -52,7 +52,7 @@
   color: #163D69 !important;
 }
 
-/* Feature Buttons */
+/* Updated Feature Button Cards */
 .home-buttons {
   display: flex;
   justify-content: center;
@@ -61,21 +61,50 @@
   margin-bottom: 60px;
 }
 
-.home-button {
-  padding: 15px 30px;
-  background-color: #163D69 !important;
-  color: #F6EEE0;
-  border-radius: 5px;
+/* changes made here */
+.home-button-card { 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
+
+  padding: 20px;
+  width: 220px;
+  height: 80px;
+
+  background-color: #163D69; 
+  color: #ffffff;
+  border-radius: 12px;
+
+  font-size: 20px; /* slightly increased */
+  font-weight: 600;
+  transition: all 0.3s ease;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+/* increases font size */
+.home-button-card span {
+  margin-top: 8px;
   font-size: 18px;
+}
+/* added hover effect */
+.home-button-card:hover {
+  transform: scale(1.05);
+   background-color: #1e4d8c;
+  box-shadow: 0 6px 20px rgb(0, 3, 7);
+  color: #000000;
+  cursor: pointer;
+}
+
+.home-buttons-info {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #163D69;
   font-weight: 500;
-  transition: 0.3s;
 }
-
-.home-button:hover {
-  background-color: #1E4D8C !important;
-}
-
 /* Mission Section */
 .home-mission {
   padding: 0 20px 60px;
@@ -134,7 +163,7 @@
   color: #163D69 !important;
 }
 
-/* Call-to-Action Section */
+/* CTA Section */
 .home-cta {
   padding: 60px 20px;
   text-align: center;
@@ -153,28 +182,24 @@
 }
 
 .home-signup-button {
-  /* Size adjustments */
-  padding: 16px 40px; /* Larger padding for bigger button */
-  font-size: 20px; /* Larger text */
-  max-width: 200px; /* Minimum width */
-  
-  /* Existing styles */
+  padding: 16px 40px;
+  font-size: 20px;
+  max-width: 200px;
+
   background-color: #163D69 !important;
   color: #F6EEE0;
   text-decoration: none;
   border-radius: 5px;
   font-weight: 500;
-  
-  /* Additional enhancements */
-  transition: all 0.3s ease; /* Smooth hover effects */
-  border: none; /* Remove default border */
-  cursor: pointer; /* Change cursor on hover */
-  display: inline-block; /* Better layout control */
+
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
 }
 
-/* Hover state */
 .home-signup-button:hover {
-  transform: scale(1.05); /* Slightly larger on hover */
+  transform: scale(1.05);
   background-color: #1E4D8C !important;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Add shadow */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }

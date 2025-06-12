@@ -1,0 +1,26 @@
+Address,Current Price,2020 Price,2021 Price,2022 Price,2023 Price,2024 Price,Est. Monthly Rent,Type of House,ROI Prediction (%)
+"322 Walnut St, Reading, PA 19601",415000,280000,289000,297000,306000,316000,1206.0,Townhouse (rowhouse),12.5
+"335 Rose St, Reading, PA 19601",41250,55000,57000,60000,62000,64000,1617.0,Townhouse (rowhouse),12.5
+"136 Robeson St, Reading, PA 19601",325000,280000,289000,297000,306000,316000,2100.0,Townhouse (rowhouse),12.5
+"711 Lehigh St, Reading, PA 19601",279900,189000,194000,200000,206000,212000,2072.0,Townhouse (rowhouse),12.5
+"5 Jeffrey Rd, Reading, PA 19601",349900,260000,268000,276000,284000,293000,,Single Family Residence,7.1
+"1804 Bernville Rd, Reading, PA 19601",875000,911000,939000,966000,995000,875000,2704.0,Single Family Residence,7.1
+"218 Hudson St, Reading, PA 19601",109900,25000,26000,27000,28000,29000,,Townhouse (rowhouse),12.5
+"1236 Carbon St, Reading, PA 19601",225000,93000,93000,96000,99000,102000,1746.0,Townhouse (rowhouse),12.5
+"437 Cedar St, Reading, PA 19601",120000,20000,21000,21600,22250,22900,,Townhouse (rowhouse),12.5
+"306 Oley St, Reading, PA 19601",250000,72000,74000,76000,79000,81000,1943.0,Townhouse (rowhouse),12.5
+"539 Oley St, Reading, PA 19601",229900,96000,99000,102000,105000,108000,1179.0,Townhouse (rowhouse),12.5
+"1342 Allegheny Ave, Reading, PA 19601",250000,19900,20500,21111,22000,22700,1406.0,Single Family Residence,7.1
+"405 Walnut St, West Reading, PA 19601",438000,23000,23690,24401,25133,25888,1893.0,Single Family Residence,7.1
+"1317 Church St, Reading, PA 19601",210000,180000,186000,192000,198000,204000,1636.0,Townhouse (rowhouse),12.5
+"318 Hollenbach St, Reading, PA 19601",168000,11000,11330,11670,12020,12380,,Townhouse (rowhouse),12.5
+"536 Pike St, Reading, PA 19601",179999,155000,160000,165000,170000,175000,1276.0,Townhouse (rowhouse),12.5
+"100 N 4th St, Reading, PA 19601",349000,349000,360000,370000,381000,393000,,Townhouse (rowhouse),12.5
+"120 W Elm St, Reading, PA 19601",180000,85000,87550,90170,92875,95660,,Townhouse (rowhouse),12.5
+"267 N Front St, Reading, PA 19601",240000,206000,212000,219000,226000,233000,1370.0,Townhouse (rowhouse),12.5
+"735 Washington St, Reading, PA 19601",275000,246000,253000,260000,267000,274900,1538.0,Townhouse (rowhouse),12.5
+"1026 Washington St, Reading, PA 19601",175000,113100,116500,120000,123600,127300,1568.0,Townhouse (rowhouse),12.5
+"313 N 2nd St, Reading, PA 19601",243999,210476,216790,223294,229992,236892,2255.0,Townhouse (rowhouse),12.5
+"141 Schuylkill Ave, Reading, PA 19601",165000,142330,146600,150998,155528,160200,1475.0,Single Family Residence,7.1
+"401 Walnut St, Reading, PA 19601",1250000,1078260,1110609,1143927,1178245,1213592,9000.0,Townhouse (rowhouse),12.5
+"334 McKnight St, Reading, PA 19601",355000,306226,315413,324875,334622,344660,15000.0,Single Family Residence,7.1
