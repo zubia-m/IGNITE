@@ -101,7 +101,7 @@ const HouseDetails = ({ house, onBack }) => {
 
   return (
     <div className="house-details">
-      <button className="text-blue-500 mb-4" onClick={onBack}>
+      <button className="back-button mb-4" onClick={onBack}>
         ← Back to listings
       </button>
 

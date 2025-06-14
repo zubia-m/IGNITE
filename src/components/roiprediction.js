@@ -167,7 +167,7 @@ const Roiprediction = () => {
                     />
                   ))}
                 </div>
-                <div style={{ padding: "10px" }}>
+                <div style={{ padding: "10px"}}>
                   <h3 style={{ fontSize: "1.1rem" }}>{house.address}</h3>
                   <p><strong>Price:</strong> ${house.price.toLocaleString()}</p>
                   <p><strong>Type:</strong> {house.type}</p>
