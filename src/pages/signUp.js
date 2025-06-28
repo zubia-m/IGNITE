@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FaUser, FaEnvelope, FaLock, FaCheckCircle, FaEye, FaEyeSlash, FaGoogle } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaLock, FaCheckCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
@@ -210,8 +210,7 @@ const SignUp = () => {
               src="https://developers.google.com/identity/images/g-logo.png"
               alt="Google Logo"
               className="google-logo"
-              hight= "30px"
-              width= "30px"
+              style={{ width: '30px', height: '30px', marginRight: '8px' }}
               />
                 Continue with Google
             </button>

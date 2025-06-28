@@ -1,38 +1,61 @@
 .roi-prediction-container {
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
+  background-color: #F6EEE0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 2rem;
-  background: linear-gradient(135deg, #f8fafc 0%, #e6f0f9 100%);
+}
+
+.roi-content {
+  background-color: #163D69;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  max-width: 1000px;
+  width: 100%;
+  color: #F6EEE0;
+}
+.back-button-container {
+  margin-bottom: 20px;
+}
+
+.back-button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: white;
   color: #163D69;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .roi-header {
   text-align: center;
   margin-bottom: 2rem;
+
 }
 
 .roi-header h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(to right, #163D69, #1E4A7B);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color:#f6EEE0
 }
 
 .roi-header p {
   font-size: 1.1rem;
-  color: #4a5568;
+  color: #F6EEE0;
 }
 
-/* Search Filters */
 .search-filters {
   display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-bottom: 1.5rem;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .search-input, .type-select {
@@ -41,205 +64,108 @@
   border: 1px solid #cbd5e0;
   font-size: 1rem;
   min-width: 250px;
-  background: white;
+  background: #F6EEE0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
 }
 
-.search-input:focus, .type-select:focus {
-  outline: none;
-  border-color: #163D69;
-  box-shadow: 0 0 0 3px rgba(22, 61, 105, 0.1);
-}
-
-/* Range Slider */
-.investment-range {
-  max-width: 600px;
-  margin: 0 auto 2rem;
-  padding: 1rem;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.investment-range p {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+.range-container {
+  margin: 20px 0;
+  text-align: center;
 }
 
 .range-track {
   height: 6px;
-  background: linear-gradient(to right, #A68A64, #163D69);
+  background: linear-gradient(to right, #A68A64, #97c0f0);
   border-radius: 3px;
+  margin: 10px 0;
 }
 
 .range-thumb {
   height: 20px;
   width: 20px;
-  background: #163D69;
+  background: #a56464;
   border-radius: 50%;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* Search Button */
 .search-button {
   padding: 0.8rem 2rem;
   font-size: 1rem;
   font-weight: 600;
-  background: linear-gradient(to right, #163D69, #1E4A7B);
-  color: white;
+  background-color: #F6EEE0;
+  color: #163D69;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  display: block;
-  margin: 0 auto 2rem;
-  box-shadow: 0 4px 8px rgba(22, 61, 105, 0.2);
+  transition: transform 0.3s ease;
 }
 
 .search-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(22, 61, 105, 0.25);
 }
 
-/* Results Section */
 .results-section {
   margin-top: 2rem;
-  padding: 2rem 0;
 }
 
 .results-section h2 {
   text-align: center;
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
-  color: #163D69;
+  color: #F6EEE0;
   position: relative;
-}
-
-.results-section h2::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 3px;
-  background: linear-gradient(to right, #A68A64, #163D69);
-  border-radius: 2px;
 }
 
 .houses-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1.5rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .house-card {
-  background: white;
+  background: #F6EEE0;
   border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 300px;
+  cursor: pointer;
 }
 
 .house-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(22, 61, 105, 0.15);
+  box-shadow: 0 8px 20px rgba(22, 61, 105, 0.3);
 }
 
-.wishlist-icon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 50%;
-  padding: 8px;
-  z-index: 10;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.wishlist-icon:hover {
-  background: rgba(255, 255, 255, 1);
-}
-
-.wishlist-icon.active {
-  background: #ff6b6b;
-}
-
-.wishlist-icon.active svg {
-  color: white;
-  fill: #ff6b6b;
-}
-
-.house-images {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-}
-
-.house-images img {
+.house-card img {
   width: 100%;
-  height: 220px;
+  height: 200px;
   object-fit: cover;
-  scroll-snap-align: start;
 }
 
-.house-details {
-  padding: 1.2rem;
+.details{
+  padding: 1rem;
+  text-align: left;
 }
 
-.house-details h3 {
+.details h3 {
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
   color: #1a365d;
 }
 
-.house-details p {
+.details p {
   margin: 0.3rem 0;
   color: #4a5568;
 }
 
-.house-details strong {
-  color: #163D69;
-}
-
-/* Insights Section */
-.insights-section {
-  margin-top: 3rem;
-  padding: 2rem 0;
-  border-top: 1px solid #e2e8f0;
-}
-
-/* Responsive Design */
 @media (max-width: 768px) {
-  .houses-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  }
-  
-  .search-filters {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .search-input, .type-select {
-    width: 100%;
-    max-width: 400px;
-  }
-}
-
-@media (max-width: 480px) {
-  .roi-prediction-container {
+  .roi-content {
     padding: 1.5rem;
   }
-  
-  .roi-header h1 {
-    font-size: 2rem;
-  }
-  
-  .house-card {
-    max-width: 100%;
+
+  .search-input, .type-select {
+    width: 100%;
   }
 }

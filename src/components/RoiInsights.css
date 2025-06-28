@@ -35,7 +35,7 @@
     margin: 1rem 0 2rem;
     border-radius: 8px;
     background: #f8fafc;
-    padding: 1rem;
+    padding: 0.1 rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
   }

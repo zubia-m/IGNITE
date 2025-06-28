@@ -169,7 +169,7 @@ const HouseDetails = ({ house, onBack }) => {
 
       <div className="market-chart">
         <h3>📉 Real-Time Market Trends</h3>
-        <ResponsiveContainer width="100%" height={250}>
+        <ResponsiveContainer height={250}>
           <LineChart data={marketTrends}>
             <XAxis dataKey="year" />
             <YAxis />

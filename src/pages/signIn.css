@@ -4,26 +4,23 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    /* background-size: cover; */
-    /* background-position: center; */
     position: relative;
-  }
-  
-  /* Overlay */
-  .signIn-overlay {
+}
+
+/* Overlay */
+.signIn-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* Allows clicks to pass through */
-    /* color: rgba(0, 0, 0, 0.5); */
+    pointer-events: none;
     z-index: 1;
-  }
-  
-  /* Form */
-  .signIn-form {
-    background: rgba(255, 255, 255, 0.9); /* Semi-transparent form */
+}
+
+/* Form */
+.signIn-form {
+    background: rgba(255, 255, 255, 0.9);
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -34,49 +31,48 @@
     animation: fadeIn 0.6s ease-in-out;
     border: 2px solid #163D69;
     transition: box-shadow 0.3s ease-in-out;
-  }
-  .signIn-form:hover {
+}
+
+.signIn-form:hover {
     box-shadow: 0 0 15px #163D69, 0 0 30px #163D69;
-  }
-  
-  .signIn-form h2 {
+}
+
+.signIn-form h2 {
     margin-bottom: 20px;
     color: #163D69 !important;
     font-size: 24px;
     font-weight: bold;
     text-transform: uppercase;
-  }
-  
-  .signIn-error {
+}
+
+.signIn-error {
     color: red;
     font-size: 14px;
-  margin-bottom: 15px;
-  }
-  
-  /* Input Styles */
-  .signIn-input {
+    margin-bottom: 15px;
+}
+
+/* Input Styles */
+.signIn-input {
     position: relative;
     margin-bottom: 20px;
     display: flex;
-  align-items: center;
-  color: #fff;
-  z-index: 1;
-  padding: 0; /* Ensure no padding */
+    align-items: center;
+    color: #fff;
+    z-index: 1;
+    padding: 0;
+}
 
-  }
-  
-  .signIn-icon {
+.signIn-icon {
     position: absolute;
     left: 15px;
     top: 50%;
     transform: translateY(-50%);
-    /* color: #6c757d !important; */
     font-size: 16px;
-    z-index: 2; /* Added z-index */
-  pointer-events: none; /* Prevents the icon from blocking clicks */
-  }
-  
-  .signIn-input input {
+    z-index: 2;
+    pointer-events: none;
+}
+
+.signIn-input input {
     padding: 12px 15px 12px 40px;
     width: 100%;
     position: relative;
@@ -88,30 +84,28 @@
     transition: all 0.3s ease;
     z-index: 11;
     color: #000 !important;
-    /* background-color: transparent; Ensures icon visibility */
-  }
+}
 
-  .signIn-input input:focus {
+.signIn-input input:focus {
     border-color: #007bff;
-    /* background: #fff; */
-  }
-  
-  .signIn-password {
+}
+
+.signIn-password {
     font-size: 12px;
     margin-bottom: 15px;
     color: #362706 !important;
-  }
-  
-  .signIn-password.valid {
+}
+
+.signIn-password.valid {
     color: green;
-  }
-  
-  .signIn-password.invalid {
+}
+
+.signIn-password.invalid {
     color: red;
-  }
-  
-  /* Button */
-  .signIn-button {
+}
+
+/* Button */
+.signIn-button {
     padding: 12px;
     background-color: #163D69 !important;
     color: #F6EEE0 !important;
@@ -120,75 +114,103 @@
     font-size: 16px;
     cursor: pointer;
     font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     transition: background-color 0.3s ease;
-  }
+}
 
-  .signIn-button:hover {
+.signIn-button:hover {
     background-color: #0056b3;
-  }
-  
-  /* Links */
-  .signIn-link {
+}
+
+/* Links */
+.signIn-link {
     margin-top: 20px;
     color: #555;
     font-size: 14px;
-  }
-  
-  .signIn-link a {
+}
+
+.signIn-link a {
     color: #007bff;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease;
-  }
+}
 
-  .signIn-link a:hover {
+.signIn-link a:hover {
     color: #0056b3;
-  }
-  
-  /* Toggle Password Button */
+}
+
+/* Toggle Password Button */
 .toggle-password-btn {
-  all: unset;
-  cursor: pointer;
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 18px;
-  color: #6c757d !important;
-  animation: none !important; /* Disable all animations */
-  transition: color 0.3s ease; /* Only transition the color */
+    all: unset;
+    cursor: pointer;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #6c757d !important;
+    animation: none !important;
+    transition: color 0.3s ease;
 }
 
 .toggle-password-btn:hover {
-  transform: translateY(-50%) scale(1.05); /* Keep the vertical centering */
-  color: #4a3810 !important;
-  }
+    transform: translateY(-50%) scale(1.05);
+    color: #4a3810 !important;
+}
 
-  .toggle-password-btn:active {
-    transform: translateY(-50%) scale(0.95); /* Keep the vertical centering */
-  }
+.toggle-password-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
 .toggle-password-btn:focus {
-  outline: none;
-  transform: translateY(-50%); /* Keep the vertical centering */
+    outline: none;
+    transform: translateY(-50%);
 }
+
 .toggle-password-btn svg {
-  font-size: 18px;
-  pointer-events: none; /* Prevents accidental clicks on the icon instead of the button */
+    font-size: 18px;
+    pointer-events: none;
 }
 
+/* Google Sign-In Button */
+.google-signin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    background-color: #ffffff;
+    color: #555;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
+.google-signin:hover {
+    background-color: #f7f7f7;
+    transform: scale(1.02);
+}
 
-  /* Animation */
-  @keyframes fadeIn {
+.google-icon {
+    margin-right: 16px;
+    font-size: 16px;
+}
+
+/* Animation */
+@keyframes fadeIn {
     from {
-      opacity: 0;
-      transform: translateY(-20px);
+        opacity: 0;
+        transform: translateY(-20px);
     }
     to {
-      opacity: 1;
-      transform: translateY(0);
+        opacity: 1;
+        transform: translateY(0);
     }
-  }
-  
+}
